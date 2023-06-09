@@ -1,5 +1,9 @@
+import AnnounceDetail from '@/components/AnnounceDetail'
+
 export default function Announcement() {
   return (
-	<main></main>
+	<main>
+		<AnnounceDetail/>
+	</main>
   )
 }

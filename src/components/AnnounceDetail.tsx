@@ -16,7 +16,7 @@ export default function AnnounceDetail() {
 			</div>
 			
 			<div className='bg-grey-grey8 w-full px-3'>
-				<section className='bg-grey-grey10 rounded w-full py-9 px-7 mb-9'>
+				<section className='bg-grey-grey10 rounded w-full py-9 px-7 mb-9 relative bottom-4'>
 					<h2 className='font-semibold text-xl mb-8'>Mercedes Benz A 200 CGI ADVANCE SEDAN Mercedes Benz A 200 </h2>
 					<span className='bg-brand-brand4 text-brand-brand1 rounded font-inter font-medium text-sm py-1 px-2 mr-3'>2013</span>
 					<span className='bg-brand-brand4 text-brand-brand1 rounded font-inter font-medium text-sm py-1 px-2'>0 KM</span>

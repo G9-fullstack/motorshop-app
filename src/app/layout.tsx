@@ -1,3 +1,5 @@
+import Footer from '@/components/Footer';
+import Header from '@/components/Header';
 import { Inter, Lexend } from 'next/font/google';
 import './globals.css';
 
@@ -24,7 +26,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-br">
-      <body className={`${lexend.variable} ${inter.variable} antialiased font-lexend`}>{children}</body>
+      <body className={`${lexend.variable} ${inter.variable} antialiased font-lexend`}>
+        <Header />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }

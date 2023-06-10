@@ -20,10 +20,16 @@ export default function CommentForm() {
           >Comentar</button>
         </div>
       </form>
-      <div className='flex gap-2'>
-        <span className='px-3 py-1 text-xs font-medium rounded-full font-inter text-grey-grey3 bg-grey-grey7'>Gostei muito!</span>
-        <span className='px-3 py-1 text-xs font-medium rounded-full font-inter text-grey-grey3 bg-grey-grey7'>Incrível</span>
-        <span className='px-3 py-1 text-xs font-medium rounded-full font-inter text-grey-grey3 bg-grey-grey7'>Recomendarei para meus amigos!</span>
+      <div className='flex flex-wrap gap-2 mt-3'>
+        <span className='px-3 py-1 text-xs font-medium rounded-full font-inter text-grey-grey3 bg-grey-grey7 cursor-pointer hover:bg-grey-grey6/80'>
+          Gostei muito!
+        </span>
+        <span className='px-3 py-1 text-xs font-medium rounded-full font-inter text-grey-grey3 bg-grey-grey7 cursor-pointer hover:bg-grey-grey6/80'>
+          Incrível
+        </span>
+        <span className='px-3 py-1 text-xs font-medium rounded-full font-inter text-grey-grey3 bg-grey-grey7 cursor-pointer hover:bg-grey-grey6/80'>
+          Recomendarei para meus amigos!
+        </span>
       </div>
     </div>
   );

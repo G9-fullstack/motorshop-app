@@ -1,11 +1,11 @@
-import car from "../../public/car.svg";
 import Image from "next/image";
+import car from "../../public/car.svg";
 
 export default function CarCard() {
   return (
     <div className="bg-white  w-full p-6 max-h-250">
       <Image
-        className="w-full h-48 object-cover bg-brand-brand4"
+        className="w-full h-48 object-cover bg-brand-4"
         src={car}
         alt={""}
       />
@@ -24,7 +24,7 @@ export default function CarCard() {
       </div>
       <div className="flex items-center mt-4 justify-between">
         <div className="mr-4 flex items-center gap-4">
-          <p className="text-sm font-bold text-brand-brand1 bg-brand-brand4 p-2 rounded-md">
+          <p className="text-sm font-bold text-brand-1 bg-brand-4 p-2 rounded-md">
             0KM
           </p>
           <p className="text-sm">2019</p>

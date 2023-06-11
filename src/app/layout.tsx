@@ -24,7 +24,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-br">
-      <body className={`${lexend.variable} ${inter.variable} antialiased font-lexend`}>{children}</body>
+      <head>
+        <link rel="shortcut icon" href="/favicon/favicon.ico" />
+      </head>
+      <body className={`${lexend.variable} ${inter.variable} antialiased font-lexend min-h-screen w-screen`}>
+        {children}
+      </body>
     </html>
   );
 }

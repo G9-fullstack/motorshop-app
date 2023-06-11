@@ -12,7 +12,7 @@ module.exports = {
         'inter': 'var(--font-inter)',
       },
       backgroundImage: {
-        'home-car': 'linear-gradient(to top, #000000CC, #000000BB, #000000BB, #000000CC), url("/home-car.png")',
+        'home': 'linear-gradient(to top, #000000CC, #000000BB, #000000BB, #000000CC), url("/home.png")',
       },
       colors: {
         brand: {
@@ -43,19 +43,19 @@ module.exports = {
           'success-2': '#CCEBD7',
           'success-3': '#DDF3E4'
         },
-        randomProfile: {
-          'random-1': '#E34D8C',
-          'random-2': '#C04277',
-          'random-3': '#7D2A4D',
-          'random-4': '#7000FF',
-          'random-5': '#6200E3',
-          'random-6': '#36007D',
-          'random-7': '#349974',
-          'random-8': '#2A7D5F',
-          'random-9': '#153D2E',
-          'random-10': '#6100FF',
-          'random-11': '#5700E3',
-          'random-12': '#30007D'
+        'random-profile': {
+          '1': '#E34D8C',
+          '2': '#C04277',
+          '3': '#7D2A4D',
+          '4': '#7000FF',
+          '5': '#6200E3',
+          '6': '#36007D',
+          '7': '#349974',
+          '8': '#2A7D5F',
+          '9': '#153D2E',
+          '10': '#6100FF',
+          '11': '#5700E3',
+          '12': '#30007D'
         },
       },
     },

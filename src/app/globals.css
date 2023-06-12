@@ -59,7 +59,7 @@
     @apply font-inter font-semibold text-[14px] leading-none text-grey-2;
   }
   .input-placeholder {
-    @apply font-inter font-normal text-[16px] leading-none text-grey-2;
+    @apply placeholder:font-inter placeholder:font-normal placeholder:text-[16px] placeholder:leading-none placeholder:text-grey-2;
   }
   .input-label {
     @apply font-inter font-medium text-[14px] leading-[17px] text-grey-1;

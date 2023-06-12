@@ -2,8 +2,8 @@ import { Dot } from 'lucide-react';
 
 export default function Comments() {
   return (
-    <section className='bg-grey-10 py-9 px-11 w-max-[751px] w-full'>
-      <h3 className='mb-6 text-xl font-semibold font-lexend text-grey-1'>Comentários</h3>
+    <section className='bg-grey-grey10 py-9 px-11 w-max-[751px] w-full rounded'>
+      <h3 className='mb-6 text-xl font-semibold font-lexend text-grey-grey1'>Comentários</h3>
       <ul className='space-y-11'>
         <li>
           <div className='flex items-center gap-2 mb-3'>

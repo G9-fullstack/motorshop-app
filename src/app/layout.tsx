@@ -26,10 +26,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-br">
-      <head>
-        <link rel="shortcut icon" href="/favicon/favicon.ico" />
-      </head>
-      <body className={`${lexend.variable} ${inter.variable} antialiased font-lexend min-h-screen w-screen`}>
+      <body className={`${lexend.variable} ${inter.variable} antialiased font-lexend min-h-screen w-screen overflow-x-hidden`}>
         <Header />
         {children}
         <Footer />

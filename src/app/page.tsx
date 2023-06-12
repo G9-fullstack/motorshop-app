@@ -61,12 +61,10 @@ export default function Home() {
       {/* MAIN */}
       <div className="xl:mx-auto my-16">
         <div className="md:flex-1 md:flex md:justify-between md:items-start">
-          {/* <div className="md:grid md:grid-cols-[1fr,2.5fr]"> */}
           {/* MAIN => FILTER */}
           <Filter handleShowFilter={handleShowFilter} isOpen={isOpen} />
-          {/* MAIN => ADS => CAR LIST */}
-          {/* <ul className="grid grid-flow-col overflow-x-scroll ml-3 gap-4 pr-3 py-6 md:overflow-x-hidden md:flex md:flex-wrap md:justify-center md:items-start lg:justify-end"> */}
-          <ul className="flex flex-row overflow-x-scroll gap-x-3 ml-3 pr-3 py-6 max-w-6xl md:gap-x-12 md:gap-y-24 md:ml-0 md:pr-16 md:overflow-x-hidden md:flex-row md:flex-wrap md:justify-center md:items-start lg:justify-end">
+          {/* MAIN => ADS */}
+          <ul className="flex flex-row overflow-x-scroll gap-x-3 ml-3 pr-3 py-6 max-w-6xl md:gap-x-12 md:gap-y-24 md:ml-0 md:pr-16 md:overflow-x-hidden md:flex-row md:flex-wrap md:justify-center md:items-start lg:justify-end scrollbar-thin scrollbar-thumb-brand-3/70 scrollbar-track-grey-whiteFixed">
             {cars && cars.slice(0, 12).map((car, index) => (
               <CarProduct key={index} name={car.name} />
             ))}
@@ -75,7 +73,6 @@ export default function Home() {
       </div>
       {/* INFO ADS */}
       <div className="flex flex-col items-center justify-center gap-10 py-4 mb-10 w-full">
-        {/* INFOS ADS => SHOW FILTER */}
         <div onClick={handleShowFilter}>
           <Button details="md:hidden text-white" size="big" style="brand-1" width={280}>Filtros</Button>
         </div>

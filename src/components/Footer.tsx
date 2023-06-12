@@ -1,7 +1,7 @@
 'use client'
 import { ChevronUp } from "lucide-react";
 import Image from "next/image";
-import logo from "../../../public/logo-footer.svg";
+import logo from "../../public/logo-footer.svg";
 
 export default function Footer() {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });

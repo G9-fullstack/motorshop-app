@@ -19,7 +19,7 @@ export default function ProfileImage({ name }: ProfileImageProps) {
 
   return (
     <div className={
-      `w-[104px] h-[104px] bg-randomProfile-random11 rounded-full flex justify-center items-center font-inter font-medium text-4xl text-grey-whiteFixed`
+      `w-[104px] h-[104px] bg-random-profile-11 rounded-full flex justify-center items-center font-inter font-medium text-4xl text-grey-whiteFixed`
     }>
       {initials}
     </div>

@@ -10,7 +10,7 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <header className='fixed top-0 left-0 right-0 z-50 grid h-20 px-6 border-b-2 bg-grey-whiteFixed place-items-center border-grey-6'>
+    <header className='fixed top-0 left-0 right-0 z-50 grid h-20 px-14 border-b-2 bg-grey-whiteFixed place-items-center border-grey-6'>
       <div className='container flex items-center justify-between h-full'>
         <Image src={brandingLogo} alt='Motorshop logo' height={26} />
         <div className='items-center hidden h-full border-l-2 border-grey-6 font-inter pl-11 gap-11 md:flex'>

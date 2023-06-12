@@ -1,6 +1,6 @@
 export default function CommentForm() {
   return (
-    <div className='w-max-[751px] w-full bg-grey-grey10 py-9 px-11'>
+    <div className='w-max-[751px] w-full bg-grey-grey10 py-9 px-11 rounded'>
       <div className='flex items-center gap-2 mb-4'>
         <div className='w-[32px] h-[32px] bg-randomProfile-random1 rounded-full flex justify-center items-center font-inter font-medium text-sm text-grey-whiteFixed'>
           SL
@@ -20,10 +20,16 @@ export default function CommentForm() {
           >Comentar</button>
         </div>
       </form>
-      <div className='flex gap-2'>
-        <span className='px-3 py-1 text-xs font-medium rounded-full font-inter text-grey-grey3 bg-grey-grey7'>Gostei muito!</span>
-        <span className='px-3 py-1 text-xs font-medium rounded-full font-inter text-grey-grey3 bg-grey-grey7'>Incrível</span>
-        <span className='px-3 py-1 text-xs font-medium rounded-full font-inter text-grey-grey3 bg-grey-grey7'>Recomendarei para meus amigos!</span>
+      <div className='flex flex-wrap gap-2 mt-3'>
+        <span className='px-3 py-1 text-xs font-medium rounded-full font-inter text-grey-grey3 bg-grey-grey7 cursor-pointer hover:bg-grey-grey6/80'>
+          Gostei muito!
+        </span>
+        <span className='px-3 py-1 text-xs font-medium rounded-full font-inter text-grey-grey3 bg-grey-grey7 cursor-pointer hover:bg-grey-grey6/80'>
+          Incrível
+        </span>
+        <span className='px-3 py-1 text-xs font-medium rounded-full font-inter text-grey-grey3 bg-grey-grey7 cursor-pointer hover:bg-grey-grey6/80'>
+          Recomendarei para meus amigos!
+        </span>
       </div>
     </div>
   );

@@ -28,14 +28,16 @@ export default function Header() {
           {isOpen ? <X /> : <Menu />}
         </div>
       </div>
-      {isOpen && (<div className='absolute flex flex-col justify-between w-full px-3 py-8 top-full h-44 bg-grey-whiteFixed md:hidden'>
-        <Link href={'#'} className='text-base font-semibold leading-7 text-grey-grey2'>
-          Fazer Login
-        </Link>
-        <Link href={'#'} className='px-5 py-3 text-base font-semibold text-center bg-transparent border-2 rounded border-grey-grey4 text-grey-grey0'>
-          Cadastrar
-        </Link>
-      </div>)}
+      {isOpen && (
+        <div className='absolute z-[9999] flex flex-col shadow-2xl justify-between w-full px-3 py-8 top-full h-44 bg-grey-whiteFixed md:hidden'>
+          <Link href={'#'} className='text-base font-semibold leading-7 text-grey-grey2'>
+            Fazer Login
+          </Link>
+          <Link href={'#'} className='px-5 py-3 text-base font-semibold text-center bg-transparent border-2 rounded border-grey-grey4 text-grey-grey0'>
+            Cadastrar
+          </Link>
+        </div>
+      )}
     </header>
   );
 }

@@ -1,3 +1,67 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@layer components {
+  .heading-1-700 {
+    @apply font-lexend font-bold text-[44px] leading-[56px] text-grey-1;
+  }
+  .heading-2-600 {
+    @apply font-lexend font-semibold text-[36px] leading-[45px] text-grey-1;
+  }
+  .heading-3-600 {
+    @apply font-lexend font-semibold text-[32px] leading-[40px] text-grey-1;
+  }
+  .heading-3-500 {
+    @apply font-lexend font-medium text-[32px] leading-[40px] text-grey-1;
+  }
+  .heading-4-600 {
+    @apply font-lexend font-semibold text-[28px] leading-[35px] text-grey-1;
+  }
+  .heading-4-500 {
+    @apply font-lexend font-medium text-[28px] leading-[35px] text-grey-1;
+  }
+  .heading-5-600 {
+    @apply font-lexend font-semibold text-[24px] leading-[30px] text-grey-1;
+  }
+  .heading-5-600 {
+    @apply font-lexend font-medium text-[24px] leading-[30px] text-grey-1;
+  }
+  .heading-6-600 {
+    @apply font-lexend font-semibold text-[20px] leading-[25px] text-grey-1;
+  }
+  .heading-6-500 {
+    @apply font-lexend font-medium text-[20px] leading-[25px] text-grey-1;
+  }
+  .heading-7-600 {
+    @apply font-lexend font-semibold text-[16px] leading-[20px] text-grey-1;
+  }
+  .heading-7-500 {
+    @apply font-lexend font-medium text-[16px] leading-[20px] text-grey-1;
+  }
+  .body-1-600 {
+    @apply font-inter font-semibold text-[16px] leading-[28px] text-grey-1;
+  }
+  .body-1-400 {
+    @apply font-inter font-normal text-[16px] leading-[28px] text-grey-1;
+  }
+  .body-2-500 {
+    @apply font-inter font-medium text-[14px] leading-[24px] text-grey-2;
+  }
+  .body-2-400 {
+    @apply font-inter font-normal text-[14px] leading-[24px] text-grey-2;
+  }
+  .button-big-text {
+    @apply font-inter font-semibold text-[16px] leading-none text-grey-2;
+  }
+  .button-medium-text {
+    @apply font-inter font-semibold text-[14px] leading-none text-grey-2;
+  }
+  .input-placeholder {
+    @apply placeholder:font-inter placeholder:font-normal placeholder:text-[16px] placeholder:leading-none placeholder:text-grey-2;
+  }
+  .input-label {
+    @apply font-inter font-medium text-[14px] leading-[17px] text-grey-1;
+  }
+}

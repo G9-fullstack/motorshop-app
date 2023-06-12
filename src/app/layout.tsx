@@ -26,7 +26,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-br">
-      <body className={`${lexend.variable} ${inter.variable} antialiased font-lexend`}>
+      <body className={`${lexend.variable} ${inter.variable} antialiased font-lexend min-h-screen w-screen overflow-x-hidden scrollbar-thin scrollbar-thumb-brand-3/70 scrollbar-track-grey-whiteFixed`}>
         <Header />
         {children}
         <Footer />

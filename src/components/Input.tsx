@@ -16,13 +16,13 @@ export default function Input(props: InputProps) {
 
   switch (props.type) {
   case "textarea":
-    inputElement = <textarea name={props.name} className={defaultStyle} placeholder={props.placeholder ?? props.label} />;
+    inputElement = <textarea name={props.name} id={props.name} className={defaultStyle} placeholder={props.placeholder ?? props.label} />;
     break;
   case "select":
-    inputElement = <select name={props.name} className={defaultStyle} placeholder={props.placeholder ?? props.label}>{props.children}</select>;
+    inputElement = <select name={props.name} id={props.name} className={defaultStyle} placeholder={props.placeholder ?? props.label}>{props.children}</select>;
     break;
   default:
-    inputElement = <input type="text" name={props.name} className={defaultStyle} placeholder={props.placeholder ?? props.label} />;
+    inputElement = <input type="text" name={props.name} id={props.name} className={defaultStyle} placeholder={props.placeholder ?? props.label} />;
     break;
   }
 

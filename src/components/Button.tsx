@@ -23,7 +23,7 @@ export default function Button(props: ButtonProps) {
   const style = () => {
     switch (props.style) {
       case "grey-1":
-        return "bg-grey-0 border-grey-0 hover:bg-grey-1 hover:border-grey-1"
+        return "bg-grey-0 border-grey-0 hover:bg-grey-1 hover:border-grey-1 "
       case "negative":
         return "text-grey-2 bg-grey-6 border-grey-6 hover:bg-grey-5 hover:border-grey-5"
       case "disable":
@@ -56,7 +56,7 @@ export default function Button(props: ButtonProps) {
   }
 
   return (
-    <button className={`border rounded py-3 ${size()} ${style()} ${props.details}`} style={{ width: props.width }}>
+    <button className={`border rounded py-3 ${size()} ${style()} ${props.details} transition-all duration-300 ease-in-out`} style={{ width: props.width }}>
       {props.children}
     </button>
   )

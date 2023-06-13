@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import AnnounceList from "@/components/AnnounceList";
 import Button from "@/components/Button";
 import Filter from "@/components/Filter";
@@ -30,38 +30,38 @@ export default function Home() {
   const handleFilterChange = (option: keyof SelectedFiltersProps, value: string) => {
     setSelectedFilters((prevFilters) => {
       if (prevFilters[option] === value) {
-        const updatedFilters = { ...prevFilters };
+        const updatedFilters = { ...prevFilters, };
         delete updatedFilters[option];
         return updatedFilters;
       }
-      return { ...prevFilters, [option]: value };
+      return { ...prevFilters, [option]: value, };
     });
   };
 
   const nextPage = () => {
     const lessThanOne = page < Math.ceil(mockAnnounces.length / PER_PAGE);
     if (lessThanOne) {
-      setPage(page + 1)
-      window.scrollTo({ top: 500, behavior: 'smooth' })
+      setPage(page + 1);
+      window.scrollTo({ top: 500, behavior: "smooth", });
     }
   };
 
   const previousPage = () => {
     const moreThanOne = page > 1;
     if (moreThanOne) {
-      setPage(page - 1)
-      window.scrollTo({ top: 500, behavior: 'smooth' })
+      setPage(page - 1);
+      window.scrollTo({ top: 500, behavior: "smooth", });
     }
-  }
+  };
 
   useEffect(() => {
     (async function () {
       const startIndex = (page - INITIAL_PAGE) * PER_PAGE;
       const endIndex = page * PER_PAGE;
-      setAnnounces(mockAnnounces.slice(startIndex, endIndex))
-    })()
+      setAnnounces(mockAnnounces.slice(startIndex, endIndex));
+    })();
     handleFilterReset();
-  }, [page])
+  }, [page]);
 
   const filteredAnnounces = useMemo(() => {
     if (!announces) {

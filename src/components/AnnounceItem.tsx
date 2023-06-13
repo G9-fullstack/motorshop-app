@@ -1,16 +1,16 @@
-import { AnnounceProps } from "@/mock"
-import { formatPrice } from "@/utils/formattedPrice"
-import { DollarSign } from "lucide-react"
-import Image from "next/image"
-import frame from "../../public/example-car.png"
+import { AnnounceProps } from "@/mock";
+import { formatPrice } from "@/utils/formattedPrice";
+import { DollarSign } from "lucide-react";
+import Image from "next/image";
+import frame from "../../public/example-car.png";
 
 type AnnounceItemProps = {
   announce: AnnounceProps
 }
 
 const initialName = (name: string) => {
-  return name.split(" ")[0].charAt(0).toUpperCase() + name.split(" ")[1].charAt(0).toUpperCase()
-}
+  return name.split(" ")[0].charAt(0).toUpperCase() + name.split(" ")[1].charAt(0).toUpperCase();
+};
 
 export default function AnnounceItem(props: AnnounceItemProps) {
   return (
@@ -40,5 +40,5 @@ export default function AnnounceItem(props: AnnounceItemProps) {
         </div>
       </div>
     </li>
-  )
+  );
 }

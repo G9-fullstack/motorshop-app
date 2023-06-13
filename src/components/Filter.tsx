@@ -109,5 +109,5 @@ export default function Filter(props: FilterProps) {
         </div>
       </div>
     </aside>
-  )
+  );
 }

@@ -235,5 +235,5 @@ export const mockAnnounces = [
     price: 22500.00,
     description: "Ampla capacidade interna.",
     coverImage: "https://example.com/car16.jpg",
-  },
+  }
 ];

@@ -1,5 +1,5 @@
-import { AnnounceProps } from "@/mock"
-import AnnounceItem from "./AnnounceItem"
+import { AnnounceProps } from "@/mock";
+import AnnounceItem from "./AnnounceItem";
 
 type AnnounceListProps = {
   filteredAnnounces: AnnounceProps[] | undefined
@@ -13,5 +13,5 @@ export default function AnnounceList(props: AnnounceListProps) {
       {props.filteredAnnounces && props.filteredAnnounces.map(announce => (
         <AnnounceItem key={announce.id} announce={announce} />
       ))}
-    </ul>)
+    </ul>);
 }

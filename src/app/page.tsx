@@ -1,53 +1,84 @@
 "use client"
+import AnnounceList from "@/components/AnnounceList";
 import Button from "@/components/Button";
-import CarProduct from "@/components/CarProduct";
 import Filter from "@/components/Filter";
-import { useEffect, useState } from "react";
+import { AnnounceProps, mockAnnounces } from "@/mock";
+import { useEffect, useMemo, useState } from "react";
 
-enum brands {
-  chevrolet = "chevrolet",
-  citroën = "citroën",
-  fiat = "fiat",
-  ford = "ford",
-  honda = "honda",
-  hyundai = "hyundai",
-  nissan = "nissan",
-  peugeot = "peugeot",
-  renault = "renault",
-  toyota = "toyota",
-  volkswagen = "volkswagen",
-}
+export type SelectedFiltersProps = {
+  brand?: string;
+  model?: string;
+  color?: string;
+  year?: string;
+  mileage?: string;
+  price?: number;
+};
 
-export type CarProps = {
-  name: string;
-  brand: brands;
-}
-
-type CarBrandProps = {
-  [key in brands]: CarProps[];
-}
+const PER_PAGE = 12;
+const INITIAL_PAGE = 1;
 
 export default function Home() {
-  const [brandsCar, setBrandsCar] = useState<CarBrandProps>()
+  const [announces, setAnnounces] = useState<AnnounceProps[]>();
+  const [selectedFilters, setSelectedFilters] = useState<SelectedFiltersProps>({});
   const [isOpen, setIsOpen] = useState(false);
+  const [page, setPage] = useState(INITIAL_PAGE);
+
   const handleShowFilter = () => setIsOpen(!isOpen);
 
-  const brands = brandsCar && Object.keys(brandsCar)
+  const handleFilterReset = () => setSelectedFilters({});
 
-  const cars = brandsCar && Object
-    .entries(brandsCar)
-    .map(([brand, cars]) =>
-      cars.map((car) =>
-        ({ name: car.name, brand })))
-    .flat();
+  const handleFilterChange = (option: keyof SelectedFiltersProps, value: string) => {
+    setSelectedFilters((prevFilters) => {
+      if (prevFilters[option] === value) {
+        const updatedFilters = { ...prevFilters };
+        delete updatedFilters[option];
+        return updatedFilters;
+      }
+      return { ...prevFilters, [option]: value };
+    });
+  };
+
+  const nextPage = () => {
+    const lessThanOne = page < Math.ceil(mockAnnounces.length / PER_PAGE);
+    if (lessThanOne) {
+      setPage(page + 1)
+      window.scrollTo({ top: 500, behavior: 'smooth' })
+    }
+  };
+
+  const previousPage = () => {
+    const moreThanOne = page > 1;
+    if (moreThanOne) {
+      setPage(page - 1)
+      window.scrollTo({ top: 500, behavior: 'smooth' })
+    }
+  }
 
   useEffect(() => {
     (async function () {
-      const response = await fetch("https://kenzie-kars.herokuapp.com/cars");
-      const data: CarBrandProps = await response.json();
-      setBrandsCar(data);
+      const startIndex = (page - INITIAL_PAGE) * PER_PAGE;
+      const endIndex = page * PER_PAGE;
+      setAnnounces(mockAnnounces.slice(startIndex, endIndex))
     })()
-  }, []);
+    handleFilterReset();
+  }, [page])
+
+  const filteredAnnounces = useMemo(() => {
+    if (!announces) {
+      return [];
+    }
+
+    return announces.filter((announce: AnnounceProps) => {
+      return Object.entries(selectedFilters).every(([key, value]) => {
+        if (key === "price" || key === "mileage") {
+          const filterValue = Number(value);
+          const announceValue = Number(announce[key as keyof AnnounceProps]);
+          return !value || announceValue <= filterValue;
+        }
+        return !value || announce[key as keyof AnnounceProps] === value;
+      });
+    });
+  }, [announces, selectedFilters]);
 
   return (
     <main>
@@ -61,14 +92,15 @@ export default function Home() {
       {/* MAIN */}
       <div className="xl:mx-auto my-16">
         <div className="md:flex-1 md:flex md:justify-between md:items-start">
-          {/* MAIN => FILTER */}
-          <Filter handleShowFilter={handleShowFilter} isOpen={isOpen} />
-          {/* MAIN => ADS */}
-          <ul className="flex flex-row overflow-x-scroll gap-x-3 ml-3 pr-3 py-6 max-w-6xl md:gap-x-12 md:gap-y-24 md:ml-0 md:pr-16 md:overflow-x-hidden md:flex-row md:flex-wrap md:justify-center md:items-start lg:justify-end scrollbar-thin scrollbar-thumb-brand-3/70 scrollbar-track-grey-whiteFixed">
-            {cars && cars.slice(0, 12).map((car, index) => (
-              <CarProduct key={index} name={car.name} />
-            ))}
-          </ul>
+          {/* FILTER */}
+          <Filter
+            handleShowFilter={handleShowFilter}
+            isOpen={isOpen} announces={announces}
+            selectedFilters={selectedFilters}
+            handleFilterChange={handleFilterChange}
+            handleFilterReset={handleFilterReset} />
+          {/* ADS */}
+          <AnnounceList filteredAnnounces={filteredAnnounces} />
         </div>
       </div>
       {/* INFO ADS */}
@@ -78,11 +110,19 @@ export default function Home() {
         </div>
         <div className="flex flex-col items-center justify-center gap-10">
           <div className="flex items-center justify-center gap-2 heading-5-600 text-grey-3/50">
-            <span className="text-grey-3">1</span> de <span>2</span>
+            <span className="text-grey-3">{page}</span>
+            {page !== Math.ceil(mockAnnounces.length / PER_PAGE) && <span> - {Math.ceil(mockAnnounces.length / PER_PAGE)}</span>}
           </div>
-          <span className="text-brand-2 heading-5-600">Seguinte {">"}</span>
+          <div className="flex flex-row gap-4">
+            <span onClick={previousPage} className="text-brand-2 heading-5-600 cursor-pointer" hidden={!(page > INITIAL_PAGE)}>
+              {"<"} Anterior
+            </span>
+            <span onClick={nextPage} className="text-brand-2 heading-5-600 cursor-pointer" hidden={!(page < Math.ceil(mockAnnounces.length / PER_PAGE))}>
+              Seguinte {">"}
+            </span>
+          </div>
         </div>
       </div>
-    </main>
+    </main >
   );
 }

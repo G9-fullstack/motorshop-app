@@ -1,6 +1,7 @@
+type InputType = "text" | "email" | "number" | "password" | "tel" | "url" | "search" | "textarea" | "select";
 
 type InputProps = {
-  type?: "text" | "textarea" | "select"
+  type?: InputType;
   name: string
   label: string
   placeholder?: string

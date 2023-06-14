@@ -1,5 +1,6 @@
 
 type ButtonProps = {
+  type?: "button" | "submit"
   style?: "grey-1" | "negative" | "success" | "disable" | "brand-1" | "brand-3" | "outline-brand-1" | "link" | "alert" | "brand-opacity" | "light" | "outline-light" | "outline-1" | "outline-2" | undefined;
   width?: number;
   details?: string
@@ -56,7 +57,7 @@ export default function Button(props: ButtonProps) {
   };
 
   return (
-    <button className={`border rounded py-3 ${size()} ${style()} ${props.details} transition-all duration-300 ease-in-out`} style={{ width: props.width, }}>
+    <button type={props.type} className={`border rounded py-3 ${size()} ${style()} ${props.details} transition-all duration-300 ease-in-out`} style={{ width: props.width, }}>
       {props.children}
     </button>
   );

@@ -3,6 +3,7 @@
 interface ProfileImageProps {
   name: string;
   size: "small" | "big"
+  userId: number;
 }
 
 function getInitials(name: string) {
@@ -14,13 +15,25 @@ function getInitials(name: string) {
   }
 }
 
-export default function ProfileImage({ name, size, }: ProfileImageProps) {
+function getProfileColorFromId(id: number): string {
+  let number: number;
+  if (id >= 1 && id <= 12) {
+    number = id;
+  } else {
+    number = (id % 12) + 1;
+  }
+  return `bg-random-profile-${number}`;
+}
+
+
+export default function ProfileImage({ name, size, userId, }: ProfileImageProps) {
   const initials = getInitials(name);
+  const profileColor = getProfileColorFromId(userId);
 
   return (
     <span className={`
       ${size == "big" ? "xl:w-[6.5rem] xl:h-[6.5rem] xl:text-4xl text-3xl w-[4.8125rem] h-[4.8125rem]" : "w-8 h-8 text-sm"} 
-       rounded-full flex justify-center items-center font-inter font-medium text-grey-whiteFixed
+      ${profileColor} rounded-full flex justify-center items-center font-inter font-medium text-grey-whiteFixed
     `}>
       {initials}
     </span>

@@ -30,7 +30,7 @@ export interface AnnounceProps {
 export const mockAnnounces = [
   {
     id: "1",
-    isActive: true,
+    isActive: false,
     brand: Brand.FORD,
     model: "Focus",
     year: "2018",
@@ -56,7 +56,7 @@ export const mockAnnounces = [
   },
   {
     id: "3",
-    isActive: true,
+    isActive: false,
     brand: Brand.HYUNDAI,
     model: "HB20",
     year: "2019",
@@ -108,7 +108,7 @@ export const mockAnnounces = [
   },
   {
     id: "7",
-    isActive: true,
+    isActive: false,
     brand: Brand.FIAT,
     model: "Palio",
     year: "2014",
@@ -134,7 +134,7 @@ export const mockAnnounces = [
   },
   {
     id: "9",
-    isActive: true,
+    isActive: false,
     brand: Brand.PEUGEOT,
     model: "208",
     year: "2018",
@@ -173,7 +173,7 @@ export const mockAnnounces = [
   },
   {
     id: "12",
-    isActive: true,
+    isActive: false,
     brand: Brand.RENAULT,
     model: "Logan",
     year: "2015",

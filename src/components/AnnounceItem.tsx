@@ -3,6 +3,7 @@ import { formatPrice } from "@/utils/formattedPrice";
 import { DollarSign } from "lucide-react";
 import Image from "next/image";
 import frame from "../../public/example-car.png";
+import ProfileImage from "./ProfileImage";
 
 type AnnounceItemProps = {
   announce: AnnounceProps
@@ -27,8 +28,8 @@ export default function AnnounceItem(props: AnnounceItemProps) {
       <div className="space-y-6">
         <p className="heading-7-600 uppercase overflow-hidden whitespace-nowrap overflow-ellipsis">{props.announce.model}</p>
         <p className="body-2-400 max-h-[70px] overflow-hidden whitespace-pre-wrap overflow-ellipsis">{props.announce.description}</p>
-        <div className="space-x-2">
-          <span className="body-2-500 text-white p-2 bg-brand-1 rounded-full">{initialName("Samuel Leão")}</span>
+        <div className="flex gap-2 items-center">
+          <ProfileImage name="Samuel Leão" size="small" userId={10} />
           <span className="body-2-500 overflow-hidden whitespace-nowrap overflow-ellipsis">Samuel Leão</span>
         </div>
         <div className="flex items-center justify-between">

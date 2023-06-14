@@ -1,4 +1,5 @@
 import { Dot } from "lucide-react";
+import ProfileImage from "./ProfileImage";
 
 export default function Comments() {
   return (
@@ -7,9 +8,7 @@ export default function Comments() {
       <ul className="space-y-11">
         <li>
           <div className="flex items-center gap-2 mb-3">
-            <div className="w-[32px] h-[32px] bg-random-profile-1 rounded-full flex justify-center items-center font-inter font-medium text-sm text-grey-whiteFixed">
-              JL
-            </div>
+            <ProfileImage name="Júlia Lima" size="small" userId={1} />
             <span className="text-sm font-medium font-inter text-grey-0">Júlia Lima</span>
             <Dot className="text-grey-3" />
             <span className="text-xs font-normal font-inter text-grey-3">há 3 dias</span>
@@ -20,9 +19,7 @@ export default function Comments() {
         </li>
         <li>
           <div className="flex items-center gap-2 mb-3">
-            <div className="w-[32px] h-[32px] bg-random-profile-4 rounded-full flex justify-center items-center font-inter font-medium text-sm text-grey-whiteFixed">
-              MA
-            </div>
+            <ProfileImage name="Marcos Antônio" size="small" userId={4} />
             <span className="text-sm font-medium font-inter text-grey-0">Marcos Antônio</span>
             <Dot className="text-grey-3" />
             <span className="text-xs font-normal font-inter text-grey-3">há 7 dias</span>
@@ -33,9 +30,7 @@ export default function Comments() {
         </li>
         <li>
           <div className="flex items-center gap-2 mb-3">
-            <div className="w-[32px] h-[32px] bg-random-profile-9 rounded-full flex justify-center items-center font-inter font-medium text-sm text-grey-whiteFixed">
-              CS
-            </div>
+            <ProfileImage name="Camila Silva" size="small" userId={9} />
             <span className="text-sm font-medium font-inter text-grey-0">Camila Silva</span>
             <Dot className="text-grey-3" />
             <span className="text-xs font-normal font-inter text-grey-3">há 1 mês</span>

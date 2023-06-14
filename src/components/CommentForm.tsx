@@ -1,10 +1,10 @@
+import ProfileImage from "./ProfileImage";
+
 export default function CommentForm() {
   return (
     <div className="w-max-[751px] w-full bg-grey-10 py-9 px-11 rounded">
       <div className="flex items-center gap-2 mb-4">
-        <div className="w-[32px] h-[32px] bg-random-profile-10 rounded-full flex justify-center items-center font-inter font-medium text-sm text-grey-whiteFixed">
-          SL
-        </div>
+        <ProfileImage name="Samuel Leão" size="small" userId={10} />
         <span className="text-sm font-medium font-inter text-grey-0">Samuel Leão</span>
       </div>
       <form>

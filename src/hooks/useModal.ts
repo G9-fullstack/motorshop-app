@@ -14,6 +14,6 @@ export const useModal = (): [boolean, () => void, () => void] => {
   return [
     isOpen,
     openModal,
-    closeModal,
+    closeModal
   ];
 };

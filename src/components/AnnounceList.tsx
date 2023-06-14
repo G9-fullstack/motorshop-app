@@ -1,14 +1,14 @@
-import { AnnounceProps } from "@/mock"
-import { usePathname } from "next/navigation"
-import AnnounceItem from "./AnnounceItem"
-import PlaceholderItem from "./PlaceholderItem"
+import { AnnounceProps } from "@/mock";
+import { usePathname } from "next/navigation";
+import AnnounceItem from "./AnnounceItem";
+import PlaceholderItem from "./PlaceholderItem";
 
 type AnnounceListProps = {
   announces: AnnounceProps[] | undefined
 }
 
 export default function AnnounceList(props: AnnounceListProps) {
-  const isProfile = usePathname().includes("profile")
+  const isProfile = usePathname().includes("profile");
 
   return (
     <ul
@@ -23,5 +23,5 @@ export default function AnnounceList(props: AnnounceListProps) {
           <PlaceholderItem key={Math.random()} />
         ))
       )}
-    </ul>)
+    </ul>);
 }

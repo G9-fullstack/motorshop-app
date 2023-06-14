@@ -40,18 +40,18 @@ export default function Home() {
 
   useEffect(() => {
     (async function () {
-        const startIndex = (page - INITIAL_PAGE) * PER_PAGE;
-        const endIndex = page * PER_PAGE;
-        setAnnounces(mockAnnounces.slice(startIndex, endIndex));
+      const startIndex = (page - INITIAL_PAGE) * PER_PAGE;
+      const endIndex = page * PER_PAGE;
+      setAnnounces(mockAnnounces.slice(startIndex, endIndex));
     })();
     handleFilterReset();
-  }, [page])
+  }, [page]);
 
   const filteredAnnounces = useMemo(() => {
     if (!announces) {
       return [];
     }
-    
+
     return announces.filter((announce: AnnounceProps) => {
       return Object.entries(selectedFilters).every(([key, value]) => {
         if (key === "price" || key === "mileage") {

@@ -14,10 +14,10 @@ export default function Header() {
       <div className="container flex items-center justify-between h-full">
         <Image src={brandingLogo} alt="Motorshop logo" height={26} />
         <div className="items-center hidden h-full border-l-2 border-grey-6 font-inter pl-11 gap-11 md:flex">
-          <Link href={"#"} className="text-base font-semibold leading-7 text-grey-2">
+          <Link href={"/login"} className="text-base font-semibold leading-7 text-grey-2">
             Fazer Login
           </Link>
-          <Link href={"#"} className="px-5 py-3 text-base font-semibold text-center bg-transparent border-2 rounded border-grey-4 text-grey-0">
+          <Link href={"/register"} className="px-5 py-3 text-base font-semibold text-center bg-transparent border-2 rounded border-grey-4 text-grey-0">
             Cadastrar
           </Link>
         </div>
@@ -29,10 +29,10 @@ export default function Header() {
         </div>
       </div>
       {isOpen && (<div className="absolute flex flex-col justify-between w-full px-3 py-8 top-full h-44 bg-grey-whiteFixed md:hidden">
-        <Link href={"#"} className="text-base font-semibold leading-7 text-grey-2">
+        <Link href={"/login"} className="text-base font-semibold leading-7 text-grey-2">
           Fazer Login
         </Link>
-        <Link href={"#"} className="px-5 py-3 text-base font-semibold text-center bg-transparent border-2 rounded border-grey-4 text-grey-0">
+        <Link href={"/register"} className="px-5 py-3 text-base font-semibold text-center bg-transparent border-2 rounded border-grey-4 text-grey-0">
           Cadastrar
         </Link>
       </div>)}

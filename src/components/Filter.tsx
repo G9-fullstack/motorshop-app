@@ -36,14 +36,12 @@ export default function Filter(props: FilterProps) {
 
   return (
     <aside className={`${props.isOpen ? "flex flex-col items-start justify-start fixed top-20 inset-0 bg-white overflow-y-scroll p-6 z-40  scrollbar-thin scrollbar-thumb-brand-3/70 scrollbar-track-grey-whiteFixed" : "hidden md:flex"}`}>
-      {/* HEADER */}
       <div className={`flex items-center justify-between w-full ${!props.isOpen && "md:hidden"}`}>
         <p className="heading-7-500 text-grey-1">Filtro</p>
         <button onClick={props.handleShowFilter}>
           <X className="text-grey-4" />
         </button>
       </div>
-      {/* BODY */}
       <div className="md:pl-7 mt-7 space-y-10">
         {/* BRANDS */}
         <div className="flex flex-col gap-6" >
@@ -79,6 +77,7 @@ export default function Filter(props: FilterProps) {
           <input
             className="accent-brand-1 input-label"
             type="range"
+            step={maxMileage && minMileage ? (Number(maxMileage) - Number(minMileage)) / 5 : 1}
             min={minMileage}
             max={maxMileage}
             value={props.selectedFilters.mileage || maxMileage}
@@ -92,6 +91,7 @@ export default function Filter(props: FilterProps) {
           <input
             className="accent-brand-1 input-label"
             type="range"
+            step={maxPrice && minPrice ? (maxPrice - minPrice) / 5 : 1}
             min={minPrice}
             max={maxPrice}
             value={props.selectedFilters.price || maxPrice}

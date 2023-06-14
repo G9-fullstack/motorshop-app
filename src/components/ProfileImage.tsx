@@ -15,25 +15,35 @@ function getInitials(name: string) {
   }
 }
 
-function getProfileColorFromId(id: number): string {
-  let number: number;
-  if (id >= 1 && id <= 12) {
-    number = id;
-  } else {
-    number = (id % 12) + 1;
-  }
-  return `bg-random-profile-${number}`;
-}
+const getProfileColor = (userId: number) => {
+  const profileColors = [
+    "#E34D8C",
+    "#C04277",
+    "#7D2A4D",
+    "#7000FF",
+    "#6200E3",
+    "#36007D",
+    "#349974",
+    "#2A7D5F",
+    "#153D2E",
+    "#6100FF",
+    "#5700E3",
+    "#30007D"
+  ];
+  return profileColors[(userId - 1) % profileColors.length];
+};
 
 
 export default function ProfileImage({ name, size, userId, }: ProfileImageProps) {
   const initials = getInitials(name);
-  const profileColor = getProfileColorFromId(userId);
+  const profileColor = getProfileColor(userId);
 
   return (
-    <span className={`
+    <span
+      style={{ backgroundColor: profileColor, }}
+      className={`
       ${size == "big" ? "xl:w-[6.5rem] xl:h-[6.5rem] xl:text-4xl text-3xl w-[4.8125rem] h-[4.8125rem]" : "w-8 h-8 text-sm"} 
-      ${profileColor} rounded-full flex justify-center items-center font-inter font-medium text-grey-whiteFixed
+      rounded-full flex justify-center items-center font-inter font-medium text-grey-whiteFixed
     `}>
       {initials}
     </span>

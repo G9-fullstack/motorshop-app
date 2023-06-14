@@ -15,7 +15,6 @@ export default function Register() {
           <fieldset className="space-y-6">
             <Input type="text" name="name" label="Nome" placeholder="Digitar Nome" />
             <Input type="email" name="email" label="Email" placeholder="Digitar Email" />
-            <Input type="email" name="email" label="Email" placeholder="Digitar Email" />
             <Input type="text" name="cpf" label="CPF" placeholder="000.000.000-00" />
             <Input type="tel" name="phone" label="Celular" placeholder="(DDD) 90000-0000" />
             <Input type="date" name="date" label="Data de nascimento" placeholder="00/00/00" />

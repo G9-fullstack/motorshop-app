@@ -1,7 +1,8 @@
 "use client"
 import AnnounceList from "@/components/AnnounceList";
-import Button from "@/components/Button";
 import Filter from "@/components/Filter";
+import ListInfo from "@/components/ListInfo";
+import usePage from "@/hooks/usePage";
 import { AnnounceProps, mockAnnounces } from "@/mock";
 import { useEffect, useMemo, useState } from "react";
 
@@ -21,12 +22,10 @@ export default function Home() {
   const [announces, setAnnounces] = useState<AnnounceProps[]>();
   const [selectedFilters, setSelectedFilters] = useState<SelectedFiltersProps>({});
   const [isOpen, setIsOpen] = useState(false);
-  const [page, setPage] = useState(INITIAL_PAGE);
+  const [page, nextPage, previousPage] = usePage();
 
   const handleShowFilter = () => setIsOpen(!isOpen);
-
   const handleFilterReset = () => setSelectedFilters({});
-
   const handleFilterChange = (option: keyof SelectedFiltersProps, value: string) => {
     setSelectedFilters((prevFilters) => {
       if (prevFilters[option] === value) {
@@ -37,23 +36,6 @@ export default function Home() {
       return { ...prevFilters, [option]: value };
     });
   };
-
-  const nextPage = () => {
-    const lessThanOne = page < Math.ceil(mockAnnounces.length / PER_PAGE);
-    if (lessThanOne) {
-      setPage(page + 1)
-      window.scrollTo({ top: 500, behavior: 'smooth' })
-    }
-  };
-
-  const previousPage = () => {
-    const moreThanOne = page > 1;
-    if (moreThanOne) {
-      setPage(page - 1)
-      window.scrollTo({ top: 500, behavior: 'smooth' })
-    }
-  }
-
   useEffect(() => {
     (async function () {
       const startIndex = (page - INITIAL_PAGE) * PER_PAGE;
@@ -62,7 +44,6 @@ export default function Home() {
     })()
     handleFilterReset();
   }, [page])
-
   const filteredAnnounces = useMemo(() => {
     if (!announces) {
       return [];
@@ -82,14 +63,12 @@ export default function Home() {
 
   return (
     <main>
-      {/* COVER */}
       <div className="mt-20 h-[550px] w-full bg-home bg-cover bg-center px-2">
         <div className="flex flex-col items-center justify-center h-full w-full gap-8">
           <h1 className="font-lexend font-bold text-center text-white text-3xl">Motors Shop</h1>
           <p className="text-white text-center text-xl">A melhor plataforma de anúncios de carros do pais</p>
         </div>
       </div>
-      {/* MAIN */}
       <div className="xl:mx-auto my-16">
         <div className="md:flex-1 md:flex md:justify-between md:items-start">
           {/* FILTER */}
@@ -100,29 +79,12 @@ export default function Home() {
             handleFilterChange={handleFilterChange}
             handleFilterReset={handleFilterReset} />
           {/* ADS */}
-          <AnnounceList filteredAnnounces={filteredAnnounces} />
-        </div>
-      </div>
-      {/* INFO ADS */}
-      <div className="flex flex-col items-center justify-center gap-10 py-4 mb-10 w-full">
-        <div onClick={handleShowFilter}>
-          <Button details="md:hidden text-white" size="big" style="brand-1" width={280}>Filtros</Button>
-        </div>
-        <div className="flex flex-col items-center justify-center gap-10">
-          <div className="flex items-center justify-center gap-2 heading-5-600 text-grey-3/50">
-            <span className="text-grey-3">{page}</span>
-            {page !== Math.ceil(mockAnnounces.length / PER_PAGE) && <span> - {Math.ceil(mockAnnounces.length / PER_PAGE)}</span>}
-          </div>
-          <div className="flex flex-row gap-4">
-            <span onClick={previousPage} className="text-brand-2 heading-5-600 cursor-pointer" hidden={!(page > INITIAL_PAGE)}>
-              {"<"} Anterior
-            </span>
-            <span onClick={nextPage} className="text-brand-2 heading-5-600 cursor-pointer" hidden={!(page < Math.ceil(mockAnnounces.length / PER_PAGE))}>
-              Seguinte {">"}
-            </span>
+          <div className="flex flex-1 ml-3 px-3 max-w-6xl md:ml-0 md:pr-16">
+            <AnnounceList announces={filteredAnnounces} />
           </div>
         </div>
       </div>
+      <ListInfo handleShowFilter={handleShowFilter} page={page} previousPage={previousPage} nextPage={nextPage} />
     </main >
   );
 }

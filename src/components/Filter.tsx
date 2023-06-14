@@ -79,6 +79,7 @@ export default function Filter(props: FilterProps) {
           <input
             className="accent-brand-1 input-label"
             type="range"
+            step={maxMileage && minMileage ? (Number(maxMileage) - Number(minMileage)) / 5 : 1}
             min={minMileage}
             max={maxMileage}
             value={props.selectedFilters.mileage || maxMileage}
@@ -92,6 +93,7 @@ export default function Filter(props: FilterProps) {
           <input
             className="accent-brand-1 input-label"
             type="range"
+            step={maxPrice && minPrice ? (maxPrice - minPrice) / 5 : 1}
             min={minPrice}
             max={maxPrice}
             value={props.selectedFilters.price || maxPrice}

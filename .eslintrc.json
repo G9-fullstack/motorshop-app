@@ -12,8 +12,9 @@
   },
   "plugins": ["@typescript-eslint"],
   "rules": {
-    "indent": ["error", "tab"],
+    "indent": ["error", 2],
     "quotes": ["error", "double"],
+    "jsx-quotes": ["error", "prefer-double"],
     "semi": ["error", "always"],
     "no-undef": "off",
     "eol-last": ["error", "always"],

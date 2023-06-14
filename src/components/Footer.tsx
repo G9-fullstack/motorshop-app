@@ -1,10 +1,10 @@
-'use client'
+"use client";
 import { ChevronUp } from "lucide-react";
 import Image from "next/image";
 import logo from "../../public/logo-footer.svg";
 
 export default function Footer() {
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth", });
 
   return (
     <div className="bg-grey-0 text-grey-whiteFixed flex flex-col items-center jusitfy-center py-11 px-2 gap-14 md:px-16 md:py-14 md:flex-row md:justify-between">
@@ -14,5 +14,5 @@ export default function Footer() {
         <ChevronUp size={16} />
       </button>
     </div>
-  )
+  );
 }

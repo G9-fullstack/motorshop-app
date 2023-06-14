@@ -7,6 +7,7 @@ export default function usePage(): [number, () => void, () => void] {
   const [page, setPage] = useState(INITIAL_PAGE);
 
   const nextPage = () => {
+    console.log(page)
     const lessThanOne = page < Math.ceil(mockAnnounces.length / PER_PAGE);
     if (lessThanOne) {
       setPage(page + 1)

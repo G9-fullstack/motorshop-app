@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { createPortal } from 'react-dom';
+import { useEffect } from "react";
+import { createPortal } from "react-dom";
 
 interface ModalProps {
   isOpen: boolean;
@@ -7,8 +7,8 @@ interface ModalProps {
 }
 
 export function Modal(props: ModalProps): JSX.Element | null {
-  const modalRoot = document.getElementById('modal-root');
-  const modalElement = document.createElement('div');
+  const modalRoot = document.getElementById("modal-root");
+  const modalElement = document.createElement("div");
 
   useEffect(() => {
     modalRoot && modalRoot.appendChild(modalElement);
@@ -23,5 +23,5 @@ export function Modal(props: ModalProps): JSX.Element | null {
     </div>,
     modalElement
   ) : null;
-};
+}
 

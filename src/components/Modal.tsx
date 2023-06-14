@@ -3,7 +3,6 @@ import { createPortal } from 'react-dom';
 
 interface ModalProps {
   isOpen: boolean;
-  onClose: () => void;
   children: React.ReactNode
 }
 
@@ -19,7 +18,7 @@ export function Modal(props: ModalProps): JSX.Element | null {
   }, [modalElement, modalRoot]);
 
   return props.isOpen ? createPortal(
-    <div className="fixed inset-0 flex items-center justify-center z-50">
+    <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm">
       {props.children}
     </div>,
     modalElement

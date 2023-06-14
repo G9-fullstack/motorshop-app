@@ -2,7 +2,7 @@
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { use, useState } from "react";
+import { useState } from "react";
 import brandingLogo from "../../public/branding-logo.svg";
 import { usePathname } from "next/navigation";
 import ProfileImage from "./ProfileImage";
@@ -10,8 +10,7 @@ import ProfileImage from "./ProfileImage";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
-  const isLogged = true;
+  const isLogged = false;
   const pathname = usePathname();
 
   return (
@@ -29,37 +28,40 @@ export default function Header() {
             </Link>
           </div>
         </div>)}
-        {isLogged && (<div className="relative flex items-center h-full border-l-2 border-grey-6 pl-11">
-          <button
-            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="hidden md:flex items-center gap-2"
-          >
-            <ProfileImage name="Samuel Leão" size="small" userId={10} />
-            <span className="text-base font-normal font-inter text-grey-2">Samuel Leão</span>
-          </button>
-          <div className="absolute top-full right- z-[9999] w-[12.5rem] bg-grey-9 rounded shadow-2xl">
-            <ul>
-              <li>
-                <button>Editar Perfil</button>
-              </li>
-              <li>
-                <button>Editar endereço</button>
-              </li>
-              <li>
-                <button>Meus Anúncios</button>
-              </li>
-              <li>
-                <button>Sair</button>
-              </li>
-            </ul>
-          </div>
-        </div>)}
         <div
-          className="cursor-pointer md:hidden text-grey-1"
+          className="relative z-[100] cursor-pointer md:hidden text-grey-1"
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? <X /> : <Menu />}
         </div>
+        {isLogged && (<div className="absolute right-10 md:relative flex items-center h-full md:border-l-2 md:border-grey-6 pl-11">
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="items-center hidden gap-2 md:flex"
+          >
+            <ProfileImage name="Samuel Leão" size="small" userId={10} />
+            <span className="text-base font-normal font-inter text-grey-2">Samuel Leão</span>
+          </button>
+          {isLogged && isOpen && (<div className="absolute top-[85%] -right-[50%] md:left-[10%]  z-[9999] w-[12.5rem] py-6 px-5 bg-grey-9 rounded shadow-xl shadow-grey-1/20">
+            <ul className="space-y-4">
+              {pathname != "/" && (<li>
+                <Link href="/" className="text-base font-normal font-inter text-grey-2">Ir para Home</Link>
+              </li>)}
+              <li>
+                <button className="text-base font-normal font-inter text-grey-2">Editar Perfil</button>
+              </li>
+              <li>
+                <button className="text-base font-normal font-inter text-grey-2">Editar endereço</button>
+              </li>
+              <li>
+                <button className="text-base font-normal font-inter text-grey-2">Meus Anúncios</button>
+              </li>
+              <li>
+                <button className="text-base font-normal font-inter text-grey-2">Sair</button>
+              </li>
+            </ul>
+          </div>)}
+        </div>)}
       </div>
       {!isLogged && isOpen && (<div className="absolute flex flex-col justify-between w-full gap-4 px-3 py-8 shadow-2xl top-full h-max bg-grey-whiteFixed md:hidden">
         {pathname != "/login" && pathname != "/register" && (<Link href={"/login"} className="text-base font-semibold leading-7 text-grey-2">

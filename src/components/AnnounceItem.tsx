@@ -9,10 +9,6 @@ type AnnounceItemProps = {
   announce: AnnounceProps
 }
 
-const initialName = (name: string) => {
-  return name.split(" ")[0].charAt(0).toUpperCase() + name.split(" ")[1].charAt(0).toUpperCase();
-};
-
 export default function AnnounceItem(props: AnnounceItemProps) {
   return (
     <li className="space-y-6 group w-80 min-w-[20rem]">

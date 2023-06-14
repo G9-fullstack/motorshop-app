@@ -11,7 +11,7 @@ export default function Register() {
       <section className="bg-grey-10 rounded py-11 px-12 w-[25.6875rem] mt-11 mb-24">
         <h2 className="mb-8 text-2xl font-medium text-black font-lexend">Cadastro</h2>
         <form>
-          <h4 className="mb-6 text-sm font-medium text-black font-inter">Infomações pessoais</h4>
+          <legend className="mb-6 text-sm font-medium text-black font-inter">Infomações pessoais</legend>
           <fieldset className="space-y-6">
             <Input type="text" name="name" label="Nome" placeholder="Digitar Nome" />
             <Input type="email" name="email" label="Email" placeholder="Digitar Email" />
@@ -20,7 +20,7 @@ export default function Register() {
             <Input type="date" name="date" label="Data de nascimento" placeholder="00/00/00" />
             <Input type="textarea" name="description" label="Descrição" placeholder="Digitar descrição" />
           </fieldset>
-          <h4 className="mb-6 text-sm font-medium text-black font-inter mt-7">Infomações de endereço</h4>
+          <legend className="mb-6 text-sm font-medium text-black font-inter mt-7">Infomações de endereço</legend>
           <fieldset className="space-y-6">
             <Input type="text" name="cep" label="CEP" placeholder="00000.000" />
             <fieldset className="flex gap-3">
@@ -45,7 +45,7 @@ export default function Register() {
               </fieldset>
             </fieldset>
           </fieldset>
-          <h4 className="mb-6 text-sm font-medium text-black font-inter mt-7">Tipo de conta</h4>
+          <legend className="mb-6 text-sm font-medium text-black font-inter mt-7">Tipo de conta</legend>
           <fieldset className="space-y-6">
             <fieldset className="flex gap-3">
               <span

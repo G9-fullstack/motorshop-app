@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import { Inter, Lexend } from "next/font/google";
 import "./globals.css";
 import { UserProvider } from "@/contexts/UserContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 const lexend = Lexend({
   subsets: ["latin"],
@@ -29,10 +30,12 @@ export default function RootLayout({
     <html lang="pt-br">
       <body className={`${lexend.variable} ${inter.variable} antialiased font-lexend min-h-screen w-screen overflow-x-hidden scrollbar-thin scrollbar-thumb-brand-3/70 scrollbar-track-grey-whiteFixed`}>
         <UserProvider>
-          <div id="modal-root"></div>
-          <Header />
-          {children}
-          <Footer />
+          <AuthProvider>
+            <div id="modal-root"></div>
+            <Header />
+            {children}
+            <Footer />
+          </AuthProvider>
         </UserProvider>
       </body>
     </html>

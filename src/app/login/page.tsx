@@ -39,8 +39,8 @@ export default function Login() {
             </span>
             <Button
               type="submit"
-              style="light"
-              details="w-full border-black"
+              style="outline-2"
+              details=" w-full"
               size="big"
             >
               Cadastrar

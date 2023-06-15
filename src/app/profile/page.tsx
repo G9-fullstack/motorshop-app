@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import AnnounceList from "@/components/AnnounceList";
 import Button from "@/components/Button";
 import ListInfo from "@/components/ListInfo";
@@ -17,13 +17,13 @@ export default function Profile() {
     (async function () {
       const startIndex = (page - INITIAL_PAGE) * PER_PAGE;
       const endIndex = page * PER_PAGE;
-      setAnnounces(mockAnnounces.slice(startIndex, endIndex))
-    })()
-  }, [page])
+      setAnnounces(mockAnnounces.slice(startIndex, endIndex));
+    })();
+  }, [page]);
 
   const initialName = (name: string) => {
-    return name.split(" ")[0].charAt(0).toUpperCase() + name.split(" ")[1].charAt(0).toUpperCase()
-  }
+    return name.split(" ")[0].charAt(0).toUpperCase() + name.split(" ")[1].charAt(0).toUpperCase();
+  };
 
   return (
     <main className="mt-40">
@@ -42,5 +42,5 @@ export default function Profile() {
       </div>
       <ListInfo page={page} previousPage={previousPage} nextPage={nextPage} />
     </main>
-  )
+  );
 }

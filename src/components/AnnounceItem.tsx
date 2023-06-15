@@ -1,11 +1,11 @@
-import { AnnounceProps } from "@/mock"
-import { formatPrice } from "@/utils/formattedPrice"
-import { DollarSign } from "lucide-react"
-import Image from "next/image"
-import { usePathname } from 'next/navigation'
-import frame from "../../public/example-car.png"
-import Button from "./Button"
-import ProfileImage from "./ProfileImage"
+import { AnnounceProps } from "@/mock";
+import { formatPrice } from "@/utils/formattedPrice";
+import { DollarSign } from "lucide-react";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import frame from "../../public/example-car.png";
+import Button from "./Button";
+import ProfileImage from "./ProfileImage";
 
 type AnnounceItemProps = {
   announce: AnnounceProps
@@ -13,7 +13,7 @@ type AnnounceItemProps = {
 }
 
 export default function AnnounceItem(props: AnnounceItemProps) {
-  const isProfile = usePathname().includes("profile")
+  const isProfile = usePathname().includes("profile");
 
   return (
     <li className="space-y-6 group w-80 min-w-[20rem]">

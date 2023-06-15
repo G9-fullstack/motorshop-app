@@ -6,9 +6,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function Register() {
-  const { register, setValue, handleSubmit, } = useForm<userData>({
+  const { register, setValue, watch, handleSubmit, } = useForm<userData>({
     resolver: zodResolver(userSchema),
   });
+  const isSeller = watch("isSeller");
 
   function handleRegister(data: userData) {
     console.log(isSeller);

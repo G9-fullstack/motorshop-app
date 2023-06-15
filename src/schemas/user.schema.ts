@@ -8,7 +8,7 @@ export const userSchema = z.object({
   confirmPassword: z.string().nonempty(),
   cpf: z.string().nonempty(),
   phoneNumber: z.string().nonempty(),
-  birthdate: z.string().nonempty(),
+  birthdate: z.string().nonempty().transform((val) => new Date(val)),
   description: z.string().nonempty(),
   isSeller: z.boolean().default(false),
   address: addressSchema,

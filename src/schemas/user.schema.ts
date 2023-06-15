@@ -12,7 +12,11 @@ export const userSchema = z.object({
   description: z.string().nonempty(),
   isSeller: z.boolean().default(false),
   address: addressSchema,
-});
+})
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "As senhas não correspondem",
+    path: ["confirmPassword"],
+  });
 
 type userDataSchema = z.infer<typeof userSchema>
 

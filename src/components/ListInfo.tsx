@@ -37,5 +37,5 @@ export default function ListInfo(props: ListInfoProps) {
           {props.children}
         </div>
       </div>
-    </div>)
+    </div>);
 }

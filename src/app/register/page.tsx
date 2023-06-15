@@ -4,16 +4,18 @@ import Input from "@/components/Input";
 import { userData, userSchema } from "@/schemas/user.schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useUser } from "@/contexts/UserContext";
 
 export default function Register() {
   const { register, setValue, watch, handleSubmit, } = useForm<userData>({
     resolver: zodResolver(userSchema),
   });
   const isSeller = watch("isSeller");
+  const {handleUserCreate,} = useUser();
 
   function handleRegister(data: userData) {
-    console.log(isSeller);
-    console.log(data);
+    delete data.confirmPassword;
+    handleUserCreate(data);
   }
 
   return (

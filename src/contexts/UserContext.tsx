@@ -18,8 +18,9 @@ const UserContext = createContext({} as UserContextData);
 export function UserProvider({ children, }: Props) {
   const router = useRouter();
   function handleUserCreate(formData: userData) {
+    console.log(formData);
     api
-      .post("/users", {...formData, birthdate: "21/04/1986",})
+      .post("/users", formData)
       .then(() => {
         router.push("/login");
       })

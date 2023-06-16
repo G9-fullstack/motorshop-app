@@ -18,7 +18,6 @@ const UserContext = createContext({} as UserContextData);
 export function UserProvider({ children, }: Props) {
   const router = useRouter();
   function handleUserCreate(formData: userData) {
-    console.log(formData);
     api
       .post("/users", formData)
       .then(() => {
@@ -30,7 +29,6 @@ export function UserProvider({ children, }: Props) {
   }
 
   function handleUserLogin(formData: userData) {
-    console.log(formData);
     api
       .post("/login", formData)
       .then(() => {

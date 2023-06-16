@@ -6,10 +6,12 @@ import { useState } from "react";
 import brandingLogo from "../../public/branding-logo.svg";
 import { usePathname } from "next/navigation";
 import ProfileImage from "./ProfileImage";
+import { useUser } from "@/contexts/UserContext";
 
 export default function Header() {
+  const { username, } = useUser();
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const isLogged = false;
+  const isLogged = !!username.length;
   const pathname = usePathname();
 
   return (
@@ -56,7 +58,7 @@ export default function Header() {
             >
               <ProfileImage name="Samuel Leão" size="small" userId={10} />
               <span className="text-base font-normal font-inter text-grey-2">
-                Samuel Leão
+                {username}
               </span>
             </button>
             {isLogged && isOpen && (

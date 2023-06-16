@@ -1,3 +1,5 @@
+import { UseFormRegisterReturn } from "react-hook-form";
+
 type InputType = "text" | "email" | "number" | "password" | "tel" | "date" | "url" | "search" | "textarea" | "select";
 
 type InputProps = {
@@ -5,6 +7,7 @@ type InputProps = {
   name: string
   label: string
   placeholder?: string
+  register?: UseFormRegisterReturn;
   children?: React.ReactNode
 }
 
@@ -16,13 +19,13 @@ export default function Input(props: InputProps) {
 
   switch (props.type) {
   case "textarea":
-    inputElement = <textarea name={props.name} id={props.name} className={defaultStyle} placeholder={props.placeholder ?? props.label} />;
+    inputElement = <textarea name={props.name} id={props.name} className={defaultStyle} placeholder={props.placeholder ?? props.label} {...props.register} />;
     break;
   case "select":
     inputElement = <select name={props.name} id={props.name} className={defaultStyle} placeholder={props.placeholder ?? props.label}>{props.children}</select>;
     break;
   default:
-    inputElement = <input type={props.type} name={props.name} id={props.name} className={defaultStyle} placeholder={props.placeholder ?? props.label} />;
+    inputElement = <input type={props.type} name={props.name} id={props.name} className={defaultStyle} placeholder={props.placeholder ?? props.label} {...props.register} />;
     break;
   }
 

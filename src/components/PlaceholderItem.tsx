@@ -20,5 +20,5 @@ export default function PlaceholderItem() {
         </div>
       </div>
     </div>
-  )
+  );
 }

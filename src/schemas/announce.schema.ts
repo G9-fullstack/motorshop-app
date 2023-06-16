@@ -1,4 +1,6 @@
-import {z} from "zod";
+import { z } from "zod";
+
+const imageSchema = z.string().url();
 
 export const announceSchema = z.object({
   id: z.number(),
@@ -12,6 +14,7 @@ export const announceSchema = z.object({
   price: z.number(),
   description: z.string(),
   coverImage: z.string(),
+  images: z.array(imageSchema),
   createdAt: z.date(),
   updatedAt: z.date(),
 });

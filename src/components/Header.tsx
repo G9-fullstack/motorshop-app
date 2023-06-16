@@ -9,7 +9,7 @@ import ProfileImage from "./ProfileImage";
 import { useUser } from "@/contexts/UserContext";
 
 export default function Header() {
-  const { username, } = useUser();
+  const { username, isSeller, } = useUser();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const isLogged = !!username.length;
   const pathname = usePathname();
@@ -84,11 +84,11 @@ export default function Header() {
                       Editar endereço
                     </button>
                   </li>
-                  <li>
+                  {isSeller && (<li>
                     <button className="text-base font-normal font-inter text-grey-2">
                       Meus Anúncios
                     </button>
-                  </li>
+                  </li>)}
                   <li>
                     <button className="text-base font-normal font-inter text-grey-2">
                       Sair

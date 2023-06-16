@@ -18,7 +18,7 @@ export default function Header() {
         <Image src={brandingLogo} alt="Motorshop logo" height={26} />
         {!isLogged && (
           <div className="hidden h-full md:flex md:items-center">
-            {pathname != "/" && (
+            {pathname != "/" && pathname != "/login" && pathname != "/register" && (
               <Link
                 href={"/"}
                 className="text-base font-normal text-grey-2 font-inter mr-11"
@@ -28,16 +28,16 @@ export default function Header() {
             )}
             <div className="flex items-center h-full border-l-2 border-grey-6 font-inter pl-11 gap-11">
               <Link
-                href={"/login"}
+                href={pathname == "/login" || pathname == "/register" ? "/" : "/login"}
                 className="text-base font-semibold leading-7 text-grey-2"
               >
-                Fazer Login
+                {pathname == "/login" || pathname == "/register" ? "Home" : "Fazer Login"}
               </Link>
               <Link
-                href={"/register"}
-                className="px-5 py-3 text-base font-semibold text-center bg-transparent border-2 rounded border-grey-4 text-grey-0"
+                href={pathname == "/register" ? "/login" : "/register"}
+                className="w-[8.3125rem] py-3 text-base font-semibold text-center bg-transparent border-2 rounded border-grey-4 text-grey-0"
               >
-                Cadastrar
+                {pathname == "/register" ? "Login" : "Cadastrar"}
               </Link>
             </div>
           </div>
@@ -49,7 +49,7 @@ export default function Header() {
           {isOpen ? <X /> : <Menu />}
         </div>
         {isLogged && (
-          <div className="absolute right-10 md:relative flex items-center h-full md:border-l-2 md:border-grey-6 pl-11">
+          <div className="absolute flex items-center h-full right-10 md:relative md:border-l-2 md:border-grey-6 pl-11">
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="items-center hidden gap-2 md:flex"

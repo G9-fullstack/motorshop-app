@@ -18,6 +18,10 @@ export const userSchema = z.object({
     path: ["confirmPassword"],
   });
 
+export const loginSchema = z.object({email: z.string().nonempty(), password: z.string().nonempty(),});
+export type loginData = z.infer<typeof loginSchema>
+
+
 type userDataSchema = z.infer<typeof userSchema>
 
 export type userData = Omit<userDataSchema, "confirmPassword"> & {

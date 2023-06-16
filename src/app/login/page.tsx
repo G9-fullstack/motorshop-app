@@ -4,14 +4,15 @@ import Input from "@/components/Input";
 import { useUser } from "@/contexts/UserContext";
 import { loginData, loginSchema } from "@/schemas/user.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader } from "lucide-react";
 import { useForm } from "react-hook-form";
 
 export default function Login() {
-  const { register, handleSubmit } = useForm<loginData>({
+  const { register, handleSubmit, formState: { errors, }, } = useForm<loginData>({
     resolver: zodResolver(loginSchema),
   });
 
-  const { handleUserLogin } = useUser();
+  const { handleUserLogin, isLoading,} = useUser();
 
   function handleLogin(data: loginData) {
     handleUserLogin(data);
@@ -31,6 +32,8 @@ export default function Login() {
               label="Email"
               placeholder="Digitar Email"
               register={register("email")}
+              errors={errors.email}
+              disabled={isLoading}
             />
             <Input
               type="password"
@@ -38,6 +41,8 @@ export default function Login() {
               label="Senha"
               placeholder="Digitar senha"
               register={register("password")}
+              errors={errors.password}
+              disabled={isLoading}
             />
             <span className="text-grey-2 flex font-medium justify-end">
               Esqueci minha senha
@@ -46,10 +51,11 @@ export default function Login() {
             <Button
               type="submit"
               style="brand-1"
-              details="text-grey-whiteFixed w-full"
+              details="text-grey-whiteFixed w-full flex items-center justify-center"
               size="big"
+              disabled={isLoading}
             >
-              Entrar
+              {isLoading ? <Loader size={16} className="mx-auto animate-spin" /> : "Entrar"}
             </Button>
             <span className="text-grey-2 flex justify-center">
               Ainda não possui conta?

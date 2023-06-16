@@ -1,10 +1,13 @@
-"use client"
+"use client";
 import AnnounceList from "@/components/AnnounceList";
 import Button from "@/components/Button";
 import ListInfo from "@/components/ListInfo";
 import usePage from "@/hooks/usePage";
+import { Modal } from "@/components/Modal";
 import { AnnounceProps, mockAnnounces } from "@/mock";
 import { useEffect, useState } from "react";
+import { useModal } from "@/hooks/useModal";
+import FormAnnounceRegister from "@/components/FormAnnounceRegister";
 
 const PER_PAGE = 12;
 const INITIAL_PAGE = 1;
@@ -12,18 +15,18 @@ const INITIAL_PAGE = 1;
 export default function Profile() {
   const [announces, setAnnounces] = useState<AnnounceProps[]>();
   const [page, previousPage, nextPage] = usePage();
-
+  const [isOpen, openModal, closeModal] = useModal();
   useEffect(() => {
     (async function () {
       const startIndex = (page - INITIAL_PAGE) * PER_PAGE;
       const endIndex = page * PER_PAGE;
-      setAnnounces(mockAnnounces.slice(startIndex, endIndex))
-    })()
-  }, [page])
+      setAnnounces(mockAnnounces.slice(startIndex, endIndex));
+    })();
+  }, [page]);
 
   const initialName = (name: string) => {
-    return name.split(" ")[0].charAt(0).toUpperCase() + name.split(" ")[1].charAt(0).toUpperCase()
-  }
+    return name.split(" ")[0].charAt(0).toUpperCase() + name.split(" ")[1].charAt(0).toUpperCase();
+  };
 
   return (
     <main className="mt-40">
@@ -35,12 +38,15 @@ export default function Profile() {
           <span className="bg-brand-4 py-1 px-2 body-2-500 text-brand-1">Anunciante</span>
         </div>
         <p className="body-1-400 text-grey-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, corporis sit. Ipsam, ex nobis unde distinctio accusamus, earum alias dicta maiores qui aut, deleniti consectetur fuga corporis fugit modi ipsa!</p>
-        <Button style="outline-brand-1" size="big" details="w-max">Criar anuncio</Button >
+        <Button onClick={openModal} type="button" style="outline-brand-1" size="big" details="w-max">Criar anuncio</Button >
       </div>
       <div className="ml-3 px-3 md:mx-auto max-w-screen-2xl my-16">
         <AnnounceList announces={announces} />
       </div>
       <ListInfo page={page} previousPage={previousPage} nextPage={nextPage} />
+      <Modal isOpen={isOpen} onClose={closeModal} modalTitle={"Criar anúncio"}>
+        <FormAnnounceRegister onClose={closeModal} />
+      </Modal>
     </main>
-  )
+  );
 }

@@ -4,6 +4,7 @@ import api from "@/services/api";
 import { useRouter } from "next/navigation";
 import React, { ReactNode, createContext, useContext, useState } from "react";
 
+
 interface Props {
   children: ReactNode;
 }
@@ -15,25 +16,34 @@ interface UserContextData {
   setUsername: React.Dispatch<React.SetStateAction<string>>;
   isSeller: boolean;
   setIsSeller: React.Dispatch<React.SetStateAction<boolean>>;
+ isLoading: boolean;
+
 }
 
 const UserContext = createContext({} as UserContextData);
 
 export function UserProvider({ children, }: Props) {
+
   const [username, setUsername] = useState<string>("");
   const [isSeller, setIsSeller] = useState<boolean>(false);
+      const [isLoading, setIsLoading] = useState(false);
+
   const router = useRouter();
 
   function handleUserCreate(formData: userData) {
     api
       .post("/users", formData)
       .then(() => {
+        setIsLoading(true);
         router.push("/login");
       })
       .catch((err) => {
         throw err;
+      }).finally(() => {
+        setIsLoading(false);
       });
   }
+
 
   function handleUserLogin(formData: userData) {
     api
@@ -41,10 +51,13 @@ export function UserProvider({ children, }: Props) {
       .then(({data,}) => {
         setIsSeller(data.user.isSeller);
         setUsername(data.user.name);
+      setIsLoading(true);
         router.push("/");
       })
       .catch((err) => {
         throw err;
+      }).finally(() => {
+        setIsLoading(false);
       });
   }
 
@@ -57,6 +70,7 @@ export function UserProvider({ children, }: Props) {
         username,
         isSeller,
         setIsSeller,
+        isLoading,
       }}
     >
       {children}

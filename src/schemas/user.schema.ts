@@ -1,15 +1,15 @@
-import {z} from "zod";
+import { z } from "zod";
 import { addressSchema } from "./address.schema";
 
 export const userSchema = z.object({
-  name: z.string().nonempty(),
-  email: z.string().nonempty(),
-  password: z.string().nonempty(),
-  confirmPassword: z.string().nonempty(),
-  cpf: z.string().nonempty(),
-  phoneNumber: z.string().nonempty(),
-  birthdate: z.string().nonempty().transform((val) => new Date(val)),
-  description: z.string().nonempty(),
+  name: z.string().nonempty("Não pode ser vazio!"),
+  email: z.string().email("Deve ser um email!").nonempty("Não pode ser vazio!"),
+  password: z.string().nonempty("Não pode ser vazio!"),
+  confirmPassword: z.string().nonempty("Não pode ser vazio!"),
+  cpf: z.string().length(11, "CPF inválido").nonempty("Não pode ser vazio!"),
+  phoneNumber: z.string().length(11, "Telefone inválido").nonempty("Não pode ser vazio!"),
+  birthdate: z.string().nonempty("Não pode ser vazio!"),
+  description: z.string().nonempty("Não pode ser vazio!"),
   isSeller: z.boolean().default(false),
   address: addressSchema,
 })
@@ -18,7 +18,10 @@ export const userSchema = z.object({
     path: ["confirmPassword"],
   });
 
-export const loginSchema = z.object({email: z.string().nonempty(), password: z.string().nonempty(),});
+export const loginSchema = z.object({
+  email: z.string().email("Deve ser um email!").nonempty("Não pode ser vazio!"),
+  password: z.string().nonempty("Não pode ser vazio!"),
+});
 export type loginData = z.infer<typeof loginSchema>
 
 

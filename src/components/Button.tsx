@@ -8,6 +8,7 @@ type ButtonProps = {
   details?: string
   size?: "big" | "medium" | undefined;
   children: React.ReactNode;
+  disabled?: boolean;
 }
 
 export default function Button(props: ButtonProps) {
@@ -63,7 +64,7 @@ export default function Button(props: ButtonProps) {
   };
 
   return (
-    <button onClick={props.onClick} type={props.type} className={`border rounded py-3 ${size()} ${style()} ${props.details} transition-all duration-300 ease-in-out`} style={{ width: props.width, }}>
+    <button onClick={props.onClick} disabled={props.disabled} type={props.type} className={`border rounded py-3 ${size()} ${style()} ${props.details} ${props.disabled && "cursor-not-allowed"} transition-all duration-300 ease-in-out`} style={{ width: props.width, }}>
       {props.children}
     </button>
   );

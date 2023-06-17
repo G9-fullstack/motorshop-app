@@ -1,4 +1,4 @@
-import { UseFormRegisterReturn } from "react-hook-form";
+import { FieldError, UseFormRegisterReturn } from "react-hook-form";
 
 type InputType = "text" | "email" | "number" | "password" | "tel" | "date" | "url" | "search" | "textarea" | "select";
 
@@ -9,6 +9,8 @@ type InputProps = {
   placeholder?: string
   register?: UseFormRegisterReturn;
   children?: React.ReactNode
+  errors?: FieldError
+  disabled?: boolean,
 }
 
 export default function Input(props: InputProps) {
@@ -19,13 +21,13 @@ export default function Input(props: InputProps) {
 
   switch (props.type) {
   case "textarea":
-    inputElement = <textarea name={props.name} id={props.name} className={defaultStyle} placeholder={props.placeholder ?? props.label} {...props.register} />;
+    inputElement = <textarea disabled={props.disabled} name={props.name} id={props.name} className={defaultStyle} placeholder={props.placeholder ?? props.label} {...props.register} />;
     break;
   case "select":
-    inputElement = <select name={props.name} id={props.name} className={defaultStyle} placeholder={props.placeholder ?? props.label}>{props.children}</select>;
+    inputElement = <select disabled={props.disabled} name={props.name} id={props.name} className={defaultStyle} placeholder={props.placeholder ?? props.label}>{props.children}</select>;
     break;
   default:
-    inputElement = <input type={props.type} name={props.name} id={props.name} className={defaultStyle} placeholder={props.placeholder ?? props.label} {...props.register} />;
+    inputElement = <input disabled={props.disabled} type={props.type} name={props.name} id={props.name} className={defaultStyle} placeholder={props.placeholder ?? props.label} {...props.register} />;
     break;
   }
 
@@ -33,6 +35,7 @@ export default function Input(props: InputProps) {
     <fieldset className="flex flex-col gap-y-2">
       <label htmlFor={props.name} className="input-label">{props.label}</label>
       {inputElement}
+      {props.errors && <span className="text-red-500 text-sm">{props.errors.message}</span>}
     </fieldset>
   );
 }

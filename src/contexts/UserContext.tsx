@@ -3,9 +3,8 @@ import { announceData } from "@/schemas/announce.schema";
 import { loginData, userData, userProfileData } from "@/schemas/user.schema";
 import api from "@/services/api";
 import { useRouter } from "next/navigation";
-import { destroyCookie, setCookie } from "nookies";
+import nookies, { destroyCookie, setCookie } from "nookies";
 import React, { ReactNode, createContext, useContext, useState } from "react";
-
 
 
 interface Props {
@@ -86,8 +85,13 @@ export function UserProvider({ children, }: Props) {
   }
 
   function handleCreateAnnounce(formData: announceData) {
+    const { motorshoptoken, } = nookies.get(null, "motorshoptoken");
     api
-      .post("/announces", formData)
+      .post("/announces", formData, {
+        headers: {
+          Authorization: `Bearer ${motorshoptoken}`,
+        },
+      })
       .catch((err) => {
         throw err;
       });

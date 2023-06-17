@@ -17,8 +17,9 @@ export default function AnnounceItem(props: AnnounceItemProps) {
   const { user, } = useUser();
   const isProfile = usePathname().includes("profile");
   const router = useRouter();
+
   return (
-    <li onClick={() => router.push(`/announce/${props.announce.id}`)} className="space-y-6 group w-80 min-w-[20rem]">
+    <li onClick={() => router.push("/announcement/" + props.announce.id)} className="space-y-6 group w-80 min-w-[20rem]">
       <div className="w-full h-80 bg-contain bg-grey-7 relative border-2 border-transparent group-hover:border-brand-1 transition-all duration-300 ease-in-out">
         {isProfile ?
           <div className={`absolute left-2.5 top-2.5 flex px-2 text-grey-whiteFixed ${props.announce.isActive ? "bg-brand-1" : "bg-grey-4"} `}>{(props.announce.isActive ? "Ativo" : "Inativo")}</div>

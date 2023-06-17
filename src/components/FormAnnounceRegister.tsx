@@ -28,13 +28,8 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
     }
   };
 
-  const handleCreateAnnouncement = async (data: announceData) => {
-    console.log(data);
-    handleCreateAnnounce(data);
-  };
-
   return (
-    <form onSubmit={handleSubmit(handleCreateAnnouncement)}>
+    <form onSubmit={handleSubmit(handleCreateAnnounce)}>
 
       <legend className="mb-6 text-sm font-medium text-black font-inter">Infomações do veículo</legend>
       <fieldset className="space-y-6">

@@ -29,8 +29,6 @@ export function AuthProvider({ children, }: Props) {
         },
       })
       .then(({ data, }) => {
-        // setIsSeller(data.isSeller);
-        // setUsername(data.name);
         setUser(data);
       }).catch((err) => { console.error(err); })
       .finally(() => {

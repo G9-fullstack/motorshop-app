@@ -56,7 +56,7 @@ export default function Header() {
               onClick={() => setIsOpen(!isOpen)}
               className="items-center hidden gap-2 md:flex"
             >
-              <ProfileImage name="Samuel Leão" size="small" userId={10} />
+              <ProfileImage name={username} size="small" userId={10} />
               <span className="text-base font-normal font-inter text-grey-2">
                 {username}
               </span>

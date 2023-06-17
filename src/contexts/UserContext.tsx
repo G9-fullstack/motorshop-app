@@ -16,7 +16,7 @@ interface UserContextData {
   setUsername: React.Dispatch<React.SetStateAction<string>>;
   isSeller: boolean;
   setIsSeller: React.Dispatch<React.SetStateAction<boolean>>;
- isLoading: boolean;
+  isLoading: boolean;
 
 }
 
@@ -26,7 +26,7 @@ export function UserProvider({ children, }: Props) {
 
   const [username, setUsername] = useState<string>("");
   const [isSeller, setIsSeller] = useState<boolean>(false);
-      const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
 
@@ -51,7 +51,7 @@ export function UserProvider({ children, }: Props) {
       .then(({data,}) => {
         setIsSeller(data.user.isSeller);
         setUsername(data.user.name);
-      setIsLoading(true);
+        setIsLoading(true);
         router.push("/");
       })
       .catch((err) => {

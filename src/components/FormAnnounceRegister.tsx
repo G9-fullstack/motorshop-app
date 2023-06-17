@@ -1,11 +1,11 @@
 "use client";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
-import { useState } from "react";
-import { announceData, announceSchema } from "../schemas/announce.schema";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useUser } from "@/contexts/UserContext";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { announceData, announceSchema } from "../schemas/announce.schema";
 
 interface FormAnnounceRegisterProps {
   onClose: () => void;
@@ -13,11 +13,11 @@ interface FormAnnounceRegisterProps {
 
 export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
 
-  const { register, handleSubmit, formState:{errors,}, } = useForm<announceData>({
+  const { register, handleSubmit, formState: { errors, }, } = useForm<announceData>({
     resolver: zodResolver(announceSchema),
   });
 
-  const {handleCreateAnnounce,} = useUser();
+  const { handleCreateAnnounce, } = useUser();
 
   const [imageFields, setImageFields] = useState(["image1"]);
 
@@ -28,13 +28,8 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
     }
   };
 
-  const handleCreateAnnouncement = async (data: announceData) => {
-    console.log(data);
-    handleCreateAnnounce(data);
-  };
-
   return (
-    <form onSubmit={handleSubmit(handleCreateAnnouncement)}>
+    <form onSubmit={handleSubmit(handleCreateAnnounce)}>
 
       <legend className="mb-6 text-sm font-medium text-black font-inter">Infomações do veículo</legend>
       <fieldset className="space-y-6">

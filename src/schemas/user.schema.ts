@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { addressSchema } from "./address.schema";
 
+
+
 export const userSchema = z.object({
   name: z.string().nonempty("Não pode ser vazio!"),
   email: z.string().email("Deve ser um email!").nonempty("Não pode ser vazio!"),
@@ -25,8 +27,10 @@ export const loginSchema = z.object({
 export type loginData = z.infer<typeof loginSchema>
 
 
-type userDataSchema = z.infer<typeof userSchema>
+export type userDataSchema = z.infer<typeof userSchema>
 
 export type userData = Omit<userDataSchema, "confirmPassword"> & {
   confirmPassword?: string;
 };
+
+export type userProfileData = Pick<userDataSchema, "name" | "email" | "description" | "isSeller"> & { id: string }

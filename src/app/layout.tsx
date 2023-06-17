@@ -1,9 +1,9 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { UserProvider } from "@/contexts/UserContext";
 import { Inter, Lexend } from "next/font/google";
 import "./globals.css";
-import { UserProvider } from "@/contexts/UserContext";
-import { AuthProvider } from "@/contexts/AuthContext";
 
 const lexend = Lexend({
   subsets: ["latin"],

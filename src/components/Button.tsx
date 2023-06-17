@@ -1,7 +1,6 @@
 
 type ButtonProps = {
   onClick?: () => void;
-  disabled?: boolean;
   type?: "button" | "submit"
   style?: "grey-1" | "grey-2" | "negative" | "success" | "disable" | "brand-1" | "brand-3" | "brand-4" | "outline-brand-1" | "link" | "alert" | "brand-opacity" | "light" | "outline-light" | "outline-1" | "outline-2" | undefined;
   width?: number;

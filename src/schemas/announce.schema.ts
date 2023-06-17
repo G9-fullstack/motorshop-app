@@ -15,4 +15,14 @@ export const announceSchema = z.object({
   images: z.array(imageSchema),
 });
 
+const announce = announceSchema.extend({
+  id: z.number(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+  sellerId: z.number(),
+  isActive: z.boolean(),
+  images: z.array(z.object({ imageUrl: z.string(), })),
+});
+
+export type announceResponse = z.infer<typeof announce>
 export type announceData = z.infer<typeof announceSchema>

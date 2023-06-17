@@ -5,18 +5,17 @@ import { useUser } from "@/contexts/UserContext";
 import { loginData, loginSchema } from "@/schemas/user.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 export default function Login() {
+  const { handleUserLogin, isLoading, user, } = useUser();
   const { register, handleSubmit, formState: { errors, }, } = useForm<loginData>({
     resolver: zodResolver(loginSchema),
   });
+  const router = useRouter();
 
-  const { handleUserLogin, isLoading,} = useUser();
-
-  function handleLogin(data: loginData) {
-    handleUserLogin(data);
-  }
+  if(user) router.back();
 
   return (
     <main className="grid w-screen h-full mt-20 bg-grey-8 place-items-center">
@@ -24,7 +23,7 @@ export default function Login() {
         <h2 className="mb-8 text-2xl font-medium text-black font-lexend">
           Login
         </h2>
-        <form className="mt-6" onSubmit={handleSubmit(handleLogin)}>
+        <form className="mt-6" onSubmit={handleSubmit(handleUserLogin)}>
           <fieldset className="space-y-6">
             <Input
               type="email"
@@ -61,10 +60,11 @@ export default function Login() {
               Ainda não possui conta?
             </span>
             <Button
-              type="submit"
+              type="button"
               style="outline-2"
               details=" w-full"
               size="big"
+              onClick={() => router.push("/register")}
             >
               Cadastrar
             </Button>

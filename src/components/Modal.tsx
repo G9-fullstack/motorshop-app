@@ -9,6 +9,7 @@ interface ModalProps {
 }
 
 export function Modal(props: ModalProps): JSX.Element | null {
+  if(!document) null;
   const modalRoot = document.getElementById("modal-root");
   const modalElement = document.createElement("div");
   useEffect(() => {

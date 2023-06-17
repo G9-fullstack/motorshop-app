@@ -11,7 +11,7 @@ export const announceSchema = z.object({
   color: z.string(),
   price: z.coerce.number(),
   description: z.string(),
-  // coverImage: z.string(),
+  coverImage: z.string().url(),
   // images: z.array(imageSchema),
 });
 

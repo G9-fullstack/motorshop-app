@@ -1,10 +1,10 @@
 "use client";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
-import { useState } from "react";
-import { announceData, announceSchema } from "../schemas/announce.schema";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { announceData, announceSchema } from "../schemas/announce.schema";
 
 interface FormAnnounceRegisterProps {
   onClose: () => void;
@@ -25,26 +25,7 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
     }
   };
 
-  // const handleCreateAnnouncement = async (event: FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   const form = event.target as HTMLFormElement;
-  //   const inputs = form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("input, textarea");
-  //   const imagesArray: string[] = [];
-  //   const formData: { [key: string]: string | string[] } = {};
-  //   inputs.forEach((input) => {
-  //     const { name, value, } = input;
-  //     if (name.startsWith("image")) {
-  //       imagesArray.push(value);
-  //     } else {
-  //       formData[name] = value;
-  //     }
-  //   });
-  //   formData["images"] = imagesArray;
-  //   console.log(JSON.stringify(formData));
-  // };
-
   const handleCreateAnnouncement = async (data: announceData) => {
-    console.log("Oi");
     console.log(data);
   };
 

@@ -1,6 +1,7 @@
 import AnnounceDetail from "@/components/AnnounceDetail";
 
-export default function Announcement() {
+export default function Announcement(props: any) {
+
   return (
     <>
       <div className="bg-grey-8 pb-16 mt-[118px]">

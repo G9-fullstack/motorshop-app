@@ -1,17 +1,19 @@
 "use client";
+import { useUser } from "@/contexts/UserContext";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import brandingLogo from "../../public/branding-logo.svg";
-import { usePathname } from "next/navigation";
 import ProfileImage from "./ProfileImage";
-import { useUser } from "@/contexts/UserContext";
 
 export default function Header() {
-  const { username, isSeller, } = useUser();
+  // const { username, isSeller, } = useUser();
+  const { user, handleUserLogout, } = useUser();
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const isLogged = !!username.length;
+  // const isLogged = !!username.length;
+  const isLogged = !!user;
   const pathname = usePathname();
 
   return (
@@ -56,9 +58,9 @@ export default function Header() {
               onClick={() => setIsOpen(!isOpen)}
               className="items-center hidden gap-2 md:flex"
             >
-              <ProfileImage name={username} size="small" userId={10} />
+              <ProfileImage name={"Leonardo Carlos"} size="small" userId={10} />
               <span className="text-base font-normal font-inter text-grey-2">
-                {username}
+                {user.name}
               </span>
             </button>
             {isLogged && isOpen && (
@@ -68,29 +70,29 @@ export default function Header() {
                     <li>
                       <Link
                         href="/"
-                        className="text-base font-normal font-inter text-grey-2"
+                        className="text-base font-normal font-inter text-grey-2 hover:bg-brand-4"
                       >
                         Ir para Home
                       </Link>
                     </li>
                   )}
                   <li>
-                    <button className="text-base font-normal font-inter text-grey-2">
+                    <button className="text-base font-normal font-inter text-grey-2 hover:bg-brand-4">
                       Editar Perfil
                     </button>
                   </li>
                   <li>
-                    <button className="text-base font-normal font-inter text-grey-2">
+                    <button className="text-base font-normal font-inter text-grey-2  hover:bg-brand-4">
                       Editar endereço
                     </button>
                   </li>
-                  {isSeller && (<li>
-                    <button className="text-base font-normal font-inter text-grey-2">
-                      Meus Anúncios
-                    </button>
-                  </li>)}
+                  {user.isSeller && (
+                    <li>
+                      <Link href="/profile" className="text-base font-normal font-inter text-grey-2  hover:bg-brand-4">Meus anúncios</Link>
+                    </li>
+                  )}
                   <li>
-                    <button className="text-base font-normal font-inter text-grey-2">
+                    <button onClick={handleUserLogout} className="text-base font-normal font-inter text-grey-2  hover:bg-brand-4">
                       Sair
                     </button>
                   </li>

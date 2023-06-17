@@ -35,11 +35,11 @@ export default function Home() {
   ) => {
     setSelectedFilters((prevFilters) => {
       if (prevFilters[option] === value) {
-        const updatedFilters = { ...prevFilters };
+        const updatedFilters = { ...prevFilters, };
         delete updatedFilters[option];
         return updatedFilters;
       }
-      return { ...prevFilters, [option]: value };
+      return { ...prevFilters, [option]: value, };
     });
   };
 

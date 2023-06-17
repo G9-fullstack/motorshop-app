@@ -1,4 +1,5 @@
 "use client";
+import { announceData } from "@/schemas/announce.schema";
 import { userData } from "@/schemas/user.schema";
 import api from "@/services/api";
 import { useRouter } from "next/navigation";
@@ -12,6 +13,7 @@ interface Props {
 interface UserContextData {
   handleUserCreate: (formData: userData) => void;
   handleUserLogin: (formData: userData) => void;
+  handleCreateAnnounce(formData: announceData): void;
   username: string;
   setUsername: React.Dispatch<React.SetStateAction<string>>;
   isSeller: boolean;
@@ -61,11 +63,20 @@ export function UserProvider({ children, }: Props) {
       });
   }
 
+  function handleCreateAnnounce(formData: announceData) {
+    api
+      .post("/announces", formData)
+      .catch((err) => {
+        throw err;
+      });
+  }
+
   return (
     <UserContext.Provider
       value={{
         handleUserCreate,
         handleUserLogin,
+        handleCreateAnnounce,
         setUsername,
         username,
         isSeller,

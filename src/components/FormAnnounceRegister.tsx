@@ -5,6 +5,7 @@ import { useState } from "react";
 import { announceData, announceSchema } from "../schemas/announce.schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useUser } from "@/contexts/UserContext";
 
 interface FormAnnounceRegisterProps {
   onClose: () => void;
@@ -16,6 +17,8 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
     resolver: zodResolver(announceSchema),
   });
 
+  const {handleCreateAnnounce,} = useUser();
+
   const [imageFields, setImageFields] = useState(["image1"]);
 
   const addImageField = () => {
@@ -25,27 +28,9 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
     }
   };
 
-  // const handleCreateAnnouncement = async (event: FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   const form = event.target as HTMLFormElement;
-  //   const inputs = form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("input, textarea");
-  //   const imagesArray: string[] = [];
-  //   const formData: { [key: string]: string | string[] } = {};
-  //   inputs.forEach((input) => {
-  //     const { name, value, } = input;
-  //     if (name.startsWith("image")) {
-  //       imagesArray.push(value);
-  //     } else {
-  //       formData[name] = value;
-  //     }
-  //   });
-  //   formData["images"] = imagesArray;
-  //   console.log(JSON.stringify(formData));
-  // };
-
   const handleCreateAnnouncement = async (data: announceData) => {
-    console.log("Oi");
     console.log(data);
+    handleCreateAnnounce(data);
   };
 
   return (
@@ -63,6 +48,7 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
           <fieldset className="flex flex-col gap-y-2 text-sm font-medium text-black font-inter">
             <label htmlFor="year">Ano</label>
             <input type="text" id="year" placeholder="Digitar Ano" className="px-4 py-2 text-grey-1 rounded w-full border-2 border-grey-7 input-placeholder hover:border-grey-8 focus:border-brand-1" {...register("year")} />
+            {errors.year && <span>{errors.year.message}</span>}
           </fieldset>
 
           <fieldset className="flex flex-col gap-y-2 text-sm font-medium text-black font-inter">
@@ -77,11 +63,13 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
           <fieldset className="flex flex-col gap-y-2 text-sm font-medium text-black font-inter">
             <label htmlFor="mileage">Quilometragem</label>
             <input type="text" id="mileage" placeholder="Digitar Quilometragem" className="px-4 py-2 text-grey-1 rounded w-full border-2 border-grey-7 input-placeholder hover:border-grey-8 focus:border-brand-1" {...register("mileage")} />
+            {errors.mileage && <span>{errors.mileage.message}</span>}
           </fieldset>
 
           <fieldset className="flex flex-col gap-y-2 text-sm font-medium text-black font-inter">
             <label htmlFor="color">Cor</label>
             <input type="text" id="color" placeholder="Cor" className="px-4 py-2 text-grey-1 rounded w-full border-2 border-grey-7 input-placeholder hover:border-grey-8 focus:border-brand-1" {...register("color")} />
+            {errors.color && <span>{errors.color.message}</span>}
           </fieldset>
 
         </div>
@@ -95,6 +83,7 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
           <fieldset className="flex flex-col gap-y-2 text-sm font-medium text-black font-inter">
             <label htmlFor="price">Preço</label>
             <input type="text" id="price" placeholder="Preço" className="px-4 py-2 text-grey-1 rounded w-full border-2 border-grey-7 input-placeholder hover:border-grey-8 focus:border-brand-1" {...register("price")} />
+            {errors.price && <span>{errors.price.message}</span>}
           </fieldset>
 
         </div>
@@ -104,20 +93,25 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
 
         <fieldset className="flex gap-3">
           <textarea className="h-[80px] resize-none px-4 py-2 text-grey-1 rounded w-full border-2 border-grey-7 input-placeholder hover:border-grey-8 focus:border-brand-1" placeholder="Digitar descrição" {...register("description")} />
+          {errors.description && <span>{errors.description.message}</span>}
         </fieldset>
-        {/*
         <Input type="text" name={"coverImage"} label="Imagem da capa" placeholder="URL da imagem" register={register("coverImage")} />
+        {errors.coverImage && <span>{errors.coverImage.message}</span>}
 
         {imageFields.map((field, index) => (
-          <Input
-            key={field}
-            type="text"
-            name={field}
-            label={`${index + 1}ª Imagem da galeria`}
-            placeholder="URL da imagem"
-            // {...register(`field`)}
-          />
-        ))} */}
+          <div key={field}>
+            <Input
+              type="text"
+              name={`images[${index}]`}
+              label={`${index + 1}ª Imagem da galeria`}
+              placeholder="URL da imagem"
+              register={register(`images.${index}`, { required: true, })}
+            />
+            {errors.images && errors.images[index] && (
+              <span>{errors.images[index]?.message}</span>
+            )}
+          </div>
+        ))}
 
         <Button onClick={addImageField} disabled={imageFields.length >= 4} type="button" style="brand-4" details="text-grey-whiteFixed w-full px-0.5" size="medium">Adicionar campo para imagem da galeria</Button>
 

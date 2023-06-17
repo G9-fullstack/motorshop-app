@@ -1,4 +1,5 @@
 "use client";
+import { announceData } from "@/schemas/announce.schema";
 import { loginData, userData, userProfileData } from "@/schemas/user.schema";
 import api from "@/services/api";
 import { useRouter } from "next/navigation";
@@ -13,12 +14,10 @@ interface Props {
 
 interface UserContextData {
   handleUserCreate: (formData: userData) => void;
+
   handleUserLogin: (formData: loginData) => void;
   handleUserLogout: () => void;
-  // username: string;
-  // setUsername: React.Dispatch<React.SetStateAction<string>>;
-  // isSeller: boolean;
-  // setIsSeller: React.Dispatch<React.SetStateAction<boolean>>;
+  handleCreateAnnounce(formData: announceData): void;
   isLoading: boolean;
   setUser: React.Dispatch<React.SetStateAction<userProfileData | null>>;
   user: userProfileData | null
@@ -28,8 +27,6 @@ const UserContext = createContext({} as UserContextData);
 
 export function UserProvider({ children, }: Props) {
   const [user, setUser] = useState<userProfileData | null>(null);
-  // const [username, setUsername] = useState<string>("");
-  // const [isSeller, setIsSeller] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
@@ -88,16 +85,21 @@ export function UserProvider({ children, }: Props) {
     router.push("/");
   }
 
+  function handleCreateAnnounce(formData: announceData) {
+    api
+      .post("/announces", formData)
+      .catch((err) => {
+        throw err;
+      });
+  }
+
   return (
     <UserContext.Provider
       value={{
         handleUserCreate,
         handleUserLogin,
         handleUserLogout,
-        // setUsername,
-        // username,
-        // isSeller,
-        // setIsSeller,
+        handleCreateAnnounce,
         isLoading,
         user,
         setUser,

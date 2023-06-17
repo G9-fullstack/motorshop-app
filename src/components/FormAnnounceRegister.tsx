@@ -5,6 +5,7 @@ import { useState } from "react";
 import { announceData, announceSchema } from "../schemas/announce.schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useUser } from "@/contexts/UserContext";
 
 interface FormAnnounceRegisterProps {
   onClose: () => void;
@@ -16,6 +17,8 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
     resolver: zodResolver(announceSchema),
   });
 
+  const {handleCreateAnnounce,} = useUser();
+
   const [imageFields, setImageFields] = useState(["image1"]);
 
   const addImageField = () => {
@@ -25,27 +28,9 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
     }
   };
 
-  // const handleCreateAnnouncement = async (event: FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   const form = event.target as HTMLFormElement;
-  //   const inputs = form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("input, textarea");
-  //   const imagesArray: string[] = [];
-  //   const formData: { [key: string]: string | string[] } = {};
-  //   inputs.forEach((input) => {
-  //     const { name, value, } = input;
-  //     if (name.startsWith("image")) {
-  //       imagesArray.push(value);
-  //     } else {
-  //       formData[name] = value;
-  //     }
-  //   });
-  //   formData["images"] = imagesArray;
-  //   console.log(JSON.stringify(formData));
-  // };
-
   const handleCreateAnnouncement = async (data: announceData) => {
-    console.log("Oi");
     console.log(data);
+    handleCreateAnnounce(data);
   };
 
   return (
@@ -113,16 +98,20 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
         <Input type="text" name={"coverImage"} label="Imagem da capa" placeholder="URL da imagem" register={register("coverImage")} />
         {errors.coverImage && <span>{errors.coverImage.message}</span>}
 
-        {/* {imageFields.map((field, index) => (
-          <Input
-            key={field}
-            type="text"
-            name={field}
-            label={`${index + 1}ª Imagem da galeria`}
-            placeholder="URL da imagem"
-            // {...register(`field`)}
-          />
-        ))} */}
+        {imageFields.map((field, index) => (
+          <div key={field}>
+            <Input
+              type="text"
+              name={`images[${index}]`}
+              label={`${index + 1}ª Imagem da galeria`}
+              placeholder="URL da imagem"
+              register={register(`images.${index}`, { required: true, })}
+            />
+            {errors.images && errors.images[index] && (
+              <span>{errors.images[index]?.message}</span>
+            )}
+          </div>
+        ))}
 
         <Button onClick={addImageField} disabled={imageFields.length >= 4} type="button" style="brand-4" details="text-grey-whiteFixed w-full px-0.5" size="medium">Adicionar campo para imagem da galeria</Button>
 

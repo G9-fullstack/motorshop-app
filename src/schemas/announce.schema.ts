@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-// const imageSchema = z.string().url();
+const imageSchema = z.string().url();
 
 export const announceSchema = z.object({
   brand: z.string(),
@@ -12,7 +12,7 @@ export const announceSchema = z.object({
   price: z.coerce.number(),
   description: z.string(),
   coverImage: z.string().url(),
-  // images: z.array(imageSchema),
+  images: z.array(imageSchema),
 });
 
 export type announceData = z.infer<typeof announceSchema>

@@ -5,31 +5,42 @@ import FormAnnounceRegister from "@/components/FormAnnounceRegister";
 import ListInfo from "@/components/ListInfo";
 import { Modal } from "@/components/Modal";
 import ProfileImage from "@/components/ProfileImage";
+import { useSeller } from "@/contexts/SellerContext";
 import { useUser } from "@/contexts/UserContext";
 import { useModal } from "@/hooks/useModal";
-import usePage from "@/hooks/usePage";
-import { AnnounceProps, mockAnnounces } from "@/mock";
-import { useEffect, useState } from "react";
-
-const PER_PAGE = 12;
-const INITIAL_PAGE = 1;
+import { useEffect } from "react";
 
 export default function Profile() {
   const { user, } = useUser();
-  const [announces, setAnnounces] = useState<AnnounceProps[]>();
-  const [page, previousPage, nextPage] = usePage();
+  // const [announces, setAnnounces] = useState<AnnounceProps[]>();
+  const { getAnnouncesSeller, announcesSeller, } = useSeller();
+  // const [page, previousPage, nextPage] = usePage();
   const [isOpen, openModal, closeModal] = useModal();
-  const isLogged = !!user;
+
+  // const isLogged = !!user;
+  if (!user) return null;
 
   useEffect(() => {
-    (async function () {
-      const startIndex = (page - INITIAL_PAGE) * PER_PAGE;
-      const endIndex = page * PER_PAGE;
-      setAnnounces(mockAnnounces.slice(startIndex, endIndex));
-    })();
-  }, [page]);
+    getAnnouncesSeller(Number(user.id));
+  }, [user]);
 
-  if (!isLogged) return null;
+  const nextPage = () => {
+    getAnnouncesSeller(Number(user.id), announcesSeller.nextPage);
+  };
+
+  const prevPage = () => {
+    getAnnouncesSeller(Number(user.id), announcesSeller.prevPage);
+  };
+
+  // useEffect(() => {
+  //   (async function () {
+  //     const startIndex = (page - INITIAL_PAGE) * PER_PAGE;
+  //     const endIndex = page * PER_PAGE;
+  //     setAnnounces(mockAnnounces.slice(startIndex, endIndex));
+  //   })();
+  // }, [page]);
+
+  // if (!isLogged) return null;
 
   return (
     <main className="mt-40">
@@ -44,9 +55,9 @@ export default function Profile() {
         {user.isSeller && <Button onClick={openModal} type="button" style="outline-brand-1" size="big" details="w-max">Criar anuncio</Button >}
       </div>
       <div className="ml-3 px-3 md:mx-auto max-w-screen-2xl my-16">
-        <AnnounceList announces={announces} />
+        <AnnounceList announces={announcesSeller.data} />
       </div>
-      <ListInfo page={page} previousPage={previousPage} nextPage={nextPage} />
+      <ListInfo announces={announcesSeller.data} nextPage={nextPage} prevPage={prevPage} currentPage={announcesSeller.currentPage} totalCount={announcesSeller.totalCount} />
       <Modal isOpen={isOpen} onClose={closeModal} modalTitle={"Criar anúncio"}>
         <FormAnnounceRegister onClose={closeModal} />
       </Modal>

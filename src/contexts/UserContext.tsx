@@ -44,7 +44,6 @@ export function UserProvider({ children, }: Props) {
     return res;
   }
 
-
   async function handleUserLogin(formData: loginData) {
     setIsLoading(true);
     api

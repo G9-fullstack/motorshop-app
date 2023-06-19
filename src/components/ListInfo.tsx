@@ -1,4 +1,4 @@
-import { mockAnnounces } from "@/mock";
+import { AnnounceProps } from "@/mock";
 import { ReactNode } from "react";
 import Button from "./Button";
 
@@ -6,35 +6,41 @@ const INITIAL_PAGE = 1;
 const PER_PAGE = 12;
 
 export type ListInfoProps = {
-  handleShowFilter?: () => void;
-  page: number;
   nextPage: () => void;
-  previousPage: () => void;
+  prevPage: () => void;
+  handleShowFilter?: () => void;
+  announces: AnnounceProps[] | undefined
+  currentPage: number | undefined;
+  totalCount: number | undefined;
   children?: ReactNode;
 }
 
-export default function ListInfo(props: ListInfoProps) {
-
+export default function ListInfo({ announces, handleShowFilter, children, nextPage, prevPage, currentPage = 1, totalCount, }: ListInfoProps) {
+  if (!announces) return null;
+  const totalPages = (totalCount && Math.ceil(totalCount / PER_PAGE)) ?? 1;
+  const isNext = currentPage && currentPage < totalPages;
+  const isPrev = currentPage && currentPage > INITIAL_PAGE;
   return (
     <div className="flex flex-col items-center justify-center gap-10 py-4 mb-10 w-full">
-      {props.handleShowFilter &&
-        <div onClick={props.handleShowFilter}>
+      {handleShowFilter &&
+        <div onClick={handleShowFilter}>
           <Button details="md:hidden text-white" size="big" style="brand-1" width={280}>Filtros</Button>
         </div>
       }
       <div className="flex flex-col items-center justify-center gap-10">
         <div className="flex items-center justify-center gap-2 heading-5-600 text-grey-3/50">
-          <span className="text-grey-3">{props.page}</span>
-          {props.page !== Math.ceil(mockAnnounces.length / PER_PAGE) && <span> - {Math.ceil(mockAnnounces.length / PER_PAGE)}</span>}
+          {[...Array(totalPages)].map((_, index) =>
+            (<span className={`${currentPage === index + 1 && "text-grey-3"} px-1`}>{index + 1}</span>)
+          )}
         </div>
         <div className="flex flex-row gap-4">
-          <span onClick={props.previousPage} className="text-brand-2 heading-5-600 cursor-pointer" hidden={!(props.page > INITIAL_PAGE)}>
+          {isPrev && <span onClick={prevPage} className="text-brand-2 heading-5-600 cursor-pointer" >
             {"<"} Anterior
-          </span>
-          <span onClick={props.nextPage} className="text-brand-2 heading-5-600 cursor-pointer" hidden={!(props.page < Math.ceil(mockAnnounces.length / PER_PAGE))}>
+          </span>}
+          {isNext && <span onClick={nextPage} className="text-brand-2 heading-5-600 cursor-pointer" >
             Seguinte {">"}
-          </span>
-          {props.children}
+          </span>}
+          {children}
         </div>
       </div>
     </div>);

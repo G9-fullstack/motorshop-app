@@ -13,16 +13,16 @@ interface Props {
 
 interface GetAnnouncesSellerData {
   data: AnnounceProps[];
-  prevPage: string | null;
-  nextPage: string | null;
+  prevPage?: string;
+  nextPage?: string;
   currentPage: number;
   totalCount: number;
 }
 
 interface SellerContextData {
   announce: announceResponse | null;
-  getAnnounce: (id: string) => Promise<void>;
-  announcesSeller: GetAnnouncesSellerData | null;
+  getAnnounce: (id: number) => Promise<void>;
+  announcesSeller: GetAnnouncesSellerData;
   getAnnouncesSeller: (id: number, url?: string) => Promise<void>;
   kenzieCars: Array<KenzieCar>;
   listCarsByBrand: (brand: string) => Promise<void>;
@@ -38,11 +38,11 @@ export function SellerProvider({ children, }: Props) {
   const [announce, setAnnounce] = useState<announceResponse | null>(null);
   const [announcesSeller, setAnnouncesSeller] = useState<GetAnnouncesSellerData>({
     data: [],
-    prevPage: null,
-    nextPage: null,
+    prevPage: undefined,
+    nextPage: undefined,
     currentPage: 1,
     totalCount: 0,
-  });
+  } as GetAnnouncesSellerData);
   const [kenzieCars, setKenzieCars] = useState([] as Array<KenzieCar>);
   const [kenzieCarSelected, setKenzieCarSelected] = useState({} as KenzieCar);
   const [carFIPE, setCarFIPE] = useState<number>(0);
@@ -60,7 +60,7 @@ export function SellerProvider({ children, }: Props) {
     });
   };
 
-  const getAnnounce = (id: string) => {
+  const getAnnounce = (id: number) => {
     const { motorshoptoken, } = nookies.get(null, "motorshoptoken");
     const response = api.get("/announces/" + id, {
       headers: {

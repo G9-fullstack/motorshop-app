@@ -5,6 +5,9 @@ import { userData, userSchema } from "@/schemas/user.schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUser } from "@/contexts/UserContext";
+import { Modal } from "@/components/Modal";
+import { useModal } from "@/hooks/useModal";
+import Link from "next/link";
 
 export default function Register() {
   const { register, setValue, watch, handleSubmit, } = useForm<userData>({
@@ -12,10 +15,14 @@ export default function Register() {
   });
   const isSeller = watch("isSeller");
   const {handleUserCreate,} = useUser();
+  const [isOpen, openModal, closeModal] = useModal();
 
-  function handleRegister(data: userData) {
+  async function handleRegister(data: userData) {
     delete data.confirmPassword;
-    handleUserCreate(data);
+    const res = await handleUserCreate(data);
+    if (res) {
+      openModal();
+    }
   }
 
   return (
@@ -79,6 +86,13 @@ export default function Register() {
           </fieldset>
         </form>
       </section>
+      <Modal isOpen={isOpen} onClose={closeModal} modalTitle="Sucesso!">
+        <h4 className="mt-7 font-lexend font-medium text-base text-grey-1 mb-5">Sua conta foi criada com sucesso!</h4>
+        <p className="mb-5 font-inter font-normal text-base text-grey-2">Agora você poderá ver seus negócios crescendo em grande escala</p>
+        <Link href={"/login"}>
+          <Button type="button" style="brand-1" details="text-grey-whiteFixed" size="big">Ir para o login</Button>
+        </Link>
+      </Modal>
     </main>
   );
 }

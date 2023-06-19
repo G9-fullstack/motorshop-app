@@ -12,8 +12,7 @@ interface Props {
 }
 
 interface UserContextData {
-  handleUserCreate: (formData: userData) => void;
-
+  handleUserCreate: (formData: userData) => Promise<boolean>;
   handleUserLogin: (formData: loginData) => void;
   handleUserLogout: () => void;
   handleCreateAnnounce(formData: announceData): void;
@@ -31,17 +30,18 @@ export function UserProvider({ children, }: Props) {
   const router = useRouter();
 
   function handleUserCreate(formData: userData) {
-    api
+    const res = api
       .post("/users", formData)
       .then(() => {
         setIsLoading(true);
-        router.push("/login");
+        return true;
       })
       .catch((err) => {
         throw err;
       }).finally(() => {
         setIsLoading(false);
       });
+    return res;
   }
 
 

@@ -1,22 +1,22 @@
 
-enum Brand {
-  CHEVROLET = "chevrolet",
-  CITROEN = "citroen",
-  FIAT = "fiat",
-  FORD = "ford",
-  HONDA = "honda",
-  HYUNDAI = "hyundai",
-  NISSAN = "nissan",
-  PEUGEOT = "peugeot",
-  RENAULT = "renault",
-  TOYOTA = "toyota",
-  VOLKSWAGEN = "volkswagen",
-}
+export const Brand = {
+  CHEVROLET: "chevrolet",
+  CITROEN: "citroen",
+  FIAT: "fiat",
+  FORD: "ford",
+  HONDA: "honda",
+  HYUNDAI: "hyundai",
+  NISSAN: "nissan",
+  PEUGEOT: "peugeot",
+  RENAULT: "renault",
+  TOYOTA: "toyota",
+  VOLKSWAGEN: "volkswagen",
+} as const;
 
 export interface AnnounceProps {
   id: string;
   isActive: boolean;
-  brand: Brand;
+  brand: typeof Brand;
   model: string;
   year: string;
   mileage: string;

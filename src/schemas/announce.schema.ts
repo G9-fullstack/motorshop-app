@@ -7,7 +7,7 @@ export const announceSchema = z.object({
   model: z.string(),
   year: z.string(),
   mileage: z.string(),
-  fuel: z.string(),
+  fuel: z.enum(["Flex", "Híbrido", "Elétrico"]),
   color: z.string(),
   price: z.coerce.number(),
   description: z.string(),

@@ -4,6 +4,8 @@ import api from "@/services/api";
 import axios from "axios";
 import nookies from "nookies";
 import { ReactNode, createContext, useContext, useState } from "react";
+import { KenzieCar } from "./interfaces";
+
 interface Props {
   children: ReactNode
 }
@@ -11,20 +13,20 @@ interface Props {
 interface SellerContextData {
   announce: announceResponse | null;
   getAnnounce: (id: string) => Promise<void>;
-  kenzieCars: Array<any>;
+  kenzieCars: Array<KenzieCar>;
   listCarsByBrand: (brand: string) => Promise<void>;
-  getCarFIPE: (car: any) => Promise<void>;
+  getCarFIPE: (car: KenzieCar) => Promise<void>;
   carFIPE: number;
-  kenzieCarSelected: any,
-  setKenzieCarSelected: React.Dispatch<React.SetStateAction<object>>
+  kenzieCarSelected: KenzieCar,
+  setKenzieCarSelected: React.Dispatch<React.SetStateAction<KenzieCar>>
 }
 
 const SellerContext = createContext({} as SellerContextData);
 
 export function SellerProvider({ children, }: Props) {
   const [announce, setAnnounce] = useState<announceResponse | null>(null);
-  const [kenzieCars, setKenzieCars] = useState([]);
-  const [kenzieCarSelected, setKenzieCarSelected] = useState({});
+  const [kenzieCars, setKenzieCars] = useState([] as Array<KenzieCar>);
+  const [kenzieCarSelected, setKenzieCarSelected] = useState({} as KenzieCar);
   const [carFIPE, setCarFIPE] = useState<number>(0);
 
   const getAnnounce = (id: string) => {
@@ -51,26 +53,12 @@ export function SellerProvider({ children, }: Props) {
     setKenzieCars(cars.data);
   }
 
-  async function getCarFIPE(car: any) {
-    let fuelType = 1;
-
-    switch (car.fuel) {
-    case "Flex":
-      fuelType = 1;
-      break;
-    case "Híbrido":
-      fuelType = 2;
-      break;
-    case "Elétrico":
-      fuelType = 3;
-      break;
-    }
-
+  async function getCarFIPE(car: KenzieCar) {
     const carSelected = await axios.get("https://kenzie-kars.herokuapp.com/cars/unique", {
       params: {
         brand: car.brand,
-        model: car.model,
-        fuel: fuelType,
+        name: car.name,
+        fuel: car.fuel,
         year: car.year,
       },
     });

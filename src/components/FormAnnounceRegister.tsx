@@ -15,27 +15,23 @@ interface FormAnnounceRegisterProps {
 }
 
 export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
+  const { listCarsByBrand, kenzieCars, getCarFIPE, carFIPE, kenzieCarSelected, setKenzieCarSelected, } = useSeller();
+  const { handleCreateAnnounce, } = useUser();
+  const [imageFields, setImageFields] = useState(["image1"]);
+
   const { register, handleSubmit, formState: { errors, }, watch, setValue, } = useForm<announceData>({
     resolver: zodResolver(announceSchema),
   });
 
   const brandWatch = watch("brand");
   const modelWatch = watch("model");
-  const yearWatch = watch("year");
-  const fuelWatch = watch("fuel");
 
-  const { handleCreateAnnounce, } = useUser();
-
-  const { listCarsByBrand, kenzieCars, getCarFIPE, carFIPE, kenzieCarSelected, setKenzieCarSelected, } = useSeller();
-
-  const [imageFields, setImageFields] = useState(["image1"]);
-
-  const addImageField = () => {
+  function addImageField() {
     if (imageFields.length < 5) {
       const newField = `image${imageFields.length + 1}`;
       setImageFields([...imageFields, newField]);
     }
-  };
+  }
 
   useEffect(() => {
     async function handleCarsList() {
@@ -45,15 +41,15 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
     handleCarsList();
   }, [brandWatch]);
 
-  // useEffect(() => {
-  //   async function handleGetCarFIPE() {
-  //     await getCarFIPE(kenzieCarSelected);
-  //   }
+  useEffect(() => {
+    async function handleGetCarFIPE() {
+      await getCarFIPE(kenzieCarSelected);
+    }
 
-  //   if (modelWatch) {
-  //     handleGetCarFIPE();
-  //   }
-  // }, [kenzieCarSelected]);
+    if (modelWatch) {
+      handleGetCarFIPE();
+    }
+  }, [kenzieCarSelected]);
 
   useEffect(() => {
     if (modelWatch) {
@@ -79,8 +75,13 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
     }
   }, [modelWatch]);
 
+  async function submitForm(data: announceData) {
+    await handleCreateAnnounce(data);
+    props.onClose();
+  }
+
   return (
-    <form onSubmit={handleSubmit(handleCreateAnnounce)}>
+    <form onSubmit={handleSubmit(submitForm)}>
       <legend className="mb-6 text-sm font-medium text-black font-inter">Infomações do veículo</legend>
 
       <fieldset className="space-y-6">
@@ -91,7 +92,7 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
         </Input>
         <Input type="select" name="model" label="Modelo" placeholder="Digitar Modelo" register={register("model")}>
           {
-            kenzieCars.map((car) => (<option className="capitalize" value={car.name}>{car.name}</option>))
+            kenzieCars.map((car) => (<option key={car.id} className="capitalize" value={car.name}>{car.name}</option>))
           }
         </Input>
       </fieldset>
@@ -142,8 +143,8 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
             <label htmlFor="priceFIPE">Preço tabela FIPE</label>
             <input
               type="text"
-              // value={formatPrice(carFIPE)}
-              value={formatPrice(50000)}
+              value={formatPrice(carFIPE)}
+              // value={formatPrice(50000)}
               name="priceFIPE"
               id="priceFIPE"
               placeholder="Digitar Preço FIPE"

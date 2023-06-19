@@ -15,7 +15,7 @@ interface UserContextData {
   handleUserCreate: (formData: userData) => Promise<boolean>;
   handleUserLogin: (formData: loginData) => void;
   handleUserLogout: () => void;
-  handleCreateAnnounce(formData: announceData): void;
+  handleCreateAnnounce(formData: announceData): Promise<void>;
   isLoading: boolean;
   setUser: React.Dispatch<React.SetStateAction<userProfileData | null>>;
   user: userProfileData | null
@@ -84,9 +84,9 @@ export function UserProvider({ children, }: Props) {
     router.push("/");
   }
 
-  function handleCreateAnnounce(formData: announceData) {
+  async function handleCreateAnnounce(formData: announceData) {
     const { motorshoptoken, } = nookies.get(null, "motorshoptoken");
-    api
+    await api
       .post("/announces", formData, {
         headers: {
           Authorization: `Bearer ${motorshoptoken}`,

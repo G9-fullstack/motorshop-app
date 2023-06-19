@@ -1,4 +1,5 @@
 "use client";
+import { AnnounceProps } from "@/mock";
 import { announceResponse } from "@/schemas/announce.schema";
 import api from "@/services/api";
 import axios from "axios";
@@ -10,9 +11,19 @@ interface Props {
   children: ReactNode
 }
 
+interface GetAnnouncesSellerData {
+  data: AnnounceProps[];
+  prevPage: string | null;
+  nextPage: string | null;
+  currentPage: number;
+  totalCount: number;
+}
+
 interface SellerContextData {
   announce: announceResponse | null;
   getAnnounce: (id: string) => Promise<void>;
+  announcesSeller: GetAnnouncesSellerData | null;
+  getAnnouncesSeller: (id: number, url?: string) => Promise<void>;
   kenzieCars: Array<KenzieCar>;
   listCarsByBrand: (brand: string) => Promise<void>;
   getCarFIPE: (car: KenzieCar) => Promise<void>;
@@ -25,9 +36,29 @@ const SellerContext = createContext({} as SellerContextData);
 
 export function SellerProvider({ children, }: Props) {
   const [announce, setAnnounce] = useState<announceResponse | null>(null);
+  const [announcesSeller, setAnnouncesSeller] = useState<GetAnnouncesSellerData>({
+    data: [],
+    prevPage: null,
+    nextPage: null,
+    currentPage: 1,
+    totalCount: 0,
+  });
   const [kenzieCars, setKenzieCars] = useState([] as Array<KenzieCar>);
   const [kenzieCarSelected, setKenzieCarSelected] = useState({} as KenzieCar);
   const [carFIPE, setCarFIPE] = useState<number>(0);
+
+  const getAnnouncesSeller = async (id: number, url?: string) => {
+    const query = !url ? { page: 1, perPage: 12, } : {};
+    api.get<GetAnnouncesSellerData>(url ?? `users/${id}/announces`, {
+      params: {
+        query,
+      },
+    }).then(({ data, }) => {
+      setAnnouncesSeller(data);
+    }).catch(error => {
+      console.log(error);
+    });
+  };
 
   const getAnnounce = (id: string) => {
     const { motorshoptoken, } = nookies.get(null, "motorshoptoken");
@@ -43,7 +74,7 @@ export function SellerProvider({ children, }: Props) {
     return response;
   };
 
-  async function listCarsByBrand (brand: string) {
+  async function listCarsByBrand(brand: string) {
     const cars = await axios.get("https://kenzie-kars.herokuapp.com/cars", {
       params: {
         brand,
@@ -70,6 +101,8 @@ export function SellerProvider({ children, }: Props) {
     <SellerContext.Provider value={{
       announce,
       getAnnounce,
+      getAnnouncesSeller,
+      announcesSeller,
       kenzieCars,
       listCarsByBrand,
       getCarFIPE,

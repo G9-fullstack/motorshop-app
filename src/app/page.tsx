@@ -3,8 +3,8 @@ import AnnounceList from "@/components/AnnounceList";
 import Filter from "@/components/Filter";
 import ListInfo from "@/components/ListInfo";
 import PlaceholderItem from "@/components/PlaceholderItem";
-import usePage from "@/hooks/usePage";
-import { AnnounceProps, mockAnnounces } from "@/mock";
+import { useSeller } from "@/contexts/SellerContext";
+import { AnnounceProps } from "@/mock";
 import { useEffect, useMemo, useState } from "react";
 
 export type SelectedFiltersProps = {
@@ -16,17 +16,12 @@ export type SelectedFiltersProps = {
   price?: number | "";
 };
 
-const PER_PAGE = 12;
-const INITIAL_PAGE = 1;
-
 export default function Home() {
-  const [announces, setAnnounces] = useState<AnnounceProps[]>();
+  const { getAnnouncesSeller, announcesSeller, } = useSeller();
   const [selectedFilters, setSelectedFilters] = useState<SelectedFiltersProps>(
     {}
   );
   const [isOpen, setIsOpen] = useState(false);
-  const [page, previousPage, nextPage] = usePage();
-
   const handleShowFilter = () => setIsOpen(!isOpen);
   const handleFilterReset = () => setSelectedFilters({});
   const handleFilterChange = (
@@ -44,20 +39,32 @@ export default function Home() {
   };
 
   useEffect(() => {
-    (async function () {
-      const startIndex = (page - INITIAL_PAGE) * PER_PAGE;
-      const endIndex = page * PER_PAGE;
-      setAnnounces(mockAnnounces.slice(startIndex, endIndex));
-    })();
-    handleFilterReset();
-  }, [page]);
+    getAnnouncesSeller();
+  }, []);
+
+  const nextPage = () => {
+    getAnnouncesSeller(undefined, announcesSeller.nextPage);
+  };
+
+  const prevPage = () => {
+    getAnnouncesSeller(undefined, announcesSeller.nextPage);
+  };
+
+  // useEffect(() => {
+  //   (async function () {
+  //     const startIndex = (page - INITIAL_PAGE) * PER_PAGE;
+  //     const endIndex = page * PER_PAGE;
+  //     setAnnounces(mockAnnounces.slice(startIndex, endIndex));
+  //   })();
+  //   handleFilterReset();
+  // }, [page]);
 
   const filteredAnnounces = useMemo(() => {
-    if (!announces) {
+    if (!announcesSeller.data) {
       return [];
     }
-
-    return announces.filter((announce: AnnounceProps) => {
+    console.log(announcesSeller);
+    return announcesSeller.data.filter((announce: AnnounceProps) => {
       return Object.entries(selectedFilters).every(([key, value]) => {
         if (key === "price" || key === "mileage") {
           const filterValue = Number(value);
@@ -67,7 +74,7 @@ export default function Home() {
         return !value || announce[key as keyof AnnounceProps] === value;
       });
     });
-  }, [announces, selectedFilters]);
+  }, [announcesSeller, selectedFilters]);
 
   return (
     <main>
@@ -86,13 +93,13 @@ export default function Home() {
           <Filter
             handleShowFilter={handleShowFilter}
             isOpen={isOpen}
-            announces={announces}
+            announces={announcesSeller.data}
             selectedFilters={selectedFilters}
             handleFilterChange={handleFilterChange}
             handleFilterReset={handleFilterReset}
           />
           <div className="flex flex-1 ml-3 px-3 max-w-6xl md:ml-0 md:pr-16">
-            {announces ? (
+            {announcesSeller.data ? (
               <AnnounceList announces={filteredAnnounces} />
             ) : (
               <div
@@ -107,12 +114,13 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <ListInfo
+      <ListInfo announces={announcesSeller.data} nextPage={nextPage} prevPage={prevPage} currentPage={announcesSeller.currentPage} totalCount={announcesSeller.totalCount} />
+      {/* <ListInfo
         handleShowFilter={handleShowFilter}
         page={page}
         previousPage={previousPage}
         nextPage={nextPage}
-      />
+      /> */}
     </main>
   );
 }

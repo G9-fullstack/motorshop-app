@@ -11,7 +11,7 @@ interface Props {
   children: ReactNode
 }
 
-interface GetAnnouncesSellerData {
+interface GetAnnouncesData {
   data: AnnounceProps[];
   prevPage?: string;
   nextPage?: string;
@@ -21,9 +21,9 @@ interface GetAnnouncesSellerData {
 
 interface SellerContextData {
   announce: announceResponse | null;
-  getAnnounce: (id: number) => Promise<void>;
-  announcesSeller: GetAnnouncesSellerData;
-  getAnnouncesSeller: (id: number, url?: string) => Promise<void>;
+  getAnnounce: (id: number) => void;
+  announcesSeller: GetAnnouncesData;
+  getAnnouncesSeller: (id?: number, url?: string) => void;
   kenzieCars: Array<KenzieCar>;
   listCarsByBrand: (brand: string) => Promise<void>;
   getCarFIPE: (car: KenzieCar) => Promise<void>;
@@ -36,20 +36,21 @@ const SellerContext = createContext({} as SellerContextData);
 
 export function SellerProvider({ children, }: Props) {
   const [announce, setAnnounce] = useState<announceResponse | null>(null);
-  const [announcesSeller, setAnnouncesSeller] = useState<GetAnnouncesSellerData>({
+  const [announcesSeller, setAnnouncesSeller] = useState<GetAnnouncesData>({
     data: [],
     prevPage: undefined,
     nextPage: undefined,
     currentPage: 1,
     totalCount: 0,
-  } as GetAnnouncesSellerData);
+  } as GetAnnouncesData);
   const [kenzieCars, setKenzieCars] = useState([] as Array<KenzieCar>);
   const [kenzieCarSelected, setKenzieCarSelected] = useState({} as KenzieCar);
   const [carFIPE, setCarFIPE] = useState<number>(0);
 
-  const getAnnouncesSeller = async (id: number, url?: string) => {
+  const getAnnouncesSeller = (id?: number, url?: string) => {
     const query = !url ? { page: 1, perPage: 12, } : {};
-    api.get<GetAnnouncesSellerData>(url ?? `users/${id}/announces`, {
+    const setUrl = !id ? "/announces" : `users/${id}/announces`;
+    api.get<GetAnnouncesData>(url ?? setUrl, {
       params: {
         query,
       },
@@ -96,7 +97,6 @@ export function SellerProvider({ children, }: Props) {
 
     setCarFIPE(carSelected.data.value);
   }
-
   return (
     <SellerContext.Provider value={{
       announce,

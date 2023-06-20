@@ -14,7 +14,7 @@ export default function Announcement(props: AnnouncementProps) {
   const { getAnnounce, announce, } = useSeller();
 
   useEffect(() => {
-    getAnnounce(props.params.id);
+    getAnnounce(Number(props.params.id));
   }, []);
 
   if (!announce) return null;

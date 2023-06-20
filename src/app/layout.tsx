@@ -1,6 +1,7 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { SellerProvider } from "@/contexts/SellerContext";
 import { UserProvider } from "@/contexts/UserContext";
 import { Inter, Lexend } from "next/font/google";
 import "./globals.css";
@@ -31,10 +32,12 @@ export default function RootLayout({
       <body className={`${lexend.variable} ${inter.variable} antialiased font-lexend min-h-screen w-screen overflow-x-hidden scrollbar-thin scrollbar-thumb-brand-3/70 scrollbar-track-grey-whiteFixed`}>
         <UserProvider>
           <AuthProvider>
-            <div id="modal-root"></div>
-            <Header />
-            {children}
-            <Footer />
+            <SellerProvider>
+              <div id="modal-root"></div>
+              <Header />
+              {children}
+              <Footer />
+            </SellerProvider>
           </AuthProvider>
         </UserProvider>
       </body>

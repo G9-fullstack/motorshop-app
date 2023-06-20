@@ -5,6 +5,7 @@ import axios from "axios";
 import nookies from "nookies";
 import { ReactNode, createContext, useContext, useState } from "react";
 import { KenzieCar } from "./interfaces";
+import { announceData } from "@/schemas/announce.schema";
 
 interface Props {
   children: ReactNode
@@ -19,6 +20,7 @@ interface SellerContextData {
   carFIPE: number;
   kenzieCarSelected: KenzieCar,
   setKenzieCarSelected: React.Dispatch<React.SetStateAction<KenzieCar>>
+  handleCreateAnnounce(formData: announceData): Promise<void>;
 }
 
 const SellerContext = createContext({} as SellerContextData);
@@ -28,6 +30,19 @@ export function SellerProvider({ children, }: Props) {
   const [kenzieCars, setKenzieCars] = useState([] as Array<KenzieCar>);
   const [kenzieCarSelected, setKenzieCarSelected] = useState({} as KenzieCar);
   const [carFIPE, setCarFIPE] = useState<number>(0);
+
+  async function handleCreateAnnounce(formData: announceData) {
+    const { motorshoptoken, } = nookies.get(null, "motorshoptoken");
+    await api
+      .post("/announces", formData, {
+        headers: {
+          Authorization: `Bearer ${motorshoptoken}`,
+        },
+      })
+      .catch((err) => {
+        throw err;
+      });
+  }
 
   const getAnnounce = (id: string) => {
     const { motorshoptoken, } = nookies.get(null, "motorshoptoken");
@@ -76,6 +91,7 @@ export function SellerProvider({ children, }: Props) {
       carFIPE,
       kenzieCarSelected,
       setKenzieCarSelected,
+      handleCreateAnnounce,
     }}>
       {children}
     </SellerContext.Provider>

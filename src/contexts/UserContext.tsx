@@ -1,5 +1,5 @@
 "use client";
-import { loginData, userData, userProfileData } from "@/schemas/user.schema";
+import { loginData, updateUserData, userData, userProfileData } from "@/schemas/user.schema";
 import api from "@/services/api";
 import { useRouter } from "next/navigation";
 import { destroyCookie, setCookie } from "nookies";
@@ -81,7 +81,7 @@ export function UserProvider({ children, }: Props) {
     router.push("/");
   }
 
-  function handleEditUser(userId: number, formData: Omit<userData, "address" | "password">) {
+  function handleEditUser(userId: number, formData: updateUserData) {
     const token = nookies.get(null, "motorshoptoken");
 
     api

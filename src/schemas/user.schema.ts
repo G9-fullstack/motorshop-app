@@ -21,13 +21,13 @@ export const userSchema = z.object({
   });
 
 export const updateUserSchema = z.object({
-  name: z.string().nonempty("Não pode ser vazio!"),
-  email: z.string().email("Deve ser um email!").nonempty("Não pode ser vazio!"),
-  cpf: z.string().length(11, "CPF inválido").nonempty("Não pode ser vazio!"),
-  phoneNumber: z.string().length(11, "Telefone inválido").nonempty("Não pode ser vazio!"),
-  birthdate: z.string().nonempty("Não pode ser vazio!"),
-  description: z.string().nonempty("Não pode ser vazio!"),
-}).deepPartial();
+  name: z.string(),
+  email: z.string().email("Deve ser um email!"),
+  cpf: z.string().length(11, "CPF inválido"),
+  phoneNumber: z.string().length(11, "Telefone inválido"),
+  birthdate: z.string(),
+  description: z.string(),
+});
 
 export const loginSchema = z.object({
   email: z.string().email("Deve ser um email!").nonempty("Não pode ser vazio!"),

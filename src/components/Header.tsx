@@ -134,7 +134,7 @@ export default function Header() {
       </header>
 
       <Modal isOpen={isEditModalOpen} onClose={closeEditModal} modalTitle={"Editar perfil"}>
-        <EditProfileForm/>
+        <EditProfileForm onClose={closeEditModal}/>
       </Modal>
     </>
   );

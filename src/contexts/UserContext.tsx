@@ -14,8 +14,9 @@ interface UserContextData {
   handleUserCreate: (formData: userData) => Promise<boolean>;
   handleUserLogin: (formData: loginData) => void;
   handleUserLogout: () => void;
-  handleEditUser: (userId: number, formData: Omit<userData, "address" | "password">) => void;
-  handleDeleteUser: (userId: number) => void
+  handleRetrieveUser: (userId: string) => Promise<Omit<userData, "address" | "isSeller" | "password" | "confirmPassword">>
+  handleEditUser: (userId: string, formData: updateUserData) => void;
+  handleDeleteUser: (userId: string) => void
   isLoading: boolean;
   setUser: React.Dispatch<React.SetStateAction<userProfileData | null>>;
   user: userProfileData | null
@@ -81,13 +82,31 @@ export function UserProvider({ children, }: Props) {
     router.push("/");
   }
 
-  function handleEditUser(userId: number, formData: updateUserData) {
-    const token = nookies.get(null, "motorshoptoken");
+  function handleRetrieveUser(userId: string) {
+    const { motorshoptoken, } = nookies.get(null, "motorshoptoken");
+
+    const user = api
+      .get("/users/" + userId, {
+        headers: {
+          Authorization: `Bearer ${motorshoptoken}`,
+        },
+      })
+      .then(({ data, }) => data)
+      .catch((err) => {
+        console.log(err);
+        throw err;
+      });
+
+    return user;
+  }
+
+  function handleEditUser(userId: string, formData: updateUserData	) {
+    const { motorshoptoken, } = nookies.get(null, "motorshoptoken");
 
     api
-      .patch("/users" + userId, formData, {
+      .patch("/users/" + userId, formData, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${motorshoptoken}`,
         },
       })
       .catch((err) => {
@@ -96,14 +115,13 @@ export function UserProvider({ children, }: Props) {
       });
   }
 
-
-  function handleDeleteUser(userId: number) {
-    const token = nookies.get(null, "motorshoptoken");
+  function handleDeleteUser(userId: string) {
+    const { motorshoptoken, } = nookies.get(null, "motorshoptoken");
 
     api
-      .delete("/users" + userId, {
+      .delete("/users/" + userId, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${motorshoptoken}`,
         },
       })
       .catch((err) => {
@@ -120,6 +138,7 @@ export function UserProvider({ children, }: Props) {
         handleUserLogout,
         handleEditUser,
         handleDeleteUser,
+        handleRetrieveUser,
         isLoading,
         user,
         setUser,

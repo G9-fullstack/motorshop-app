@@ -1,9 +1,10 @@
 "use client";
-import { loginData, userData, userProfileData } from "@/schemas/user.schema";
+import { loginData, updateUserData, userData, userProfileData } from "@/schemas/user.schema";
 import api from "@/services/api";
 import { useRouter } from "next/navigation";
 import { destroyCookie, setCookie } from "nookies";
 import React, { ReactNode, createContext, useContext, useState } from "react";
+import nookies from "nookies";
 
 interface Props {
   children: ReactNode;
@@ -13,6 +14,9 @@ interface UserContextData {
   handleUserCreate: (formData: userData) => Promise<boolean>;
   handleUserLogin: (formData: loginData) => void;
   handleUserLogout: () => void;
+  handleRetrieveUser: (userId: string) => Promise<Omit<userData, "address" | "isSeller" | "password" | "confirmPassword">>
+  handleEditUser: (userId: string, formData: updateUserData) => void;
+  handleDeleteUser: (userId: string) => void
   isLoading: boolean;
   setUser: React.Dispatch<React.SetStateAction<userProfileData | null>>;
   user: userProfileData | null
@@ -41,8 +45,7 @@ export function UserProvider({ children, }: Props) {
     return res;
   }
 
-
-  async function handleUserLogin(formData: loginData) {
+  function handleUserLogin(formData: loginData) {
     setIsLoading(true);
     api
       .post("/login", formData)
@@ -73,10 +76,64 @@ export function UserProvider({ children, }: Props) {
       });
   }
 
-  async function handleUserLogout() {
+  function handleUserLogout() {
     destroyCookie(null, "motorshoptoken");
     setUser(null);
     router.push("/");
+  }
+
+  function handleRetrieveUser(userId: string) {
+    const { motorshoptoken, } = nookies.get(null, "motorshoptoken");
+
+    const user = api
+      .get("/users/" + userId, {
+        headers: {
+          Authorization: `Bearer ${motorshoptoken}`,
+        },
+      })
+      .then(({ data, }) => data)
+      .catch((err) => {
+        console.log(err);
+        throw err;
+      });
+
+    return user;
+  }
+
+  function handleEditUser(userId: string, formData: updateUserData	) {
+    const { motorshoptoken, } = nookies.get(null, "motorshoptoken");
+
+    api
+      .patch("/users/" + userId, formData, {
+        headers: {
+          Authorization: `Bearer ${motorshoptoken}`,
+        },
+      })
+      .catch((err) => {
+        console.log(err);
+        throw err;
+      });
+  }
+
+  function handleDeleteUser(userId: string) {
+    const { motorshoptoken, } = nookies.get(null, "motorshoptoken");
+    setIsLoading(true);
+    api
+      .delete("/users/" + userId, {
+        headers: {
+          Authorization: `Bearer ${motorshoptoken}`,
+        },
+      })
+      .then(() => {
+        handleUserLogout();
+      })
+      .catch((err) => {
+        console.log(err);
+        throw err;
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
 
   return (
@@ -85,6 +142,9 @@ export function UserProvider({ children, }: Props) {
         handleUserCreate,
         handleUserLogin,
         handleUserLogout,
+        handleEditUser,
+        handleDeleteUser,
+        handleRetrieveUser,
         isLoading,
         user,
         setUser,

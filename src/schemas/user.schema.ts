@@ -20,17 +20,28 @@ export const userSchema = z.object({
     path: ["confirmPassword"],
   });
 
+export const updateUserSchema = z.object({
+  name: z.string(),
+  email: z.string().email("Deve ser um email!"),
+  cpf: z.string().length(11, "CPF inválido"),
+  phoneNumber: z.string().length(11, "Telefone inválido"),
+  birthdate: z.string(),
+  description: z.string(),
+});
+
 export const loginSchema = z.object({
   email: z.string().email("Deve ser um email!").nonempty("Não pode ser vazio!"),
   password: z.string().nonempty("Não pode ser vazio!"),
 });
-export type loginData = z.infer<typeof loginSchema>
 
+export type loginData = z.infer<typeof loginSchema>
 
 export type userDataSchema = z.infer<typeof userSchema>
 
 export type userData = Omit<userDataSchema, "confirmPassword"> & {
   confirmPassword?: string;
 };
+
+export type updateUserData = z.infer<typeof updateUserSchema>
 
 export type userProfileData = Pick<userDataSchema, "name" | "email" | "description" | "isSeller"> & { id: string }

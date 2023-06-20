@@ -20,20 +20,21 @@ export function AuthProvider({ children, }: Props) {
 
   useEffect(() => {
     const { motorshoptoken, } = nookies.get(null, "motorshoptoken");
-    if (!motorshoptoken) null;
-    setLoadingAuth(true);
-    api
-      .get("/profile", {
-        headers: {
-          Authorization: `Bearer ${motorshoptoken}`,
-        },
-      })
-      .then(({ data, }) => {
-        setUser(data);
-      }).catch((err) => { console.error(err); })
-      .finally(() => {
-        setLoadingAuth(false);
-      });
+    if (motorshoptoken) {
+      setLoadingAuth(true);
+      api
+        .get("/profile", {
+          headers: {
+            Authorization: `Bearer ${motorshoptoken}`,
+          },
+        })
+        .then(({ data, }) => {
+          setUser(data);
+        }).catch((err) => { console.error(err); })
+        .finally(() => {
+          setLoadingAuth(false);
+        });
+    }
   }, []);
 
   return (

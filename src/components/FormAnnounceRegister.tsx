@@ -14,8 +14,7 @@ interface FormAnnounceRegisterProps {
 }
 
 export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
-  const { listCarsByBrand, kenzieCars, getCarFIPE, carFIPE, kenzieCarSelected, setKenzieCarSelected, } = useSeller();
-  const { handleCreateAnnounce, } = useSeller();
+  const { listCarsByBrand, kenzieCars, getCarFIPE, carFIPE, kenzieCarSelected, setKenzieCarSelected, handleCreateAnnounce, } = useSeller();
   const [imageFields, setImageFields] = useState(["image1"]);
 
   const { register, handleSubmit, formState: { errors, }, watch, setValue, } = useForm<announceData>({

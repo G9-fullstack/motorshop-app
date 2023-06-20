@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const imageSchema = z.string().url();
+const imageSchema = z.string().optional();
 
 export const announceSchema = z.object({
   brand: z.string(),
@@ -11,7 +11,7 @@ export const announceSchema = z.object({
   color: z.string(),
   price: z.coerce.number(),
   description: z.string(),
-  coverImage: z.string().url(),
+  coverImage: z.string().optional(),
   images: z.array(imageSchema),
 });
 

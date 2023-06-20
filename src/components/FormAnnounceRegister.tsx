@@ -73,8 +73,21 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
     }
   }, [modelWatch]);
 
+  async function prepareFormData(data: announceData) {
+    const defaultImage = "https://files.slack.com/files-pri/TQZR39SET-F05DEA2BPJN/image.png";
+    if (!data.coverImage) {
+      data.coverImage = defaultImage;
+    }
+    if (data.images[0] === "") {
+      data.images[0] = defaultImage;
+      data.images[1] = defaultImage;
+    }
+    return data;
+  }
+
   async function submitForm(data: announceData) {
-    await handleCreateAnnounce(data);
+    const preparedData = await prepareFormData(data);
+    await handleCreateAnnounce(preparedData);
     props.onClose();
   }
 
@@ -142,7 +155,6 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
             <input
               type="text"
               value={formatPrice(carFIPE)}
-              // value={formatPrice(50000)}
               name="priceFIPE"
               id="priceFIPE"
               placeholder="Digitar Preço FIPE"
@@ -177,7 +189,7 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
               name={`images[${index}]`}
               label={`${index + 1}ª Imagem da galeria`}
               placeholder="URL da imagem"
-              register={register(`images.${index}`, { required: true, })}
+              register={register(`images.${index}`)}
             />
             {errors.images && errors.images[index] && (
               <span>{errors.images[index]?.message}</span>

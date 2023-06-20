@@ -4,6 +4,7 @@ import api from "@/services/api";
 import { useRouter } from "next/navigation";
 import { destroyCookie, setCookie } from "nookies";
 import React, { ReactNode, createContext, useContext, useState } from "react";
+import nookies from "nookies";
 
 interface Props {
   children: ReactNode;
@@ -13,6 +14,8 @@ interface UserContextData {
   handleUserCreate: (formData: userData) => Promise<boolean>;
   handleUserLogin: (formData: loginData) => void;
   handleUserLogout: () => void;
+  handleEditUser: (userId: number, formData: Omit<userData, "address" | "password">) => void;
+  handleDeleteUser: (userId: number) => void
   isLoading: boolean;
   setUser: React.Dispatch<React.SetStateAction<userProfileData | null>>;
   user: userProfileData | null
@@ -41,8 +44,7 @@ export function UserProvider({ children, }: Props) {
     return res;
   }
 
-
-  async function handleUserLogin(formData: loginData) {
+  function handleUserLogin(formData: loginData) {
     setIsLoading(true);
     api
       .post("/login", formData)
@@ -73,10 +75,41 @@ export function UserProvider({ children, }: Props) {
       });
   }
 
-  async function handleUserLogout() {
+  function handleUserLogout() {
     destroyCookie(null, "motorshoptoken");
     setUser(null);
     router.push("/");
+  }
+
+  function handleEditUser(userId: number, formData: Omit<userData, "address" | "password">) {
+    const token = nookies.get(null, "motorshoptoken");
+
+    api
+      .patch("/users" + userId, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch((err) => {
+        console.log(err);
+        throw err;
+      });
+  }
+
+
+  function handleDeleteUser(userId: number) {
+    const token = nookies.get(null, "motorshoptoken");
+
+    api
+      .delete("/users" + userId, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch((err) => {
+        console.log(err);
+        throw err;
+      });
   }
 
   return (
@@ -85,6 +118,8 @@ export function UserProvider({ children, }: Props) {
         handleUserCreate,
         handleUserLogin,
         handleUserLogout,
+        handleEditUser,
+        handleDeleteUser,
         isLoading,
         user,
         setUser,

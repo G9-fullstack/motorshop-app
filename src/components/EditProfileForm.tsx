@@ -7,11 +7,11 @@ import { useUser } from "@/contexts/UserContext";
 import { useEffect } from "react";
 
 interface iEditProfileFormProps {
-	onClose: () => void;
+	closeModal: () => void;
 }
 
-export default function EditProfileForm({ onClose, }: iEditProfileFormProps) {
-  const { handleRetrieveUser, handleEditUser, user, } = useUser();
+export default function EditProfileForm({ closeModal, }: iEditProfileFormProps) {
+  const { handleRetrieveUser, handleEditUser, handleDeleteUser, user, } = useUser();
 
   const { register, handleSubmit, setValue, } = useForm<updateUserData>({
     mode: "onSubmit",
@@ -22,7 +22,15 @@ export default function EditProfileForm({ onClose, }: iEditProfileFormProps) {
     if (user) {
       handleEditUser(user.id, data);
     }
-    onClose();
+    closeModal();
+  }
+
+  function deleteUser() {
+    if (user) {
+      handleDeleteUser(user.id);
+    }
+
+    closeModal();
   }
 
   useEffect(() => {
@@ -54,8 +62,8 @@ export default function EditProfileForm({ onClose, }: iEditProfileFormProps) {
         <Input label="Descrição" type="textarea" name="editDescription" register={register("description")}/>
 
         <div className="flex gap-1">
-          <Button onClick={onClose} type="button" size="medium" width={154} style="grey-2">Cancelar</Button>
-          <Button type="button" size="medium" width={154} style="alert">Excluir Perfil</Button>
+          <Button onClick={closeModal} type="button" size="medium" width={154} style="grey-2">Cancelar</Button>
+          <Button onClick={deleteUser} type="button" size="medium" width={154} style="alert">Excluir Perfil</Button>
           <Button type="submit" size="medium" width={162} style="brand-3">Salvar Alterações</Button>
         </div>
       </fieldset>

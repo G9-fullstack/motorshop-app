@@ -117,16 +117,22 @@ export function UserProvider({ children, }: Props) {
 
   function handleDeleteUser(userId: string) {
     const { motorshoptoken, } = nookies.get(null, "motorshoptoken");
-
+    setIsLoading(true);
     api
       .delete("/users/" + userId, {
         headers: {
           Authorization: `Bearer ${motorshoptoken}`,
         },
       })
+      .then(() => {
+        handleUserLogout();
+      })
       .catch((err) => {
         console.log(err);
         throw err;
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }
 

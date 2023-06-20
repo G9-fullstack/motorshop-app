@@ -1,7 +1,6 @@
 "use client";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
-import { useUser } from "@/contexts/UserContext";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -16,7 +15,7 @@ interface FormAnnounceRegisterProps {
 
 export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
   const { listCarsByBrand, kenzieCars, getCarFIPE, carFIPE, kenzieCarSelected, setKenzieCarSelected, } = useSeller();
-  const { handleCreateAnnounce, } = useUser();
+  const { handleCreateAnnounce, } = useSeller();
   const [imageFields, setImageFields] = useState(["image1"]);
 
   const { register, handleSubmit, formState: { errors, }, watch, setValue, } = useForm<announceData>({

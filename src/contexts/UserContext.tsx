@@ -1,11 +1,9 @@
 "use client";
-import { announceData } from "@/schemas/announce.schema";
 import { loginData, userData, userProfileData } from "@/schemas/user.schema";
 import api from "@/services/api";
 import { useRouter } from "next/navigation";
-import nookies, { destroyCookie, setCookie } from "nookies";
+import { destroyCookie, setCookie } from "nookies";
 import React, { ReactNode, createContext, useContext, useState } from "react";
-
 
 interface Props {
   children: ReactNode;
@@ -15,7 +13,6 @@ interface UserContextData {
   handleUserCreate: (formData: userData) => Promise<boolean>;
   handleUserLogin: (formData: loginData) => void;
   handleUserLogout: () => void;
-  handleCreateAnnounce(formData: announceData): Promise<void>;
   isLoading: boolean;
   setUser: React.Dispatch<React.SetStateAction<userProfileData | null>>;
   user: userProfileData | null
@@ -74,8 +71,6 @@ export function UserProvider({ children, }: Props) {
       }).finally(() => {
         setIsLoading(false);
       });
-
-
   }
 
   async function handleUserLogout() {
@@ -84,26 +79,12 @@ export function UserProvider({ children, }: Props) {
     router.push("/");
   }
 
-  async function handleCreateAnnounce(formData: announceData) {
-    const { motorshoptoken, } = nookies.get(null, "motorshoptoken");
-    await api
-      .post("/announces", formData, {
-        headers: {
-          Authorization: `Bearer ${motorshoptoken}`,
-        },
-      })
-      .catch((err) => {
-        throw err;
-      });
-  }
-
   return (
     <UserContext.Provider
       value={{
         handleUserCreate,
         handleUserLogin,
         handleUserLogout,
-        handleCreateAnnounce,
         isLoading,
         user,
         setUser,

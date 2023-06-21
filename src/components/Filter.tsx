@@ -1,13 +1,13 @@
 import { SelectedFiltersProps } from "@/app/page";
-import { AnnounceProps } from "@/mock";
 import { formatPrice } from "@/utils/formattedPrice";
 import { X } from "lucide-react";
 import { ReactNode } from "react";
 import Button from "./Button";
+import { announceResponse } from "@/schemas/announce.schema";
 
 type FilterProps = {
   isOpen: boolean;
-  announces: AnnounceProps[] | undefined
+  announces: announceResponse[] | undefined
   selectedFilters: SelectedFiltersProps;
   handleShowFilter: () => void;
   handleFilterReset: () => void;

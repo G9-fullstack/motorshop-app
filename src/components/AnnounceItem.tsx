@@ -1,5 +1,4 @@
 import { useUser } from "@/contexts/UserContext";
-import { AnnounceProps } from "@/mock";
 import { formatPrice } from "@/utils/formattedPrice";
 import { DollarSign } from "lucide-react";
 import Image from "next/image";
@@ -7,9 +6,10 @@ import { usePathname, useRouter } from "next/navigation";
 import frame from "../../public/example-car.png";
 import Button from "./Button";
 import ProfileImage from "./ProfileImage";
+import { announceResponse } from "@/schemas/announce.schema";
 
 type AnnounceItemProps = {
-  announce: AnnounceProps
+  announce: announceResponse
   children?: React.ReactNode
 }
 

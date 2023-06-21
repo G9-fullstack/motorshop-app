@@ -8,13 +8,19 @@ import { useUser } from "@/contexts/UserContext";
 import { Modal } from "@/components/Modal";
 import { useModal } from "@/hooks/useModal";
 import Link from "next/link";
+import { useEffect } from "react";
+import axios from "axios";
 
 export default function Register() {
   const { register, setValue, watch, handleSubmit, } = useForm<userData>({
     resolver: zodResolver(userSchema),
+    mode: "onChange",
   });
+
   const isSeller = watch("isSeller");
-  const {handleUserCreate,} = useUser();
+  const zipCode = watch("address.zipCode");
+
+  const { handleUserCreate, } = useUser();
   const [isOpen, openModal, closeModal] = useModal();
 
   async function handleRegister(data: userData) {
@@ -24,6 +30,34 @@ export default function Register() {
       openModal();
     }
   }
+
+  useEffect(() => {
+    function handleZipCodeRequest(zipCode: string) {
+      return axios
+        .get(`https://brasilapi.com.br/api/cep/v1/${zipCode}`)
+        .then(({ data, }) => data)
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    (async () => {
+      if (zipCode && zipCode.length === 8 && Number(zipCode)) {
+        const addressInfo = await handleZipCodeRequest(zipCode);
+
+        if (addressInfo) {
+          setValue("address.state", addressInfo.state);
+          setValue("address.city", addressInfo.city);
+          setValue("address.street", addressInfo.street);
+
+        } else {
+          setValue("address.state", "");
+          setValue("address.city", "");
+          setValue("address.street", "");
+        }
+
+      }
+    })();
+  }, [zipCode]);
 
   return (
     <main className="grid w-screen h-full mt-20 bg-grey-8 place-items-center">

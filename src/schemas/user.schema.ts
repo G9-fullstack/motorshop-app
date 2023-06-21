@@ -23,8 +23,8 @@ export const userSchema = z.object({
 export const updateUserSchema = z.object({
   name: z.string(),
   email: z.string().email("Deve ser um email!"),
-  cpf: z.string().length(11, "CPF inválido"),
-  phoneNumber: z.string().length(11, "Telefone inválido"),
+  cpf: z.string().length(14, "CPF inválido"),
+  phoneNumber: z.string().length(15, "Telefone inválido"),
   birthdate: z.string(),
   description: z.string(),
 });

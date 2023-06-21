@@ -11,6 +11,7 @@ import { formatPrice } from "@/utils/formattedPrice";
 
 interface FormAnnounceRegisterProps {
   onClose: () => void;
+  openNotifyModal: () => void;
 }
 
 export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
@@ -89,6 +90,7 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
     const preparedData = await prepareFormData(data);
     await handleCreateAnnounce(preparedData);
     props.onClose();
+    props.openNotifyModal();
   }
 
   return (

@@ -42,8 +42,8 @@ export default function AnnounceItem({ announce, }: AnnounceItemProps) {
         <p className="heading-7-600 uppercase overflow-hidden whitespace-nowrap overflow-ellipsis">{announce.model}</p>
         <p className="body-2-400 max-h-[70px] overflow-hidden whitespace-pre-wrap overflow-ellipsis">{announce.description}</p>
         <div className="flex gap-2 items-center">
-          <ProfileImage name="Samuel Leão" size="small" userId={10} />
-          <span className="body-2-500 overflow-hidden whitespace-nowrap overflow-ellipsis">Samuel Leão</span>
+          <ProfileImage name={announce.seller.name} size="small" userId={10} />
+          <span className="body-2-500 overflow-hidden whitespace-nowrap overflow-ellipsis">{announce.seller.name}</span>
         </div>
         <div className="flex items-center justify-between">
           <div className="flex-1 space-x-4">

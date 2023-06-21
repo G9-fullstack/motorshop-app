@@ -55,6 +55,7 @@ export function SellerProvider({ children, }: Props) {
         },
       })
       .then(({ data, }) => {
+        console.log(data);
         setAnnouncesSeller(data);
       })
       .catch((error) => {

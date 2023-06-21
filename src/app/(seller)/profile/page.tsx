@@ -17,18 +17,13 @@ export default function Profile() {
   const [isOpen, openModal, closeModal] = useModal();
   const [isOpenNotify, openNotifyModal, closeNotifyModal] = useModal();
 
-  const router = useRouter();
-
   useEffect(() => {
     if (user) {
       getAnnouncesSeller(Number(user.id));
     }
   }, [user, getAnnouncesSeller]);
 
-  if (!user) {
-    router.push("/");
-    return null;
-  }
+  if (!user) return null;
 
   return (
     <main className="mt-40">

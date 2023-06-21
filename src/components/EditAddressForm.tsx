@@ -11,33 +11,30 @@ interface iEditAddressFormProps {
 }
 
 export default function EditAddressForm({ closeModal, }: iEditAddressFormProps) {
+  const { handleEditAddress, handleRetrieveUserAddress, } = useUser();
   const { register, handleSubmit, setValue, } = useForm<addressData>({
     mode: "onSubmit",
     resolver: zodResolver(addressSchema),
   });
 
   function submitEditForm(data: addressData) {
-    // if (user) {
-    //   handleEditAddress(user.id, data);
-    // }
-    // closeModal();
+    handleEditAddress(data);
+    closeModal();
   }
 
-  //   useEffect(() => {
-  //     async function handleRetrieve() {
-  //       if (user) {
-  //         const { zipCode, state, city, street, number, complement, } = await handleRetrieveAddress(user.id);
+  useEffect(() => {
+    async function handleRetrieve() {
+      const { zipCode, state, city, street, number, complement, } = await handleRetrieveUserAddress();
 
-  //   setValue("zipCode", zipCode);
-  //   setValue("state", state);
-  //   setValue("city", city);
-  //   setValue("street", street);
-  //   setValue("number", number);
-  //   setValue("complement", complement);
-  //       }
-  //     }
-  //     handleRetrieve();
-  //   }, []);
+      setValue("zipCode", zipCode);
+      setValue("state", state);
+      setValue("city", city);
+      setValue("street", street);
+      setValue("number", number);
+      setValue("complement", complement);
+    }
+    handleRetrieve();
+  }, []);
 
   return (
     <form onSubmit={handleSubmit(submitEditForm)}>

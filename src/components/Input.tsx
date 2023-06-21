@@ -1,6 +1,7 @@
 import { FieldError, UseFormRegisterReturn } from "react-hook-form";
+import { IMaskInput } from "react-imask";
 
-type InputType = "text" | "email" | "number" | "password" | "tel" | "date" | "url" | "search" | "textarea" | "select";
+type InputType = "text" | "email" | "number" | "password" | "tel" | "date" | "cpf" | "url" | "search" | "textarea" | "select";
 
 type InputProps = {
   type?: InputType;
@@ -25,6 +26,19 @@ export default function Input(props: InputProps) {
     break;
   case "select":
     inputElement = <select disabled={props.disabled} name={props.name} id={props.name} className={`${defaultStyle} capitalize`} placeholder={props.placeholder ?? props.label} {...props.register}>{props.children}</select>;
+    break;
+  case "tel":
+    inputElement =
+    <IMaskInput
+      mask="(00) 00000-0000"
+      type={props.type}
+      disabled={props.disabled}
+      name={props.name}
+      id={props.name}
+      className={defaultStyle}
+      placeholder={props.placeholder ?? props.label}
+      {...props.register}
+    />;
     break;
   default:
     inputElement = <input disabled={props.disabled} type={props.type} name={props.name} id={props.name} className={defaultStyle} placeholder={props.placeholder ?? props.label} {...props.register} />;

@@ -40,6 +40,19 @@ export default function Input(props: InputProps) {
       {...props.register}
     />;
     break;
+  case "cpf":
+    inputElement =
+    <IMaskInput
+      mask="000.000.000-00"
+      type="text"
+      disabled={props.disabled}
+      name={props.name}
+      id={props.name}
+      className={defaultStyle}
+      placeholder={props.placeholder ?? props.label}
+      {...props.register}
+    />;
+    break;
   default:
     inputElement = <input disabled={props.disabled} type={props.type} name={props.name} id={props.name} className={defaultStyle} placeholder={props.placeholder ?? props.label} {...props.register} />;
     break;

@@ -18,8 +18,17 @@ export default function Register() {
   const [isOpen, openModal, closeModal] = useModal();
 
   async function handleRegister(data: userData) {
-    delete data.confirmPassword;
-    const res = await handleUserCreate(data);
+    const formattedData = {
+      ...data,
+      address: {
+        ...data.address,
+        zipCode: data.address.zipCode.replace(/[^0-9]/g, ""),
+      },
+      cpf: data.cpf.replace(/[^0-9]/g, ""),
+      phoneNumber: data.phoneNumber.replace(/[^0-9]/g, ""),
+    };
+    delete formattedData.confirmPassword;
+    const res = await handleUserCreate(formattedData);
     if (res) {
       openModal();
     }

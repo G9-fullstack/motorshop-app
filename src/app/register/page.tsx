@@ -43,7 +43,7 @@ export default function Register() {
           </fieldset>
           <legend className="mb-6 text-sm font-medium text-black font-inter mt-7">Infomações de endereço</legend>
           <fieldset className="space-y-6">
-            <Input type="text" name="cep" label="CEP" placeholder="00000-000" register={register("address.zipCode")} />
+            <Input type="cep" name="cep" label="CEP" placeholder="00000-000" register={register("address.zipCode")} />
             <fieldset className="flex gap-3">
               <fieldset className="flex flex-col gap-y-2">
                 <label htmlFor="state">Estado</label>

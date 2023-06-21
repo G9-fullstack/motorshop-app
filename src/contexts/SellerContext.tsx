@@ -27,8 +27,6 @@ interface SellerContextData {
 
 const SellerContext = createContext({} as SellerContextData);
 
-
-
 export function SellerProvider({ children, }: Props) {
   const [announce, setAnnounce] = useState<announceResponse | null>(null);
   const [announcesSeller, setAnnouncesSeller] = useState<GetAnnouncesData>({

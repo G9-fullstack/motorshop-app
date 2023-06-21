@@ -8,6 +8,7 @@ import ProfileImage from "@/components/ProfileImage";
 import { useSeller } from "@/contexts/SellerContext";
 import { useUser } from "@/contexts/UserContext";
 import { useModal } from "@/hooks/useModal";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function Profile() {
@@ -16,11 +17,18 @@ export default function Profile() {
   const [isOpen, openModal, closeModal] = useModal();
   const [isOpenNotify, openNotifyModal, closeNotifyModal] = useModal();
 
-  if (!user) return null;
+  const router = useRouter();
 
   useEffect(() => {
-    getAnnouncesSeller(Number(user.id));
-  }, [user]);
+    if (user) {
+      getAnnouncesSeller(Number(user.id));
+    }
+  }, [user, getAnnouncesSeller]);
+
+  if (!user) {
+    router.push("/");
+    return null;
+  }
 
   return (
     <main className="mt-40">

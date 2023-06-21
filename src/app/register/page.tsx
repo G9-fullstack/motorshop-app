@@ -10,7 +10,7 @@ import { useModal } from "@/hooks/useModal";
 import Link from "next/link";
 
 export default function Register() {
-  const { register, setValue, watch, handleSubmit, } = useForm<userData>({
+  const { register, setValue, watch, handleSubmit, control, } = useForm<userData>({
     resolver: zodResolver(userSchema),
   });
   const isSeller = watch("isSeller");
@@ -36,14 +36,14 @@ export default function Register() {
           <fieldset className="space-y-6">
             <Input type="text" name="name" label="Nome" placeholder="Digitar Nome" register={register("name")} />
             <Input type="email" name="email" label="Email" placeholder="Digitar Email" register={register("email")} />
-            <Input type="cpf" name="cpf" label="CPF" placeholder="000.000.000-00" register={register("cpf")} />
-            <Input type="tel" name="phone" label="Celular" placeholder="(DDD) 90000-0000" register={register("phoneNumber")} />
+            <Input type="cpf" name="cpf" label="CPF" placeholder="000.000.000-00" control={control} />
+            <Input type="tel" name="phoneNumber" label="Celular" placeholder="(DDD) 90000-0000" control={control} />
             <Input type="date" name="date" label="Data de nascimento" placeholder="00/00/00" register={register("birthdate")} />
             <Input type="textarea" name="description" label="Descrição" placeholder="Digitar descrição" register={register("description")} />
           </fieldset>
           <legend className="mb-6 text-sm font-medium text-black font-inter mt-7">Infomações de endereço</legend>
           <fieldset className="space-y-6">
-            <Input type="cep" name="cep" label="CEP" placeholder="00000-000" register={register("address.zipCode")} />
+            <Input type="cep" name="address.zipCode" label="CEP" placeholder="00000-000" control={control} />
             <fieldset className="flex gap-3">
               <fieldset className="flex flex-col gap-y-2">
                 <label htmlFor="state">Estado</label>

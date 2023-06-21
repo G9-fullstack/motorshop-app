@@ -19,6 +19,7 @@ export default function Profile() {
   const [announces, setAnnounces] = useState<AnnounceProps[]>();
   const [page, previousPage, nextPage] = usePage();
   const [isOpen, openModal, closeModal] = useModal();
+  const [isOpenNotify, openNotifyModal, closeNotifyModal] = useModal();
   const isLogged = !!user;
 
   useEffect(() => {
@@ -48,7 +49,11 @@ export default function Profile() {
       </div>
       <ListInfo page={page} previousPage={previousPage} nextPage={nextPage} />
       <Modal isOpen={isOpen} onClose={closeModal} modalTitle={"Criar anúncio"}>
-        <FormAnnounceRegister onClose={closeModal} />
+        <FormAnnounceRegister onClose={closeModal} openNotifyModal={openNotifyModal} />
+      </Modal>
+      <Modal isOpen={isOpenNotify} onClose={closeNotifyModal} modalTitle="Sucesso!">
+        <h4 className="mt-7 font-lexend font-medium text-base text-grey-1 mb-5">Seu anúncio foi criado com sucesso!</h4>
+        <p className="font-inter font-normal text-base text-grey-2">Agora você poderá ver seus negócios crescendo em grande escala</p>
       </Modal>
     </main>
   );

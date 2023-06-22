@@ -13,7 +13,7 @@ interface iEditProfileFormProps {
 export default function EditProfileForm({ closeModal, }: iEditProfileFormProps) {
   const { handleRetrieveUser, handleEditUser, handleDeleteUser, user, } = useUser();
 
-  const { register, handleSubmit, setValue, control, } = useForm<updateUserData>({
+  const { register, handleSubmit, setValue, } = useForm<updateUserData>({
     mode: "onSubmit",
     resolver: zodResolver(updateUserSchema),
   });
@@ -45,9 +45,9 @@ export default function EditProfileForm({ closeModal, }: iEditProfileFormProps) 
 
         setValue("name", name);
         setValue("email", email);
-        setValue("cpf", cpf);
-        setValue("phoneNumber", phoneNumber);
-        setValue("birthdate", birthdate.replace(/[^0-9]/g, "-").replace(/^(\d{2})-(\d{2})-(\d{4})$/, "$3-$2-$1")); // Transforma do formato DD-MM-YYYY para YYYY-MM-DD
+        setValue("cpf", cpf.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, "$1.$2.$3-$4")); // Transforma para o formato 000.000.000-00
+        setValue("phoneNumber", phoneNumber.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3")); //Transforma para o formato (00) 00000-0000
+        setValue("birthdate", birthdate.replace(/[^0-9]/g, "-").replace(/^(\d{2})-(\d{2})-(\d{4})$/, "$3-$2-$1")); // Transforma para o formato YYYY-MM-DD
         setValue("description", description);
       }
     }
@@ -59,12 +59,12 @@ export default function EditProfileForm({ closeModal, }: iEditProfileFormProps) 
       <fieldset className="space-y-5">
         <legend>Informações pessoais</legend>
 
-        <Input label="Nome" type="text" name="editName" register={register("name")}/>
-        <Input label="Email" type="email" name="editEmail" register={register("email")}/>
-        <Input label="CPF" type="cpf" name="cpf" control={control}/>
-        <Input label="Celular" type="tel" name="phoneNumber" control={control}/>
+        <Input label="Nome" type="text" name="editName" placeholder="Digite seu nome" register={register("name")}/>
+        <Input label="Email" type="email" name="editEmail" placeholder="Digite seu email" register={register("email")}/>
+        <Input label="CPF" type="text" name="editCPF" placeholder="000.000.000-00" register={register("cpf")}/>
+        <Input label="Celular" type="text" name="editPhoneNumber" placeholder="(DDD) 90000-0000" register={register("phoneNumber")}/>
         <Input label="Data de nascimento" type="date" name="editBirthdate" register={register("birthdate")}/>
-        <Input label="Descrição" type="textarea" name="editDescription" register={register("description")}/>
+        <Input label="Descrição" type="textarea" name="editDescription" placeholder="Digite sua descrição" register={register("description")}/>
 
         <div className="flex gap-1">
           <Button onClick={closeModal} type="button" size="medium" width={154} style="grey-2">Cancelar</Button>

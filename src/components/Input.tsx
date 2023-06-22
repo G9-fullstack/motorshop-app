@@ -1,6 +1,7 @@
-import { FieldError, UseFormRegisterReturn } from "react-hook-form";
+import { Controller, FieldError, UseFormRegisterReturn } from "react-hook-form";
+import { IMaskInput } from "react-imask";
 
-type InputType = "text" | "email" | "number" | "password" | "tel" | "date" | "url" | "search" | "textarea" | "select";
+type InputType = "text" | "email" | "number" | "password" | "tel" | "date" | "cpf" | "cep" | "url" | "search" | "textarea" | "select";
 
 type InputProps = {
   type?: InputType;
@@ -8,6 +9,7 @@ type InputProps = {
   label: string
   placeholder?: string
   register?: UseFormRegisterReturn;
+  control?: any;
   children?: React.ReactNode
   errors?: FieldError
   disabled?: boolean,
@@ -25,6 +27,60 @@ export default function Input(props: InputProps) {
     break;
   case "select":
     inputElement = <select disabled={props.disabled} name={props.name} id={props.name} className={`${defaultStyle} capitalize`} placeholder={props.placeholder ?? props.label} {...props.register}>{props.children}</select>;
+    break;
+  case "tel":
+    inputElement =
+        <Controller
+          name={props.name}
+          control={props.control}
+          render={({ field, }) => (
+            <IMaskInput
+              mask="(00) 00000-0000"
+              type={props.type}
+              disabled={props.disabled}
+              id={props.name}
+              className={defaultStyle}
+              placeholder={props.placeholder ?? props.label}
+              {...field}
+            />
+          )}
+        />;
+    break;
+  case "cpf":
+    inputElement =
+        <Controller
+          name={props.name}
+          control={props.control}
+          render={({ field, }) => (
+            <IMaskInput
+              mask="000.000.000-00"
+              type="text"
+              disabled={props.disabled}
+              id={props.name}
+              className={defaultStyle}
+              placeholder={props.placeholder ?? props.label}
+              {...field}
+            />
+          )}
+        />;
+    break;
+  case "cep":
+    inputElement =
+        <Controller
+          name={props.name}
+          control={props.control}
+          render={({ field, }) => (
+            <IMaskInput
+              mask="00000-000"
+              type="text"
+              disabled={props.disabled}
+              id={props.name}
+              className={defaultStyle}
+              placeholder={props.placeholder ?? props.label}
+              {...field}
+            />
+          )}
+        />;
     break;
   default:
     inputElement = <input disabled={props.disabled} type={props.type} name={props.name} id={props.name} className={defaultStyle} placeholder={props.placeholder ?? props.label} {...props.register} />;

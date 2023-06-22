@@ -10,11 +10,13 @@ import ProfileImage from "./ProfileImage";
 import { Modal } from "./Modal";
 import EditProfileForm from "./EditProfileForm";
 import { useModal } from "@/hooks/useModal";
+import EditAddressForm from "./EditAddressForm";
 
 export default function Header() {
   const { user, handleUserLogout, } = useUser();
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [ isEditModalOpen, openEditModal, closeEditModal ] = useModal();
+  const [ isEditUserModalOpen, openEditUserModal, closeEditUserModal ] = useModal();
+  const [ isEditAddressModalOpen, openEditAddressModal, closeEditAddressModal ] = useModal();
   const isLogged = !!user;
   const pathname = usePathname();
 
@@ -80,12 +82,12 @@ export default function Header() {
                       </li>
                     )}
                     <li>
-                      <button onClick={openEditModal} className="text-base font-normal font-inter text-grey-2 hover:bg-brand-4">
+                      <button onClick={openEditUserModal} className="text-base font-normal font-inter text-grey-2 hover:bg-brand-4">
 						Editar Perfil
                       </button>
                     </li>
                     <li>
-                      <button className="text-base font-normal font-inter text-grey-2  hover:bg-brand-4">
+                      <button onClick={openEditAddressModal} className="text-base font-normal font-inter text-grey-2  hover:bg-brand-4">
 						Editar endereço
                       </button>
                     </li>
@@ -133,8 +135,12 @@ export default function Header() {
         )}
       </header>
 
-      <Modal isOpen={isEditModalOpen} onClose={closeEditModal} modalTitle={"Editar perfil"}>
-        <EditProfileForm closeModal={closeEditModal}/>
+      <Modal isOpen={isEditUserModalOpen} onClose={closeEditUserModal} modalTitle={"Editar perfil"}>
+        <EditProfileForm closeModal={closeEditUserModal}/>
+      </Modal>
+
+      <Modal isOpen={isEditAddressModalOpen} onClose={closeEditAddressModal} modalTitle={"Editar perfil"}>
+        <EditAddressForm closeModal={closeEditAddressModal}/>
       </Modal>
     </>
   );

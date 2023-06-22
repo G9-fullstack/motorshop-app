@@ -5,9 +5,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { announceData, announceSchema } from "../schemas/announce.schema";
-import { Brand } from "@/mock";
 import { useSeller } from "@/contexts/SellerContext";
 import { formatPrice } from "@/utils/formattedPrice";
+import { Brand } from "@/contexts/interfaces";
 
 interface FormAnnounceRegisterProps {
   onClose: () => void;

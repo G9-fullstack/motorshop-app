@@ -1,13 +1,13 @@
 import { SelectedFiltersProps } from "@/app/page";
-import { AnnounceProps } from "@/mock";
 import { formatPrice } from "@/utils/formattedPrice";
 import { X } from "lucide-react";
 import { ReactNode } from "react";
 import Button from "./Button";
+import { announceResponse } from "@/schemas/announce.schema";
 
 type FilterProps = {
   isOpen: boolean;
-  announces: AnnounceProps[] | undefined
+  announces: announceResponse[] | undefined
   selectedFilters: SelectedFiltersProps;
   handleShowFilter: () => void;
   handleFilterReset: () => void;
@@ -73,28 +73,28 @@ export default function Filter(props: FilterProps) {
         </div>
         {/* KM */}
         <div className="flex flex-col gap-4">
-          <p className="heading-4-600 text-grey-0">KM</p>
+          <p className="heading-4-600 text-grey-0">Kilometragem</p>
           <input
             className="accent-brand-1 input-label"
             type="range"
             step={maxMileage && minMileage ? (Number(maxMileage) - Number(minMileage)) / 5 : 1}
             min={minMileage}
             max={maxMileage}
-            value={props.selectedFilters.mileage || maxMileage}
+            value={props.selectedFilters.mileage || maxMileage || ""}
             onChange={event => props.handleFilterChange("mileage", event.target.value)}
           />
-          <span>{props.selectedFilters.mileage ? Number(props.selectedFilters.mileage).toFixed(3) : maxMileage}</span>
+          <span>{props.selectedFilters.mileage ? Number(props.selectedFilters.mileage) : maxMileage}</span>
         </div>
         {/* PRICE */}
         <div className="flex flex-col gap-4">
-          <p className="heading-4-600 text-grey-0">KM</p>
+          <p className="heading-4-600 text-grey-0">Preço</p>
           <input
             className="accent-brand-1 input-label"
             type="range"
             step={maxPrice && minPrice ? (maxPrice - minPrice) / 5 : 1}
             min={minPrice}
             max={maxPrice}
-            value={props.selectedFilters.price || maxPrice}
+            value={props.selectedFilters.price || maxPrice || ""}
             onChange={event => props.handleFilterChange("price", event.target.value)}
           />
           <span>{props.selectedFilters.price ? formatPrice(Number(props.selectedFilters.price)) : formatPrice(Number(maxPrice))}</span>

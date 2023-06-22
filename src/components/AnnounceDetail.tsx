@@ -17,7 +17,7 @@ export default function AnnounceDetail() {
             <figure className="bg-grey-10 w-full h-[22rem] rounded grid place-items-center">
               <Image
                 className="bg-cover"
-                src={announce.coverImage}
+                src={announce.coverImage || ""}
                 alt="Imagem do Carro"
                 width={290}
                 height={250}

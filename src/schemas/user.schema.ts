@@ -33,8 +33,20 @@ export const loginSchema = z.object({
   email: z.string().email("Deve ser um email!").nonempty("Não pode ser vazio!"),
   password: z.string().nonempty("Não pode ser vazio!"),
 });
+export const newPasswordSchema = z.object({
+  password: z.string().nonempty("Não pode ser vazio!"),
+  confirmPassword: z.string().nonempty("Não pode ser vazio!"),
+}) .refine((data) => data.password === data.confirmPassword, {
+  message: "As senhas não correspondem",
+  path: ["confirmPassword"],
+});
+export const alterPasswordSchema = loginSchema.omit({password: true,});
+
+
 
 export type loginData = z.infer<typeof loginSchema>
+export type alterPassword = z.infer<typeof alterPasswordSchema>
+export type newPassword = z.infer<typeof newPasswordSchema>
 
 export type userDataSchema = z.infer<typeof userSchema>
 

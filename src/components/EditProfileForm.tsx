@@ -13,14 +13,19 @@ interface iEditProfileFormProps {
 export default function EditProfileForm({ closeModal, }: iEditProfileFormProps) {
   const { handleRetrieveUser, handleEditUser, handleDeleteUser, user, } = useUser();
 
-  const { register, handleSubmit, setValue, } = useForm<updateUserData>({
+  const { register, handleSubmit, setValue, control, } = useForm<updateUserData>({
     mode: "onSubmit",
     resolver: zodResolver(updateUserSchema),
   });
 
   function submitEditForm(data: updateUserData) {
     if (user) {
-      handleEditUser(user.id, data);
+      const formattedData = {
+        ...data,
+        cpf: data.cpf.replace(/[^0-9]/g, ""),
+        phoneNumber: data.phoneNumber.replace(/[^0-9]/g, ""),
+      };
+      handleEditUser(user.id, formattedData);
     }
     closeModal();
   }
@@ -56,8 +61,8 @@ export default function EditProfileForm({ closeModal, }: iEditProfileFormProps) 
 
         <Input label="Nome" type="text" name="editName" register={register("name")}/>
         <Input label="Email" type="email" name="editEmail" register={register("email")}/>
-        <Input label="CPF" type="text" name="editCPF" register={register("cpf")}/>
-        <Input label="Celular" type="number" name="editPhoneNumber" register={register("phoneNumber")}/>
+        <Input label="CPF" type="cpf" name="cpf" control={control}/>
+        <Input label="Celular" type="tel" name="phoneNumber" control={control}/>
         <Input label="Data de nascimento" type="date" name="editBirthdate" register={register("birthdate")}/>
         <Input label="Descrição" type="textarea" name="editDescription" register={register("description")}/>
 

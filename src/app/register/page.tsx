@@ -8,22 +8,65 @@ import { useUser } from "@/contexts/UserContext";
 import { Modal } from "@/components/Modal";
 import { useModal } from "@/hooks/useModal";
 import Link from "next/link";
+import { useEffect } from "react";
+import axios from "axios";
 
 export default function Register() {
-  const { register, setValue, watch, handleSubmit, } = useForm<userData>({
+  const { register, setValue, watch, handleSubmit, control, } = useForm<userData>({
     resolver: zodResolver(userSchema),
+    mode: "onChange",
   });
+
   const isSeller = watch("isSeller");
-  const {handleUserCreate,} = useUser();
+  const zipCode = watch("address.zipCode");
+
+  const { handleUserCreate, } = useUser();
   const [isOpen, openModal, closeModal] = useModal();
 
   async function handleRegister(data: userData) {
-    delete data.confirmPassword;
-    const res = await handleUserCreate(data);
+    const formattedData = {
+      ...data,
+      address: {
+        ...data.address,
+        zipCode: data.address.zipCode.replace(/[^0-9]/g, ""),
+      },
+      cpf: data.cpf.replace(/[^0-9]/g, ""),
+      phoneNumber: data.phoneNumber.replace(/[^0-9]/g, ""),
+    };
+    delete formattedData.confirmPassword;
+    const res = await handleUserCreate(formattedData);
     if (res) {
       openModal();
     }
   }
+
+  useEffect(() => {
+    function handleZipCodeRequest(zipCode: string) {
+      return axios
+        .get(`https://brasilapi.com.br/api/cep/v1/${zipCode}`)
+        .then(({ data, }) => data)
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    (async () => {
+      if (zipCode && zipCode.length === 8 && Number(zipCode)) {
+        const addressInfo = await handleZipCodeRequest(zipCode);
+
+        if (addressInfo) {
+          setValue("address.state", addressInfo.state);
+          setValue("address.city", addressInfo.city);
+          setValue("address.street", addressInfo.street);
+
+        } else {
+          setValue("address.state", "");
+          setValue("address.city", "");
+          setValue("address.street", "");
+        }
+
+      }
+    })();
+  }, [zipCode]);
 
   return (
     <main className="grid w-screen h-full mt-20 bg-grey-8 place-items-center">
@@ -36,14 +79,14 @@ export default function Register() {
           <fieldset className="space-y-6">
             <Input type="text" name="name" label="Nome" placeholder="Digitar Nome" register={register("name")} />
             <Input type="email" name="email" label="Email" placeholder="Digitar Email" register={register("email")} />
-            <Input type="text" name="cpf" label="CPF" placeholder="000.000.000-00" register={register("cpf")} />
-            <Input type="tel" name="phone" label="Celular" placeholder="(DDD) 90000-0000" register={register("phoneNumber")} />
+            <Input type="cpf" name="cpf" label="CPF" placeholder="000.000.000-00" control={control} />
+            <Input type="tel" name="phoneNumber" label="Celular" placeholder="(DDD) 90000-0000" control={control} />
             <Input type="date" name="date" label="Data de nascimento" placeholder="00/00/00" register={register("birthdate")} />
             <Input type="textarea" name="description" label="Descrição" placeholder="Digitar descrição" register={register("description")} />
           </fieldset>
           <legend className="mb-6 text-sm font-medium text-black font-inter mt-7">Infomações de endereço</legend>
           <fieldset className="space-y-6">
-            <Input type="text" name="cep" label="CEP" placeholder="00000.000" register={register("address.zipCode")} />
+            <Input type="cep" name="address.zipCode" label="CEP" placeholder="00000-000" control={control} />
             <fieldset className="flex gap-3">
               <fieldset className="flex flex-col gap-y-2">
                 <label htmlFor="state">Estado</label>

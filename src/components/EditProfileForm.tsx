@@ -13,7 +13,7 @@ interface iEditProfileFormProps {
 export default function EditProfileForm({ closeModal, }: iEditProfileFormProps) {
   const { handleRetrieveUser, handleEditUser, handleDeleteUser, user, } = useUser();
 
-  const { register, handleSubmit, setValue, } = useForm<updateUserData>({
+  const { register, handleSubmit, setValue, control, } = useForm<updateUserData>({
     mode: "onSubmit",
     resolver: zodResolver(updateUserSchema),
   });
@@ -61,8 +61,8 @@ export default function EditProfileForm({ closeModal, }: iEditProfileFormProps) 
 
         <Input label="Nome" type="text" name="editName" placeholder="Digite seu nome" register={register("name")}/>
         <Input label="Email" type="email" name="editEmail" placeholder="Digite seu email" register={register("email")}/>
-        <Input label="CPF" type="text" name="editCPF" placeholder="000.000.000-00" register={register("cpf")}/>
-        <Input label="Celular" type="text" name="editPhoneNumber" placeholder="(DDD) 90000-0000" register={register("phoneNumber")}/>
+        <Input label="CPF" type="cpf" name="cpf" placeholder="000.000.000-00" control={control}/>
+        <Input label="Celular" type="tel" name="phoneNumber" placeholder="(DDD) 90000-0000" control={control}/>
         <Input label="Data de nascimento" type="date" name="editBirthdate" register={register("birthdate")}/>
         <Input label="Descrição" type="textarea" name="editDescription" placeholder="Digite sua descrição" register={register("description")}/>
 

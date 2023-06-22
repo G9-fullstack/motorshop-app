@@ -9,7 +9,6 @@ type AnnouncementProps = {
   }
 }
 
-
 export default function Announcement({params,}: AnnouncementProps) {
   const { getAnnounce, announce, } = useSeller();
 

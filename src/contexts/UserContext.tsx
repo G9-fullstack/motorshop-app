@@ -112,6 +112,11 @@ export function UserProvider({ children, }: Props) {
           Authorization: `Bearer ${motorshoptoken}`,
         },
       })
+      .then(({ data, }) => {
+        const { id, name, email, description, isSeller, } = data;
+
+        setUser({ id, name, email, description, isSeller, });
+      })
       .catch((err) => {
         console.log(err);
         throw err;

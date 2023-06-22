@@ -10,11 +10,11 @@ type AnnouncementProps = {
 }
 
 
-export default function Announcement(props: AnnouncementProps) {
+export default function Announcement({params,}: AnnouncementProps) {
   const { getAnnounce, announce, } = useSeller();
 
   useEffect(() => {
-    getAnnounce(props.params.id);
+    getAnnounce(params.id);
   }, []);
 
   if (!announce) return null;

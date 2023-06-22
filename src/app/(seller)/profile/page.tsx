@@ -5,32 +5,25 @@ import FormAnnounceRegister from "@/components/FormAnnounceRegister";
 import ListInfo from "@/components/ListInfo";
 import { Modal } from "@/components/Modal";
 import ProfileImage from "@/components/ProfileImage";
+import { useSeller } from "@/contexts/SellerContext";
 import { useUser } from "@/contexts/UserContext";
 import { useModal } from "@/hooks/useModal";
-import usePage from "@/hooks/usePage";
-import { AnnounceProps, mockAnnounces } from "@/mock";
-import { useEffect, useState } from "react";
-
-const PER_PAGE = 12;
-const INITIAL_PAGE = 1;
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Profile() {
   const { user, } = useUser();
-  const [announces, setAnnounces] = useState<AnnounceProps[]>();
-  const [page, previousPage, nextPage] = usePage();
+  const { getAnnouncesSeller, announcesSeller, } = useSeller();
   const [isOpen, openModal, closeModal] = useModal();
   const [isOpenNotify, openNotifyModal, closeNotifyModal] = useModal();
-  const isLogged = !!user;
 
   useEffect(() => {
-    (async function () {
-      const startIndex = (page - INITIAL_PAGE) * PER_PAGE;
-      const endIndex = page * PER_PAGE;
-      setAnnounces(mockAnnounces.slice(startIndex, endIndex));
-    })();
-  }, [page]);
+    if (user) {
+      getAnnouncesSeller(Number(user.id));
+    }
+  }, [user, getAnnouncesSeller]);
 
-  if (!isLogged) return null;
+  if (!user) return null;
 
   return (
     <main className="mt-40">
@@ -45,9 +38,15 @@ export default function Profile() {
         {user.isSeller && <Button onClick={openModal} type="button" style="outline-brand-1" size="big" details="w-max">Criar anuncio</Button >}
       </div>
       <div className="ml-3 px-3 md:mx-auto max-w-screen-2xl my-16">
-        <AnnounceList announces={announces} />
+        <AnnounceList announces={announcesSeller.data} />
       </div>
-      <ListInfo page={page} previousPage={previousPage} nextPage={nextPage} />
+      <ListInfo
+        announces={announcesSeller.data}
+        prevPage={() => getAnnouncesSeller(Number(user.id), announcesSeller.prevPage)}
+        nextPage={() => getAnnouncesSeller(Number(user.id), announcesSeller.nextPage)}
+        currentPage={announcesSeller.currentPage}
+        totalCount={announcesSeller.totalCount}
+      />
       <Modal isOpen={isOpen} onClose={closeModal} modalTitle={"Criar anúncio"}>
         <FormAnnounceRegister onClose={closeModal} openNotifyModal={openNotifyModal} />
       </Modal>

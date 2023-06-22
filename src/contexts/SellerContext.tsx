@@ -3,8 +3,8 @@ import { announceResponse } from "@/schemas/announce.schema";
 import api from "@/services/api";
 import axios from "axios";
 import nookies from "nookies";
-import { ReactNode, createContext, useContext, useState } from "react";
-import { KenzieCar } from "./interfaces";
+import { ReactNode, createContext, useContext, useEffect, useState } from "react";
+import { GetAnnouncesData, KenzieCar } from "./interfaces";
 import { announceData } from "@/schemas/announce.schema";
 
 interface Props {
@@ -13,7 +13,9 @@ interface Props {
 
 interface SellerContextData {
   announce: announceResponse | null;
+  announcesSeller: GetAnnouncesData;
   getAnnounce: (id: string) => Promise<void>;
+  getAnnouncesSeller: (id?: number, url?: string) => void;
   kenzieCars: Array<KenzieCar>;
   listCarsByBrand: (brand: string) => Promise<void>;
   getCarFIPE: (car: KenzieCar) => Promise<void>;
@@ -27,9 +29,39 @@ const SellerContext = createContext({} as SellerContextData);
 
 export function SellerProvider({ children, }: Props) {
   const [announce, setAnnounce] = useState<announceResponse | null>(null);
+  const [announcesSeller, setAnnouncesSeller] = useState<GetAnnouncesData>({
+    data: [],
+    prevPage: undefined,
+    nextPage: undefined,
+    currentPage: 1,
+    totalCount: 0,
+  });
   const [kenzieCars, setKenzieCars] = useState([] as Array<KenzieCar>);
   const [kenzieCarSelected, setKenzieCarSelected] = useState({} as KenzieCar);
   const [carFIPE, setCarFIPE] = useState<number>(0);
+
+  useEffect(() => {
+    const { motorshoptoken, } = nookies.get(null, "motorshoptoken");
+    api.defaults.headers.Authorization = `Bearer ${motorshoptoken}`;
+  }, []);
+
+  const getAnnouncesSeller = (id?: number, url?: string): void => {
+    const query = !url ? { page: 1, perPage: 12, } : {};
+    const setUrl = !id ? "/announces" : `users/${id}/announces`;
+    api
+      .get<GetAnnouncesData>(url ?? setUrl, {
+        params: {
+          query,
+        },
+      })
+      .then(({ data, }) => {
+        console.log(data);
+        setAnnouncesSeller(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   async function handleCreateAnnounce(formData: announceData) {
     const { motorshoptoken, } = nookies.get(null, "motorshoptoken");
@@ -58,7 +90,7 @@ export function SellerProvider({ children, }: Props) {
     return response;
   };
 
-  async function listCarsByBrand (brand: string) {
+  async function listCarsByBrand(brand: string) {
     const cars = await axios.get("https://kenzie-kars.herokuapp.com/cars", {
       params: {
         brand,
@@ -84,12 +116,14 @@ export function SellerProvider({ children, }: Props) {
   return (
     <SellerContext.Provider value={{
       announce,
-      getAnnounce,
+      announcesSeller,
       kenzieCars,
+      kenzieCarSelected,
+      carFIPE,
+      getAnnounce,
+      getAnnouncesSeller,
       listCarsByBrand,
       getCarFIPE,
-      carFIPE,
-      kenzieCarSelected,
       setKenzieCarSelected,
       handleCreateAnnounce,
     }}>

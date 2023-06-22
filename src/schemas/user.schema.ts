@@ -8,8 +8,8 @@ export const userSchema = z.object({
   email: z.string().email("Deve ser um email!").nonempty("Não pode ser vazio!"),
   password: z.string().nonempty("Não pode ser vazio!"),
   confirmPassword: z.string().nonempty("Não pode ser vazio!"),
-  cpf: z.string().length(11, "CPF inválido").nonempty("Não pode ser vazio!"),
-  phoneNumber: z.string().length(11, "Telefone inválido").nonempty("Não pode ser vazio!"),
+  cpf: z.string().length(14, "CPF inválido").nonempty("Não pode ser vazio!"),
+  phoneNumber: z.string().length(15, "Telefone inválido").nonempty("Não pode ser vazio!"),
   birthdate: z.string().nonempty("Não pode ser vazio!"),
   description: z.string().nonempty("Não pode ser vazio!"),
   isSeller: z.boolean().default(false),
@@ -23,8 +23,8 @@ export const userSchema = z.object({
 export const updateUserSchema = z.object({
   name: z.string(),
   email: z.string().email("Deve ser um email!"),
-  cpf: z.string().length(11, "CPF inválido"),
-  phoneNumber: z.string().length(11, "Telefone inválido"),
+  cpf: z.string().length(14, "CPF inválido"),
+  phoneNumber: z.string().length(15, "Telefone inválido"),
   birthdate: z.string(),
   description: z.string(),
 });
@@ -45,3 +45,5 @@ export type userData = Omit<userDataSchema, "confirmPassword"> & {
 export type updateUserData = z.infer<typeof updateUserSchema>
 
 export type userProfileData = Pick<userDataSchema, "name" | "email" | "description" | "isSeller"> & { id: string }
+
+export type userWithIdData = userDataSchema & { id: string }

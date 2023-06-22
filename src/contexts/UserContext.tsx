@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { destroyCookie, setCookie } from "nookies";
 import React, { ReactNode, createContext, useContext, useState } from "react";
 import nookies from "nookies";
+import { addressData } from "@/schemas/address.schema";
 
 interface Props {
   children: ReactNode;
@@ -16,7 +17,9 @@ interface UserContextData {
   handleUserLogout: () => void;
   handleRetrieveUser: (userId: string) => Promise<Omit<userData, "address" | "isSeller" | "password" | "confirmPassword">>
   handleEditUser: (userId: string, formData: updateUserData) => void;
-  handleDeleteUser: (userId: string) => void
+  handleDeleteUser: (userId: string) => void;
+  handleRetrieveUserAddress: () => Promise<addressData>;
+  handleEditAddress: (formData: addressData) => void;
   isLoading: boolean;
   setUser: React.Dispatch<React.SetStateAction<userProfileData | null>>;
   user: userProfileData | null
@@ -82,10 +85,10 @@ export function UserProvider({ children, }: Props) {
     router.push("/");
   }
 
-  function handleRetrieveUser(userId: string) {
+  async function handleRetrieveUser(userId: string) {
     const { motorshoptoken, } = nookies.get(null, "motorshoptoken");
 
-    const user = api
+    const user = await api
       .get("/users/" + userId, {
         headers: {
           Authorization: `Bearer ${motorshoptoken}`,
@@ -100,7 +103,7 @@ export function UserProvider({ children, }: Props) {
     return user;
   }
 
-  function handleEditUser(userId: string, formData: updateUserData	) {
+  function handleEditUser(userId: string, formData: updateUserData) {
     const { motorshoptoken, } = nookies.get(null, "motorshoptoken");
 
     api
@@ -108,6 +111,11 @@ export function UserProvider({ children, }: Props) {
         headers: {
           Authorization: `Bearer ${motorshoptoken}`,
         },
+      })
+      .then(({ data, }) => {
+        const { id, name, email, description, isSeller, } = data;
+
+        setUser({ id, name, email, description, isSeller, });
       })
       .catch((err) => {
         console.log(err);
@@ -136,6 +144,39 @@ export function UserProvider({ children, }: Props) {
       });
   }
 
+  async function handleRetrieveUserAddress() {
+    const { motorshoptoken, } = nookies.get(null, "motorshoptoken");
+
+    const address = await api
+      .get("/address", {
+        headers: {
+          Authorization: `Bearer ${motorshoptoken}`,
+        },
+      })
+      .then(({ data, }) => data)
+      .catch((err) => {
+        console.log(err);
+        throw err;
+      });
+
+    return address;
+  }
+
+  function handleEditAddress(formData: addressData) {
+    const { motorshoptoken, } = nookies.get(null, "motorshoptoken");
+
+    api
+      .patch("/address/", formData, {
+        headers: {
+          Authorization: `Bearer ${motorshoptoken}`,
+        },
+      })
+      .catch((err) => {
+        console.log(err);
+        throw err;
+      });
+  }
+
   return (
     <UserContext.Provider
       value={{
@@ -145,6 +186,8 @@ export function UserProvider({ children, }: Props) {
         handleEditUser,
         handleDeleteUser,
         handleRetrieveUser,
+        handleRetrieveUserAddress,
+        handleEditAddress,
         isLoading,
         user,
         setUser,

@@ -3,8 +3,8 @@ import AnnounceList from "@/components/AnnounceList";
 import Filter from "@/components/Filter";
 import ListInfo from "@/components/ListInfo";
 import PlaceholderItem from "@/components/PlaceholderItem";
-import usePage from "@/hooks/usePage";
-import { AnnounceProps, mockAnnounces } from "@/mock";
+import { useSeller } from "@/contexts/SellerContext";
+import { announceResponse } from "@/schemas/announce.schema";
 import { useEffect, useMemo, useState } from "react";
 
 export type SelectedFiltersProps = {
@@ -16,23 +16,15 @@ export type SelectedFiltersProps = {
   price?: number | "";
 };
 
-const PER_PAGE = 12;
-const INITIAL_PAGE = 1;
-
 export default function Home() {
-  const [announces, setAnnounces] = useState<AnnounceProps[]>();
-  const [selectedFilters, setSelectedFilters] = useState<SelectedFiltersProps>(
-    {}
-  );
-  const [isOpen, setIsOpen] = useState(false);
-  const [page, previousPage, nextPage] = usePage();
+  const { getAnnouncesSeller, announcesSeller, } = useSeller();
+  const [selectedFilters, setSelectedFilters] = useState<SelectedFiltersProps>({});
 
+  const [isOpen, setIsOpen] = useState(false);
   const handleShowFilter = () => setIsOpen(!isOpen);
   const handleFilterReset = () => setSelectedFilters({});
-  const handleFilterChange = (
-    option: keyof SelectedFiltersProps,
-    value: string
-  ) => {
+
+  const handleFilterChange = (option: keyof SelectedFiltersProps, value: string) => {
     setSelectedFilters((prevFilters) => {
       if (prevFilters[option] === value) {
         const updatedFilters = { ...prevFilters, };
@@ -44,30 +36,27 @@ export default function Home() {
   };
 
   useEffect(() => {
-    (async function () {
-      const startIndex = (page - INITIAL_PAGE) * PER_PAGE;
-      const endIndex = page * PER_PAGE;
-      setAnnounces(mockAnnounces.slice(startIndex, endIndex));
-    })();
-    handleFilterReset();
-  }, [page]);
+    getAnnouncesSeller();
+  }, []);
 
   const filteredAnnounces = useMemo(() => {
-    if (!announces) {
-      return [];
-    }
+    if (!announcesSeller.data) return [];
 
-    return announces.filter((announce: AnnounceProps) => {
+    return announcesSeller.data.filter(announce => {
       return Object.entries(selectedFilters).every(([key, value]) => {
         if (key === "price" || key === "mileage") {
           const filterValue = Number(value);
-          const announceValue = Number(announce[key as keyof AnnounceProps]);
+          const announceValue = Number(announce[key as keyof announceResponse]);
           return !value || announceValue <= filterValue;
         }
-        return !value || announce[key as keyof AnnounceProps] === value;
+        return !value || announce[key as keyof announceResponse] === value;
       });
     });
-  }, [announces, selectedFilters]);
+  }, [announcesSeller.data, selectedFilters]);
+
+  const renderPlaceholderItems = () => {
+    return [...Array(12)].map(() => <PlaceholderItem key={Math.random()} />);
+  };
 
   return (
     <main>
@@ -86,32 +75,28 @@ export default function Home() {
           <Filter
             handleShowFilter={handleShowFilter}
             isOpen={isOpen}
-            announces={announces}
+            announces={announcesSeller.data}
             selectedFilters={selectedFilters}
             handleFilterChange={handleFilterChange}
             handleFilterReset={handleFilterReset}
           />
           <div className="flex flex-1 ml-3 px-3 max-w-6xl md:ml-0 md:pr-16">
-            {announces ? (
+            {announcesSeller.data.length ? (
               <AnnounceList announces={filteredAnnounces} />
             ) : (
-              <div
-                className="flex w-full py-3 flex-row overflow-x-scroll gap-x-3 scrollbar-thin scrollbar-thumb-brand-3/70 scrollbar-track-grey-whiteFixed
-              md:gap-x-12 md:gap-y-24 md:overflow-x-hidden md:flex-row md:flex-wrap md:justify-end md:items-start 2xl:justify-start"
-              >
-                {[...Array(12)].map(() => (
-                  <PlaceholderItem key={Math.random()} />
-                ))}
+              <div className="flex w-full py-3 flex-row overflow-x-scroll gap-x-3 scrollbar-thin scrollbar-thumb-brand-3/70 scrollbar-track-grey-whiteFixed md:gap-x-12 md:gap-y-24 md:overflow-x-hidden md:flex-row md:flex-wrap md:justify-end md:items-start 2xl:justify-start">
+                {renderPlaceholderItems()}
               </div>
             )}
           </div>
         </div>
       </div>
       <ListInfo
-        handleShowFilter={handleShowFilter}
-        page={page}
-        previousPage={previousPage}
-        nextPage={nextPage}
+        announces={announcesSeller.data}
+        prevPage={() => getAnnouncesSeller(undefined, announcesSeller.prevPage)}
+        nextPage={() => getAnnouncesSeller(undefined, announcesSeller.nextPage)}
+        currentPage={announcesSeller.currentPage}
+        totalCount={announcesSeller.totalCount}
       />
     </main>
   );

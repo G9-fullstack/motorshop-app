@@ -1,10 +1,10 @@
-import { AnnounceProps } from "@/mock";
 import { usePathname } from "next/navigation";
 import AnnounceItem from "./AnnounceItem";
 import PlaceholderItem from "./PlaceholderItem";
+import { announceResponse } from "@/schemas/announce.schema";
 
 type AnnounceListProps = {
-  announces: AnnounceProps[] | undefined
+  announces: announceResponse[] | undefined
 }
 
 export default function AnnounceList(props: AnnounceListProps) {

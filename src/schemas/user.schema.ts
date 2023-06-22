@@ -57,3 +57,5 @@ export type userData = Omit<userDataSchema, "confirmPassword"> & {
 export type updateUserData = z.infer<typeof updateUserSchema>
 
 export type userProfileData = Pick<userDataSchema, "name" | "email" | "description" | "isSeller"> & { id: string }
+
+export type userWithIdData = userDataSchema & { id: string }

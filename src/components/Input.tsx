@@ -5,14 +5,15 @@ type InputType = "text" | "email" | "number" | "password" | "tel" | "date" | "cp
 
 type InputProps = {
   type?: InputType;
-  name: string
-  label: string
-  placeholder?: string
+  name: string;
+  label: string;
+  value?: string;
+  placeholder?: string;
   register?: UseFormRegisterReturn;
   control?: any;
-  children?: React.ReactNode
-  errors?: FieldError
-  disabled?: boolean,
+  children?: React.ReactNode;
+  errors?: FieldError;
+  disabled?: boolean;
 }
 
 export default function Input(props: InputProps) {

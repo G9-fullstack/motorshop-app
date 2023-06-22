@@ -18,7 +18,10 @@ export default function EditAddressForm({ closeModal, }: iEditAddressFormProps) 
   });
 
   function submitEditForm(data: addressData) {
-    handleEditAddress(data);
+    handleEditAddress({
+      ...data,
+      zipCode: data.zipCode.replace(/[^0-9]/g, ""),
+    });
     closeModal();
   }
 
@@ -26,7 +29,7 @@ export default function EditAddressForm({ closeModal, }: iEditAddressFormProps) 
     async function handleRetrieve() {
       const { zipCode, state, city, street, number, complement, } = await handleRetrieveUserAddress();
 
-      setValue("zipCode", zipCode);
+      setValue("zipCode", zipCode.slice(0, 5) + "-" + zipCode.slice(5));
       setValue("state", state);
       setValue("city", city);
       setValue("street", street);

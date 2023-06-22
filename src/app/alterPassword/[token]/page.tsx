@@ -5,28 +5,25 @@ import { newPassword, newPasswordSchema } from "@/schemas/user.schema";
 import api from "@/services/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import router from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const { register, handleSubmit } = useForm<newPassword>({
     resolver: zodResolver(newPasswordSchema),
   });
-
+  const router = useRouter();
   function submitForm(formData: newPassword) {
     const url = window.location.href;
     const token = url.substring(url.lastIndexOf("/") + 1);
     api
-      //update
       .patch(`users/resetPassword/${token}`, formData)
       .then(() => {
-        console.log("alteropiu");
+        alert("alterado");
+        router.push("/login");
       })
 
       .catch((err) => {
         throw err;
-      })
-      .finally(() => {
-        console.log("acvcabou");
       });
   }
 

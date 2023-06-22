@@ -52,7 +52,7 @@ export default function Login() {
               disabled={isLoading}
             />
             <span
-              className="text-grey-2 flex font-medium justify-end"
+              className="text-grey-2 flex font-medium justify-end cursor-pointer"
               onClick={openModal}
             >
               Esqueci minha senha

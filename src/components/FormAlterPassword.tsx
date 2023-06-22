@@ -14,16 +14,11 @@ export default function FormAlterPassword() {
     api
       .post("/users/alter-password", formData)
       .then(({ data }) => {
-        router.push("/");
-
-        return data.token;
+        return data;
       })
 
       .catch((err) => {
         throw err;
-      })
-      .finally(() => {
-        console.log("ola");
       });
   }
 

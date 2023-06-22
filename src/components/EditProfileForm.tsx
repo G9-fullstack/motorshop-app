@@ -47,7 +47,7 @@ export default function EditProfileForm({ closeModal, }: iEditProfileFormProps) 
         setValue("email", email);
         setValue("cpf", cpf);
         setValue("phoneNumber", phoneNumber);
-        setValue("birthdate", birthdate);
+        setValue("birthdate", birthdate.replace(/[^0-9]/g, "-").replace(/^(\d{2})-(\d{2})-(\d{4})$/, "$3-$2-$1")); // Transforma do formato DD-MM-YYYY para YYYY-MM-DD
         setValue("description", description);
       }
     }

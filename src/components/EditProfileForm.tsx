@@ -13,14 +13,19 @@ interface iEditProfileFormProps {
 export default function EditProfileForm({ closeModal, }: iEditProfileFormProps) {
   const { handleRetrieveUser, handleEditUser, handleDeleteUser, user, } = useUser();
 
-  const { register, handleSubmit, setValue, } = useForm<updateUserData>({
+  const { register, handleSubmit, setValue, control, } = useForm<updateUserData>({
     mode: "onSubmit",
     resolver: zodResolver(updateUserSchema),
   });
 
   function submitEditForm(data: updateUserData) {
     if (user) {
-      handleEditUser(user.id, data);
+      const formattedData = {
+        ...data,
+        cpf: data.cpf.replace(/[^0-9]/g, ""),
+        phoneNumber: data.phoneNumber.replace(/[^0-9]/g, ""),
+      };
+      handleEditUser(user.id, formattedData);
     }
     closeModal();
   }
@@ -56,15 +61,15 @@ export default function EditProfileForm({ closeModal, }: iEditProfileFormProps) 
 
         <Input label="Nome" type="text" name="editName" register={register("name")}/>
         <Input label="Email" type="email" name="editEmail" register={register("email")}/>
-        <Input label="CPF" type="text" name="editCPF" register={register("cpf")}/>
-        <Input label="Celular" type="number" name="editPhoneNumber" register={register("phoneNumber")}/>
+        <Input label="CPF" type="cpf" name="cpf" control={control}/>
+        <Input label="Celular" type="tel" name="phoneNumber" control={control}/>
         <Input label="Data de nascimento" type="date" name="editBirthdate" register={register("birthdate")}/>
         <Input label="Descrição" type="textarea" name="editDescription" register={register("description")}/>
 
-        <div className="flex gap-1">
-          <Button onClick={closeModal} type="button" size="medium" width={154} style="grey-2">Cancelar</Button>
-          <Button onClick={deleteUser} type="button" size="medium" width={154} style="alert">Excluir Perfil</Button>
-          <Button type="submit" size="medium" width={162} style="brand-3">Salvar Alterações</Button>
+        <div className="grid grid-cols-3 space-x-1 w-full max-[470px]:flex flex-wrap justify-center max-[470px]:gap-2">
+          <Button onClick={closeModal} type="button" size="medium" style="grey-2">Cancelar</Button>
+          <Button onClick={deleteUser} type="button" size="medium" style="alert">Excluir Perfil</Button>
+          <Button type="submit" size="medium" style="brand-3">Salvar Alterações</Button>
         </div>
       </fieldset>
     </form>

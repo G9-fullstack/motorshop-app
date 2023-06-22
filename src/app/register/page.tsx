@@ -18,7 +18,7 @@ export default function Register() {
   });
 
   const isSeller = watch("isSeller");
-  const zipCode = watch("address.zipCode");
+  const zipCode = watch("address.zipCode").replace(/[^0-9]/g, "");
 
   const { handleUserCreate, } = useUser();
   const [isOpen, openModal, closeModal] = useModal();
@@ -63,7 +63,6 @@ export default function Register() {
           setValue("address.city", "");
           setValue("address.street", "");
         }
-
       }
     })();
   }, [zipCode]);

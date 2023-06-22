@@ -60,7 +60,7 @@ export default function AnnounceDetail() {
             </ul>
           </section>
 
-          <CardUserProfile />
+          <CardUserProfile sellerId={announce.sellerId} sellerName={announce.seller.name} sellerDescription={announce.seller.description}/>
         </div>
       </div>
 

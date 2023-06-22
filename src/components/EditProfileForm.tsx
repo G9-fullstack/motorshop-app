@@ -66,10 +66,10 @@ export default function EditProfileForm({ closeModal, }: iEditProfileFormProps) 
         <Input label="Data de nascimento" type="date" name="editBirthdate" register={register("birthdate")}/>
         <Input label="Descrição" type="textarea" name="editDescription" placeholder="Digite sua descrição" register={register("description")}/>
 
-        <div className="flex gap-1">
-          <Button onClick={closeModal} type="button" size="medium" width={154} style="grey-2">Cancelar</Button>
-          <Button onClick={deleteUser} type="button" size="medium" width={154} style="alert">Excluir Perfil</Button>
-          <Button type="submit" size="medium" width={162} style="brand-3">Salvar Alterações</Button>
+        <div className="grid grid-cols-3 space-x-1 w-full max-[470px]:flex flex-wrap justify-center max-[470px]:gap-2">
+          <Button onClick={closeModal} type="button" size="medium" style="grey-2">Cancelar</Button>
+          <Button onClick={deleteUser} type="button" size="medium" style="alert">Excluir Perfil</Button>
+          <Button type="submit" size="medium" style="brand-3">Salvar Alterações</Button>
         </div>
       </fieldset>
     </form>

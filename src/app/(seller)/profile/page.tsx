@@ -45,7 +45,7 @@ export default function Profile() {
         prevPage={() => getAnnouncesSeller(Number(user.id), announcesSeller.prevPage)}
         nextPage={() => getAnnouncesSeller(Number(user.id), announcesSeller.nextPage)}
         currentPage={announcesSeller.currentPage}
-        totalCount={announcesSeller.totalCount}
+        totalPages={announcesSeller.totalPages}
       />
       <Modal isOpen={isOpen} onClose={closeModal} modalTitle={"Criar anúncio"}>
         <FormAnnounceRegister onClose={closeModal} openNotifyModal={openNotifyModal} />

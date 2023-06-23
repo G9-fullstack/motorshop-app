@@ -24,11 +24,11 @@ export const Brand = {
 } as const;
 
 export interface GetAnnouncesData {
-	data: announceResponse[];
-	prevPage?: string;
-	nextPage?: string;
-	currentPage: number;
-	totalCount: number;
+  data: announceResponse[];
+  prevPage?: string;
+  nextPage?: string;
+  currentPage: number;
+  totalPages: number;
 }
 
 export interface SellerContextData {
@@ -42,12 +42,4 @@ export interface SellerContextData {
 	carFIPE: number;
 	kenzieCarSelected: KenzieCar,
 	setKenzieCarSelected: React.Dispatch<React.SetStateAction<KenzieCar>>
-}
-
-export interface GetAnnouncesData {
-	data: announceResponse[];
-	prevPage?: string;
-	nextPage?: string;
-	currentPage: number;
-	totalCount: number;
 }

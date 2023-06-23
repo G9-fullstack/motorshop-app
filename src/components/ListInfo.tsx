@@ -11,7 +11,7 @@ type ListInfoProps = {
   handleShowFilter?: () => void;
   announces: announceResponse[];
   currentPage?: number;
-  totalCount?: number;
+  totalPages?: number;
   children?: ReactNode;
 };
 
@@ -22,16 +22,15 @@ export default function ListInfo({
   nextPage,
   prevPage,
   currentPage = 1,
-  totalCount,
+  totalPages,
 }: ListInfoProps) {
   if (!announces || announces.length === 0) {
     return null;
   }
 
-  const totalPages = Math.ceil((totalCount ?? 0) / PER_PAGE);
   const isNext = currentPage && currentPage < totalPages;
   const isPrev = currentPage && currentPage > INITIAL_PAGE;
-
+  console.log(totalPages, currentPage, isNext, isPrev);
   return (
     <div className="flex flex-col items-center justify-center gap-10 py-4 mb-10 w-full">
       {handleShowFilter && (
@@ -41,7 +40,6 @@ export default function ListInfo({
           </Button>
         </div>
       )}
-
       <div className="flex flex-col items-center justify-center gap-10">
         <div className="flex items-center justify-center gap-2 heading-5-600 text-grey-3/50">
           {[...Array(totalPages)].map((_, index) => (
@@ -50,20 +48,17 @@ export default function ListInfo({
             </span>
           ))}
         </div>
-
         <div className="flex flex-row gap-4">
           {isPrev && (
             <span onClick={prevPage} className="text-brand-2 heading-5-600 cursor-pointer">
               {"<"} Anterior
             </span>
           )}
-
           {isNext && (
             <span onClick={nextPage} className="text-brand-2 heading-5-600 cursor-pointer">
               Seguinte {">"}
             </span>
           )}
-
           {children}
         </div>
       </div>

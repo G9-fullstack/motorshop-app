@@ -31,10 +31,10 @@ export function SellerProvider({ children, }: Props) {
   const [announce, setAnnounce] = useState<announceResponse | null>(null);
   const [announcesSeller, setAnnouncesSeller] = useState<GetAnnouncesData>({
     data: [],
-    prevPage: undefined,
-    nextPage: undefined,
     currentPage: 1,
-    totalCount: 0,
+    nextPage: undefined,
+    prevPage: undefined,
+    totalPages: 1,
   });
   const [kenzieCars, setKenzieCars] = useState([] as Array<KenzieCar>);
   const [kenzieCarSelected, setKenzieCarSelected] = useState({} as KenzieCar);

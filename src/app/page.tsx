@@ -96,7 +96,7 @@ export default function Home() {
         prevPage={() => getAnnouncesSeller(undefined, announcesSeller.prevPage)}
         nextPage={() => getAnnouncesSeller(undefined, announcesSeller.nextPage)}
         currentPage={announcesSeller.currentPage}
-        totalCount={announcesSeller.totalCount}
+        totalPages={announcesSeller.totalPages}
       />
     </main>
   );

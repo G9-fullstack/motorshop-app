@@ -14,7 +14,7 @@ export default function AnnounceDetail() {
       <div className="lg:flex mt-9 lg:gap-14 lg:justify-center">
         <div className="max-w-[750px] w-full">
           <div className="w-full mb-5">
-            <figure className="bg-grey-10 w-full h-[22rem] rounded grid place-items-center overflow-hidden">
+            <figure className="bg-grey-10 w-full h-[22rem] rounded grid content-center overflow-hidden">
               <Image
                 className="w-full"
                 src={announce.coverImage || ""}

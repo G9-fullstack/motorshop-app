@@ -30,7 +30,7 @@ export default function ListInfo({
 
   const isNext = currentPage && currentPage < totalPages;
   const isPrev = currentPage && currentPage > INITIAL_PAGE;
-  console.log(totalPages, currentPage, isNext, isPrev);
+
   return (
     <div className="flex flex-col items-center justify-center gap-10 py-4 mb-10 w-full">
       {handleShowFilter && (

@@ -21,8 +21,8 @@ export default function AnnounceItem({ announce, }: AnnounceItemProps) {
   if (!announce.isActive) return null;
 
   return (
-    <li onClick={() => router.push("/announcement/" + announce.id)} className="space-y-6 group w-80 min-w-[20rem]">
-      <div className="w-full h-80 bg-contain bg-grey-7 relative border-2 border-transparent group-hover:border-brand-1 transition-all duration-300 ease-in-out">
+    <li onClick={() => router.push("/announcement/" + announce.id)} className="space-y-6 group w-80 min-w-[20rem] cursor-pointer">
+      <div className="w-full h-80 grid content-center place-items-center bg-grey-7 relative border-2 border-transparent group-hover:border-brand-1 transition-all duration-300 ease-in-out">
         {isProfile ?
           <div className={`absolute left-2.5 top-2.5 flex px-2 text-grey-whiteFixed ${announce.isActive ? "bg-brand-1" : "bg-grey-4"} `}>{(announce.isActive ? "Ativo" : "Inativo")}</div>
           :
@@ -35,7 +35,7 @@ export default function AnnounceItem({ announce, }: AnnounceItemProps) {
             </div>
           </div>
         }
-        <Image src={announce.coverImage || ""} alt="Imagem do Carro" width={310} height={150}/>
+        <Image src={announce.coverImage || ""} alt="Imagem do Carro" className="w-auto" width={310} height={150}/>
       </div>
       <div className="space-y-6">
         <p className="heading-7-600 uppercase overflow-hidden whitespace-nowrap overflow-ellipsis">{announce.model}</p>

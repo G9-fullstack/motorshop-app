@@ -3,7 +3,7 @@ import ProfileImage from "./ProfileImage";
 
 export default function Comments() {
   return (
-    <section className="bg-grey-10 py-9 px-11 w-max-[751px] w-full rounded">
+    <section className="bg-grey-10 py-9 px-11 w-full rounded">
       <h3 className="mb-6 text-xl font-semibold font-lexend text-grey-1">Comentários</h3>
       <ul className="space-y-11">
         <li>

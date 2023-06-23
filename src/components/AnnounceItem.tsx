@@ -3,7 +3,6 @@ import { formatPrice } from "@/utils/formattedPrice";
 import { DollarSign } from "lucide-react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import frame from "../../public/example-car.png";
 import Button from "./Button";
 import ProfileImage from "./ProfileImage";
 import { announceResponse } from "@/schemas/announce.schema";
@@ -36,7 +35,7 @@ export default function AnnounceItem({ announce, }: AnnounceItemProps) {
             </div>
           </div>
         }
-        <Image src={frame} alt="Car" />
+        <Image src={announce.coverImage || ""} alt="Imagem do Carro" width={310} height={150}/>
       </div>
       <div className="space-y-6">
         <p className="heading-7-600 uppercase overflow-hidden whitespace-nowrap overflow-ellipsis">{announce.model}</p>

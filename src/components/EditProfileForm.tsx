@@ -4,7 +4,7 @@ import Input from "./Input";
 import { updateUserData, updateUserSchema } from "@/schemas/user.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUser } from "@/contexts/UserContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface iEditProfileFormProps {
 	closeModal: () => void;
@@ -12,6 +12,7 @@ interface iEditProfileFormProps {
 
 export default function EditProfileForm({ closeModal, }: iEditProfileFormProps) {
   const { handleRetrieveUser, handleEditUser, handleDeleteUser, user, } = useUser();
+  const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
 
   const { register, handleSubmit, setValue, control, } = useForm<updateUserData>({
     mode: "onSubmit",
@@ -31,11 +32,16 @@ export default function EditProfileForm({ closeModal, }: iEditProfileFormProps) 
   }
 
   function deleteUser() {
-    if (user) {
-      handleDeleteUser(user.id);
-    }
+    setConfirmDelete(true);
 
-    closeModal();
+    setTimeout(() => {
+      setConfirmDelete(false);
+    }, 2000);
+
+    if (user && confirmDelete) {
+      handleDeleteUser(user.id);
+      closeModal();
+    }
   }
 
   useEffect(() => {
@@ -68,7 +74,7 @@ export default function EditProfileForm({ closeModal, }: iEditProfileFormProps) 
 
         <div className="grid grid-cols-3 space-x-1 w-full max-[470px]:flex flex-wrap justify-center max-[470px]:gap-2">
           <Button onClick={closeModal} type="button" size="medium" style="grey-2">Cancelar</Button>
-          <Button onClick={deleteUser} type="button" size="medium" style="alert">Excluir Perfil</Button>
+          <Button onClick={deleteUser} type="button" size="medium" style="alert">{confirmDelete ? "Confirmar?": "Excluir Perfil"}</Button>
           <Button type="submit" size="medium" style="brand-3">Salvar Alterações</Button>
         </div>
       </fieldset>

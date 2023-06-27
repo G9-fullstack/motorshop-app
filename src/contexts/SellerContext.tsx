@@ -23,7 +23,8 @@ interface SellerContextData {
   kenzieCarSelected: KenzieCar,
   setKenzieCarSelected: React.Dispatch<React.SetStateAction<KenzieCar>>
   handleCreateAnnounce(formData: announceData): Promise<void>;
-  handleEditAnnounce(formData: updateAnnounceData): void;
+  handleEditAnnounce(formData: updateAnnounceData, id: number): void;
+  handleDeleteAnnounce(id: number): void;
 }
 
 const SellerContext = createContext({} as SellerContextData);
@@ -76,8 +77,15 @@ export function SellerProvider({ children, }: Props) {
       });
   }
 
-  function handleEditAnnounce(formData: updateAnnounceData) {
-    api.patch("/announces", formData)
+  function handleEditAnnounce(formData: updateAnnounceData, id: number) {
+    api.patch(`/announces/${id}`, formData)
+      .catch(err => {
+        throw err;
+      });
+  }
+
+  function handleDeleteAnnounce(id: number) {
+    api.delete(`/announces/${id}`)
       .catch(err => {
         throw err;
       });
@@ -134,6 +142,7 @@ export function SellerProvider({ children, }: Props) {
       setKenzieCarSelected,
       handleCreateAnnounce,
       handleEditAnnounce,
+      handleDeleteAnnounce,
     }}>
       {children}
     </SellerContext.Provider>

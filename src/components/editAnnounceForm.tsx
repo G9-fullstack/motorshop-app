@@ -11,10 +11,11 @@ import { Brand } from "@/contexts/interfaces";
 
 interface EditAnnounceFormProps {
   closeModal: () => void;
+  announceId: number
 }
 
-export default function EditAnnounceForm({ closeModal, }: EditAnnounceFormProps) {
-  const { listCarsByBrand, kenzieCars, getCarFIPE, carFIPE, kenzieCarSelected, setKenzieCarSelected, } = useSeller();
+export default function EditAnnounceForm({ closeModal, announceId, }: EditAnnounceFormProps) {
+  const { listCarsByBrand, kenzieCars, getCarFIPE, carFIPE, kenzieCarSelected, setKenzieCarSelected, handleEditAnnounce, handleDeleteAnnounce, } = useSeller();
   const [imageFields, setImageFields] = useState(["image1"]);
 
   const { register, handleSubmit, formState: { errors, }, watch, setValue, } = useForm<updateAnnounceData>({
@@ -88,8 +89,7 @@ export default function EditAnnounceForm({ closeModal, }: EditAnnounceFormProps)
 
   async function submitForm(data: updateAnnounceData) {
     const preparedData = await prepareFormData(data);
-    // await handleCreateAnnounce(preparedData);
-    console.log(preparedData);
+    handleEditAnnounce(preparedData, announceId);
     closeModal();
   }
 

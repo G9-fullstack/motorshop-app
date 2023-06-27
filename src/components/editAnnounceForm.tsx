@@ -23,6 +23,7 @@ export default function EditAnnounceForm({ closeModal, }: EditAnnounceFormProps)
 
   const brandWatch = watch("brand");
   const modelWatch = watch("model");
+  const isActiveWatch = watch("isActive");
 
   function addImageField() {
     if (imageFields.length < 5) {
@@ -180,6 +181,22 @@ export default function EditAnnounceForm({ closeModal, }: EditAnnounceFormProps)
           {errors.description && <span>{errors.description.message}</span>}
         </fieldset>
 
+        <legend className="mb-6 text-sm font-medium text-black font-inter mt-7">Publicado</legend>
+        <fieldset className="space-y-6">
+          <fieldset className="flex gap-3">
+            <span
+              onClick={() => setValue("isActive", true)}
+            >
+              <Button type="button" style={isActiveWatch ? "outline-1" : "brand-1"} details={isActiveWatch ? "" : "text-grey-whiteFixed"} size="big" width={152}>Sim</Button>
+            </span>
+            <span
+              onClick={() => setValue("isActive", false)}
+            >
+              <Button type="button" style={isActiveWatch ? "brand-1" : "outline-1"} details={isActiveWatch ? "text-grey-whiteFixed" : ""} size="big" width={152}>Não</Button>
+            </span>
+          </fieldset>
+        </fieldset>
+
         <Input type="text" name={"coverImage"} label="Imagem da capa" placeholder="URL da imagem" register={register("coverImage")} />
         {errors.coverImage && <span>{errors.coverImage.message}</span>}
 
@@ -202,8 +219,8 @@ export default function EditAnnounceForm({ closeModal, }: EditAnnounceFormProps)
       </div>
 
       <fieldset className="flex mt-7 justify-end space-x-2">
-        <Button onClick={closeModal} type="button" style="grey-2" details="" size="medium">Cancelar</Button>
-        <Button type="submit" style="brand-3" details="text-grey-whiteFixed" size="medium">Criar anúncio</Button>
+        <Button onClick={closeModal} type="button" style="grey-2" details="" size="medium">Excluir anúncio</Button>
+        <Button type="submit" style="brand-3" details="text-grey-whiteFixed" size="medium">Salvar alterações</Button>
       </fieldset>
     </form>
   );

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { updateUserSchema, userWithIdData } from "./user.schema";
+import { updateUserSchema } from "./user.schema";
 
 const imageSchema = z.string().optional();
 
@@ -26,5 +26,10 @@ const announce = announceSchema.extend({
   seller: updateUserSchema.extend({ id: z.number(), isSeller: z.boolean(), }),
 });
 
+export const updateAnnounceSchema = announceSchema.partial().extend({
+  isActive: z.boolean().default(true),
+});
+
 export type announceResponse = z.infer<typeof announce>
 export type announceData = z.infer<typeof announceSchema>
+export type updateAnnounceData = z.infer<typeof updateAnnounceSchema>

@@ -219,7 +219,10 @@ export default function EditAnnounceForm({ closeModal, announceId, }: EditAnnoun
       </div>
 
       <fieldset className="flex mt-7 justify-end space-x-2">
-        <Button onClick={closeModal} type="button" style="grey-2" details="" size="medium">Excluir anúncio</Button>
+        <Button onClick={() => {
+          handleDeleteAnnounce(announceId);
+          closeModal();
+        }} type="button" style="grey-2" details="" size="medium">Excluir anúncio</Button>
         <Button type="submit" style="brand-3" details="text-grey-whiteFixed" size="medium">Salvar alterações</Button>
       </fieldset>
     </form>

@@ -72,7 +72,7 @@ export default function AnnounceItem({ announce, }: AnnounceItemProps) {
         </div>
       </li>
       <Modal isOpen={isOpen} onClose={closeModal} modalTitle="Editar anúncio">
-        <EditAnnounceForm closeModal={closeModal}/>
+        <EditAnnounceForm closeModal={closeModal} announceId={announce.id} />
       </Modal>
     </>
   );

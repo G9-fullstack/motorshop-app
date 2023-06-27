@@ -41,7 +41,7 @@ export default function AnnounceItem({ announce, }: AnnounceItemProps) {
         <p className="heading-7-600 uppercase overflow-hidden whitespace-nowrap overflow-ellipsis">{announce.model}</p>
         <p className="body-2-400 max-h-[70px] overflow-hidden whitespace-pre-wrap overflow-ellipsis">{announce.description}</p>
         <div className="flex gap-2 items-center">
-          <ProfileImage name={announce.seller.name} size="small" userId={10} />
+          <ProfileImage name={announce.seller.name} size="small" userId={announce.seller.id} />
           <span className="body-2-500 overflow-hidden whitespace-nowrap overflow-ellipsis">{announce.seller.name}</span>
         </div>
         <div className="flex items-center justify-between">
@@ -53,7 +53,14 @@ export default function AnnounceItem({ announce, }: AnnounceItemProps) {
         </div>
         {!isVisitor && isProfile && !!user?.isSeller &&
           <div className="flex items-center gap-4">
-            <Button style="outline-1" size="medium">Editar</Button>
+            <div
+              onClick={(e: React.MouseEvent): void => {
+                e.stopPropagation();
+              }}
+            >
+              <Button style="outline-1" size="medium">Editar</Button>
+            </div>
+
             <Button style="outline-1" size="medium">Ver detalhes</Button>
           </div>}
       </div>

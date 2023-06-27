@@ -8,6 +8,7 @@ import { announceData, announceSchema } from "../schemas/announce.schema";
 import { useSeller } from "@/contexts/SellerContext";
 import { formatPrice } from "@/utils/formattedPrice";
 import { Brand } from "@/contexts/interfaces";
+import { Toaster, toast } from "sonner";
 
 interface FormAnnounceRegisterProps {
   onClose: () => void;
@@ -15,10 +16,24 @@ interface FormAnnounceRegisterProps {
 }
 
 export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
-  const { listCarsByBrand, kenzieCars, getCarFIPE, carFIPE, kenzieCarSelected, setKenzieCarSelected, handleCreateAnnounce, } = useSeller();
+  const {
+    listCarsByBrand,
+    kenzieCars,
+    getCarFIPE,
+    carFIPE,
+    kenzieCarSelected,
+    setKenzieCarSelected,
+    handleCreateAnnounce,
+  } = useSeller();
   const [imageFields, setImageFields] = useState(["image1"]);
 
-  const { register, handleSubmit, formState: { errors, }, watch, setValue, } = useForm<announceData>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+    setValue,
+  } = useForm<announceData>({
     resolver: zodResolver(announceSchema),
   });
 
@@ -59,15 +74,15 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
           setValue("year", car.year);
 
           switch (car.fuel) {
-          case 1:
-            setValue("fuel", "Flex");
-            break;
-          case 2:
-            setValue("fuel", "Híbrido");
-            break;
-          case 3:
-            setValue("fuel", "Elétrico");
-            break;
+            case 1:
+              setValue("fuel", "Flex");
+              break;
+            case 2:
+              setValue("fuel", "Híbrido");
+              break;
+            case 3:
+              setValue("fuel", "Elétrico");
+              break;
           }
         }
       });
@@ -75,7 +90,8 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
   }, [modelWatch]);
 
   async function prepareFormData(data: announceData) {
-    const defaultImage = "https://files.slack.com/files-pri/TQZR39SET-F05DEA2BPJN/image.png";
+    const defaultImage =
+      "https://files.slack.com/files-pri/TQZR39SET-F05DEA2BPJN/image.png";
     if (!data.coverImage) {
       data.coverImage = defaultImage;
     }
@@ -88,25 +104,44 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
 
   async function submitForm(data: announceData) {
     const preparedData = await prepareFormData(data);
-    await handleCreateAnnounce(preparedData);
+    const responseAnnounce = await handleCreateAnnounce(preparedData);
+    toast.success("Anuncio criado com sucesso");
     props.onClose();
     props.openNotifyModal();
   }
 
   return (
     <form onSubmit={handleSubmit(submitForm)}>
-      <legend className="mb-6 text-sm font-medium text-black font-inter">Infomações do veículo</legend>
+      <legend className="mb-6 text-sm font-medium text-black font-inter">
+        Infomações do veículo
+      </legend>
 
       <fieldset className="space-y-6">
-        <Input type="select" name="brand" label="Marca" placeholder="Digitar Marca" register={register("brand")}>
-          {
-            Object.values(Brand).map((brand) => (<option key={brand} className="capitalize" value={brand}>{brand}</option>))
-          }
+        <Input
+          type="select"
+          name="brand"
+          label="Marca"
+          placeholder="Digitar Marca"
+          register={register("brand")}
+        >
+          {Object.values(Brand).map((brand) => (
+            <option key={brand} className="capitalize" value={brand}>
+              {brand}
+            </option>
+          ))}
         </Input>
-        <Input type="select" name="model" label="Modelo" placeholder="Digitar Modelo" register={register("model")}>
-          {
-            kenzieCars.map((car) => (<option key={car.id} className="capitalize" value={car.name}>{car.name}</option>))
-          }
+        <Input
+          type="select"
+          name="model"
+          label="Modelo"
+          placeholder="Digitar Modelo"
+          register={register("model")}
+        >
+          {kenzieCars.map((car) => (
+            <option key={car.id} className="capitalize" value={car.name}>
+              {car.name}
+            </option>
+          ))}
         </Input>
       </fieldset>
 
@@ -140,13 +175,25 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
         <div className="flex gap-3">
           <fieldset className="flex flex-col gap-y-2 text-sm font-medium text-black font-inter">
             <label htmlFor="mileage">Quilometragem</label>
-            <input type="text" id="mileage" placeholder="Digitar Quilometragem" className="px-4 py-2 text-grey-1 rounded w-full border-2 border-grey-7 input-placeholder hover:border-grey-8 focus:border-brand-1" {...register("mileage")} />
+            <input
+              type="text"
+              id="mileage"
+              placeholder="Digitar Quilometragem"
+              className="px-4 py-2 text-grey-1 rounded w-full border-2 border-grey-7 input-placeholder hover:border-grey-8 focus:border-brand-1"
+              {...register("mileage")}
+            />
             {errors.mileage && <span>{errors.mileage.message}</span>}
           </fieldset>
 
           <fieldset className="flex flex-col gap-y-2 text-sm font-medium text-black font-inter">
             <label htmlFor="color">Cor</label>
-            <input type="text" id="color" placeholder="Cor" className="px-4 py-2 text-grey-1 rounded w-full border-2 border-grey-7 input-placeholder hover:border-grey-8 focus:border-brand-1" {...register("color")} />
+            <input
+              type="text"
+              id="color"
+              placeholder="Cor"
+              className="px-4 py-2 text-grey-1 rounded w-full border-2 border-grey-7 input-placeholder hover:border-grey-8 focus:border-brand-1"
+              {...register("color")}
+            />
             {errors.color && <span>{errors.color.message}</span>}
           </fieldset>
         </div>
@@ -167,21 +214,39 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
 
           <fieldset className="flex flex-col gap-y-2 text-sm font-medium text-black font-inter">
             <label htmlFor="price">Preço</label>
-            <input type="text" id="price" placeholder="Preço" className="px-4 py-2 text-grey-1 rounded w-full border-2 border-grey-7 input-placeholder hover:border-grey-8 focus:border-brand-1" {...register("price")} />
+            <input
+              type="text"
+              id="price"
+              placeholder="Preço"
+              className="px-4 py-2 text-grey-1 rounded w-full border-2 border-grey-7 input-placeholder hover:border-grey-8 focus:border-brand-1"
+              {...register("price")}
+            />
             {errors.price && <span>{errors.price.message}</span>}
           </fieldset>
         </div>
       </div>
 
-      <legend className="mb-6 text-sm font-medium text-black font-inter mt-7">Descrição</legend>
+      <legend className="mb-6 text-sm font-medium text-black font-inter mt-7">
+        Descrição
+      </legend>
 
       <div className="space-y-6">
         <fieldset className="flex gap-3">
-          <textarea className="h-[80px] resize-none px-4 py-2 text-grey-1 rounded w-full border-2 border-grey-7 input-placeholder hover:border-grey-8 focus:border-brand-1" placeholder="Digitar descrição" {...register("description")} />
+          <textarea
+            className="h-[80px] resize-none px-4 py-2 text-grey-1 rounded w-full border-2 border-grey-7 input-placeholder hover:border-grey-8 focus:border-brand-1"
+            placeholder="Digitar descrição"
+            {...register("description")}
+          />
           {errors.description && <span>{errors.description.message}</span>}
         </fieldset>
 
-        <Input type="text" name={"coverImage"} label="Imagem da capa" placeholder="URL da imagem" register={register("coverImage")} />
+        <Input
+          type="text"
+          name={"coverImage"}
+          label="Imagem da capa"
+          placeholder="URL da imagem"
+          register={register("coverImage")}
+        />
         {errors.coverImage && <span>{errors.coverImage.message}</span>}
 
         {imageFields.map((field, index) => (
@@ -199,13 +264,38 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
           </div>
         ))}
 
-        <Button onClick={addImageField} disabled={imageFields.length >= 4} type="button" style="brand-4" details="text-grey-whiteFixed w-full px-0.5" size="medium">Adicionar campo para imagem da galeria</Button>
+        <Button
+          onClick={addImageField}
+          disabled={imageFields.length >= 4}
+          type="button"
+          style="brand-4"
+          details="text-grey-whiteFixed w-full px-0.5"
+          size="medium"
+        >
+          Adicionar campo para imagem da galeria
+        </Button>
       </div>
 
       <fieldset className="flex mt-7 justify-end space-x-2">
-        <Button onClick={props.onClose} type="button" style="grey-2" details="" size="medium">Cancelar</Button>
-        <Button type="submit" style="brand-3" details="text-grey-whiteFixed" size="medium">Criar anúncio</Button>
+        <Button
+          onClick={props.onClose}
+          type="button"
+          style="grey-2"
+          details=""
+          size="medium"
+        >
+          Cancelar
+        </Button>
+        <Button
+          type="submit"
+          style="brand-3"
+          details="text-grey-whiteFixed"
+          size="medium"
+        >
+          Criar anúncio
+        </Button>
       </fieldset>
+      <Toaster position="top-center" expand={true} />
     </form>
   );
 }

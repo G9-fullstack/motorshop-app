@@ -3,21 +3,22 @@ import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { alterPassword } from "@/schemas/user.schema";
 import api from "@/services/api";
-import router from "next/router";
 import { useForm } from "react-hook-form";
+import { Toaster, toast } from "sonner";
 
 export default function FormAlterPassword() {
   const { register, handleSubmit } = useForm<alterPassword>({});
 
   function submitForm(formData: alterPassword) {
-    alert("enviou");
     api
       .post("/users/alter-password", formData)
       .then(({ data }) => {
+        toast.success("email enviado");
         return data;
       })
 
       .catch((err) => {
+        toast.error("Nao foi possivel enviar o email.");
         throw err;
       });
   }
@@ -34,7 +35,6 @@ export default function FormAlterPassword() {
         placeholder="Insira seu email"
         register={register("email")}
       />
-
       <Button
         type="submit"
         style="brand-1"
@@ -43,6 +43,7 @@ export default function FormAlterPassword() {
       >
         Enviar
       </Button>
+      <Toaster position="top-center" expand={true} />
     </form>
   );
 }

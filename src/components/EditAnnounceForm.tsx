@@ -4,7 +4,7 @@ import Input from "@/components/Input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { updateAnnounceData, updateAnnounceSchema } from "../schemas/announce.schema";
+import { announceResponse, updateAnnounceData, updateAnnounceSchema } from "../schemas/announce.schema";
 import { useSeller } from "@/contexts/SellerContext";
 import { formatPrice } from "@/utils/formattedPrice";
 import { Brand } from "@/contexts/interfaces";
@@ -16,7 +16,7 @@ interface EditAnnounceFormProps {
 }
 
 export default function EditAnnounceForm({ closeModal, announceId, }: EditAnnounceFormProps) {
-  const { listCarsByBrand, kenzieCars, getCarFIPE, carFIPE, kenzieCarSelected, setKenzieCarSelected, handleEditAnnounce, handleDeleteAnnounce, } = useSeller();
+  const { announcesSeller, listCarsByBrand, kenzieCars, getCarFIPE, carFIPE, kenzieCarSelected, setKenzieCarSelected, handleEditAnnounce, handleDeleteAnnounce, } = useSeller();
   const [imageFields, setImageFields] = useState(["image1"]);
   const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
 
@@ -76,6 +76,22 @@ export default function EditAnnounceForm({ closeModal, announceId, }: EditAnnoun
       });
     }
   }, [modelWatch]);
+
+  useEffect(() => {
+    const announce: announceResponse | undefined = announcesSeller.data.find(elem => elem.id == announceId);
+    if (announce) {
+      setValue("brand", announce.brand);
+      setValue("model", announce.model);
+      setValue("year", announce.year);
+      setValue("fuel", announce.fuel);
+      setValue("mileage", announce.mileage);
+      setValue("color", announce.color);
+      setValue("price", announce.price);
+      setValue("description", announce.description);
+      setValue("isActive", announce.isActive);
+      setValue("coverImage", announce.coverImage);
+    }
+  }, []);
 
   async function prepareFormData(data: updateAnnounceData) {
     const defaultImage = "https://files.slack.com/files-pri/TQZR39SET-F05DEA2BPJN/image.png";

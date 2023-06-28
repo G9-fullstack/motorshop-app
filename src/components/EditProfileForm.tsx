@@ -4,18 +4,18 @@ import Input from "./Input";
 import { updateUserData, updateUserSchema } from "@/schemas/user.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUser } from "@/contexts/UserContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Toaster, toast } from "sonner";
 
 interface iEditProfileFormProps {
   closeModal: () => void;
 }
 
-export default function EditProfileForm({ closeModal }: iEditProfileFormProps) {
-  const { handleRetrieveUser, handleEditUser, handleDeleteUser, user } =
-    useUser();
+export default function EditProfileForm({ closeModal, }: iEditProfileFormProps) {
+  const { handleRetrieveUser, handleEditUser, handleDeleteUser, user, } = useUser();
+  const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
 
-  const { register, handleSubmit, setValue, control } = useForm<updateUserData>(
+  const { register, handleSubmit, setValue, control, } = useForm<updateUserData>(
     {
       mode: "onSubmit",
       resolver: zodResolver(updateUserSchema),
@@ -36,17 +36,23 @@ export default function EditProfileForm({ closeModal }: iEditProfileFormProps) {
   }
 
   function deleteUser() {
-    if (user) {
+    setConfirmDelete(true);
+
+    setTimeout(() => {
+      setConfirmDelete(false);
+    }, 2000);
+
+    if (user && confirmDelete) {
       handleDeleteUser(user.id);
+      toast.success("Usuario excluido com sucesso");
+      closeModal();
     }
-    toast.success("Usuario excluido com sucesso");
-    closeModal();
   }
 
   useEffect(() => {
     async function handleRetrieve() {
       if (user) {
-        const { name, email, cpf, phoneNumber, birthdate, description } =
+        const { name, email, cpf, phoneNumber, birthdate, description, } =
           await handleRetrieveUser(user.id);
 
         setValue("name", name);
@@ -133,7 +139,7 @@ export default function EditProfileForm({ closeModal }: iEditProfileFormProps) {
             size="medium"
             style="alert"
           >
-            Excluir Perfil
+            {confirmDelete ? "Confirmar?": "Excluir Perfil"}
           </Button>
           <Button type="submit" size="medium" style="brand-3">
             Salvar Alterações

@@ -1,34 +1,62 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h1 align="center">MotorShop</h1>
 
-## Getting Started
+<blockquote>
+    <br>
+        <p>MotorShop is an application that allows the registration and management of regular users and car sellers. Sellers can create car ads for sale and manage their ads through a control panel. Users can register, buy available cars, visit the seller’s profile, and view detailed information about each ad, including description, photos, values, and comments. The home page displays cars recently added by sellers and offers various search filters.</p>
+    <br>
+</blockquote>
 
-First, run the development server:
+<blockquote>
+    
+This repository contains the code for the frontend of the application. The backend code can be found in the [MotorShop Server repository](https://github.com/G9-fullstack/motorshop-server).
+    
+</blockquote>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+<br>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<h2>Features</h2>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- User registration and login;
+- Browse car ads from trusted sellers;
+- View detailed information about each ad, including description, photos, values, and comments;
+- Buy available cars and visit the seller’s profile;
+- Home page displays cars recently added by sellers and offers various search filters;
+- Developed with modern technologies such as Next.js, Tailwind CSS and TypeScript.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+<br>
 
-## Learn More
+<h2>Deploy on Vercel</h2>
 
-To learn more about Next.js, take a look at the following resources:
+Visit this application [MotorShop - Website](https://undefined.undefined.app/) to see it in action.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<br>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+<h2>Installation</h2>
 
-## Deploy on Vercel
+Installing and running the project is easy and fast. Just follow these steps:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Clone this repository to your local machine.
+2. Install dependencies: `yarn install`.
+3. Start the development server by running `yarn dev`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+The application should now be running on http://localhost:3000.
+
+<br>
+
+<h2>Technologies used</h2>
+
+- [Next.js](https://nextjs.org/): React-based framework for building server-rendered or statically-exported applications.
+- [Tailwind CSS](https://tailwindcss.com/): utility-first CSS framework for rapidly building custom designs.
+- [TypeScript](https://www.typescriptlang.org/): typed programming language that increases code productivity and readability.
+
+<br>
+
+<h2>Contributing</h2>
+
+To contribute to this project, please follow these guidelines:
+
+1. Fork the repository
+2. Create a new branch: `git checkout -b feat/yourFeatureName`
+3. Make your changes and commit them using Conventional Commits
+4. Push to the branch: `git push origin feat/yourFeatureName`
+5. Submit a pull request

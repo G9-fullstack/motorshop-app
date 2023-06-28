@@ -8,6 +8,7 @@ import { updateAnnounceData, updateAnnounceSchema } from "../schemas/announce.sc
 import { useSeller } from "@/contexts/SellerContext";
 import { formatPrice } from "@/utils/formattedPrice";
 import { Brand } from "@/contexts/interfaces";
+import { Toaster, toast } from "sonner";
 
 interface EditAnnounceFormProps {
   closeModal: () => void;
@@ -17,6 +18,7 @@ interface EditAnnounceFormProps {
 export default function EditAnnounceForm({ closeModal, announceId, }: EditAnnounceFormProps) {
   const { listCarsByBrand, kenzieCars, getCarFIPE, carFIPE, kenzieCarSelected, setKenzieCarSelected, handleEditAnnounce, handleDeleteAnnounce, } = useSeller();
   const [imageFields, setImageFields] = useState(["image1"]);
+  const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
 
   const { register, handleSubmit, formState: { errors, }, watch, setValue, } = useForm<updateAnnounceData>({
     resolver: zodResolver(updateAnnounceSchema),
@@ -85,6 +87,20 @@ export default function EditAnnounceForm({ closeModal, announceId, }: EditAnnoun
       data.images[1] = defaultImage;
     }
     return data;
+  }
+
+  function deleteAnnounce() {
+    setConfirmDelete(true);
+
+    setTimeout(() => {
+      setConfirmDelete(false);
+    }, 2000);
+
+    if (confirmDelete) {
+      handleDeleteAnnounce(announceId);
+      toast.success("Usuario excluido com sucesso");
+      closeModal();
+    }
   }
 
   async function submitForm(data: updateAnnounceData) {
@@ -219,12 +235,12 @@ export default function EditAnnounceForm({ closeModal, announceId, }: EditAnnoun
       </div>
 
       <fieldset className="flex mt-7 justify-end space-x-2">
-        <Button onClick={() => {
-          handleDeleteAnnounce(announceId);
-          closeModal();
-        }} type="button" style="grey-2" details="" size="medium">Excluir anúncio</Button>
+        <Button onClick={deleteAnnounce} type="button" style="grey-2" details="" size="medium">
+          {confirmDelete ? "Confirmar?": "Excluir Anúncio"}
+        </Button>
         <Button type="submit" style="brand-3" details="text-grey-whiteFixed" size="medium">Salvar alterações</Button>
       </fieldset>
+      <Toaster position="top-center" expand={true} />
     </form>
   );
 }

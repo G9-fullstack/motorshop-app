@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
-  const { register, handleSubmit } = useForm<newPassword>({
+  const { register, handleSubmit, } = useForm<newPassword>({
     resolver: zodResolver(newPasswordSchema),
   });
   const router = useRouter();

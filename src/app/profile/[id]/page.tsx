@@ -61,7 +61,7 @@ export default function Seller({ params, }: { params: { id: string } }) {
       <div className="ml-3 px-3 md:mx-auto max-w-screen-2xl my-16">
         <AnnounceList announces={announcesSeller.data} />
       </div>
-      <ListInfo announces={announcesSeller.data} nextPage={nextPage} prevPage={prevPage} currentPage={announcesSeller.currentPage} totalCount={announcesSeller.totalCount} />
+      <ListInfo announces={announcesSeller.data} nextPage={nextPage} prevPage={prevPage} currentPage={announcesSeller.currentPage} totalPages={announcesSeller.totalPages} />
     </main>
   );
 }

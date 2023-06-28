@@ -5,10 +5,11 @@ import { newPassword, newPasswordSchema } from "@/schemas/user.schema";
 import api from "@/services/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { Toaster, toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
-  const { register, handleSubmit } = useForm<newPassword>({
+  const { register, handleSubmit, } = useForm<newPassword>({
     resolver: zodResolver(newPasswordSchema),
   });
   const router = useRouter();
@@ -18,7 +19,7 @@ export default function Login() {
     api
       .patch(`users/resetPassword/${token}`, formData)
       .then(() => {
-        alert("alterado");
+        toast("Sua senha foi alterada");
         router.push("/login");
       })
 
@@ -60,6 +61,7 @@ export default function Login() {
           </fieldset>
         </form>
       </section>
+      <Toaster position="top-center" expand={true} />
     </main>
   );
 }

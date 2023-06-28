@@ -1,5 +1,5 @@
 "use client";
-import { announceResponse } from "@/schemas/announce.schema";
+import { announceResponse, updateAnnounceData } from "@/schemas/announce.schema";
 import api from "@/services/api";
 import axios from "axios";
 import nookies from "nookies";
@@ -23,6 +23,8 @@ interface SellerContextData {
   kenzieCarSelected: KenzieCar,
   setKenzieCarSelected: React.Dispatch<React.SetStateAction<KenzieCar>>
   handleCreateAnnounce(formData: announceData): Promise<void>;
+  handleEditAnnounce(formData: updateAnnounceData, id: number): void;
+  handleDeleteAnnounce(id: number): void;
 }
 
 const SellerContext = createContext({} as SellerContextData);
@@ -71,6 +73,20 @@ export function SellerProvider({ children, }: Props) {
         },
       })
       .catch((err) => {
+        throw err;
+      });
+  }
+
+  function handleEditAnnounce(formData: updateAnnounceData, id: number) {
+    api.patch(`/announces/${id}`, formData)
+      .catch(err => {
+        throw err;
+      });
+  }
+
+  function handleDeleteAnnounce(id: number) {
+    api.delete(`/announces/${id}`)
+      .catch(err => {
         throw err;
       });
   }
@@ -125,6 +141,8 @@ export function SellerProvider({ children, }: Props) {
       getCarFIPE,
       setKenzieCarSelected,
       handleCreateAnnounce,
+      handleEditAnnounce,
+      handleDeleteAnnounce,
     }}>
       {children}
     </SellerContext.Provider>

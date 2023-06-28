@@ -8,7 +8,6 @@ import ProfileImage from "@/components/ProfileImage";
 import { useSeller } from "@/contexts/SellerContext";
 import { useUser } from "@/contexts/UserContext";
 import { useModal } from "@/hooks/useModal";
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function Profile() {
@@ -21,7 +20,7 @@ export default function Profile() {
     if (user) {
       getAnnouncesSeller(Number(user.id));
     }
-  }, [user, getAnnouncesSeller]);
+  }, [user]);
 
   if (!user) return null;
 

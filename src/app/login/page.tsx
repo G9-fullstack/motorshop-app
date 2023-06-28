@@ -12,12 +12,12 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 export default function Login() {
-  const { handleUserLogin, isLoading, user } = useUser();
+  const { handleUserLogin, isLoading, user, } = useUser();
   const [isOpen, openModal, closeModal] = useModal();
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, },
   } = useForm<loginData>({
     resolver: zodResolver(loginSchema),
   });

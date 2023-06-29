@@ -8,7 +8,7 @@ import ProfileImage from "./ProfileImage";
 import { announceResponse } from "@/schemas/announce.schema";
 import { Modal } from "./Modal";
 import { useModal } from "@/hooks/useModal";
-import EditAnnounceForm from "./editAnnounceForm";
+import EditAnnounceForm from "./EditAnnounceForm";
 
 type AnnounceItemProps = {
   announce: announceResponse

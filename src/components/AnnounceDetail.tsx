@@ -5,9 +5,13 @@ import CardUserProfile from "./CardUserProfile";
 import CommentForm from "./CommentForm";
 import Comments from "./Comments";
 
+
+
 export default function AnnounceDetail() {
   const { announce, } = useSeller();
   if (!announce) return null;
+
+  console.log(announce);
 
   return (
     <>
@@ -66,7 +70,7 @@ export default function AnnounceDetail() {
 
       <div className="lg:flex lg:gap-14 lg:justify-center w-full mt-4 space-y-9 lg:mr-[380px] xl:mr-[470px] 2xl:mr-[557px]">
         <div className="max-w-[750px] w-full">
-          <Comments />
+          <Comments announcementComents={announce.comments} />
           <CommentForm />
         </div>
         <div className="max-w-[440px] w-full"/>

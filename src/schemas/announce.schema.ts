@@ -3,6 +3,14 @@ import { updateUserSchema } from "./user.schema";
 
 const imageSchema = z.string().optional();
 
+const commentsSchema = z.object({
+  comment: z.string(),
+  createdAt: z.string(),
+  user: z.object({
+    name: z.string(),
+  }),
+});
+
 export const announceSchema = z.object({
   brand: z.string(),
   model: z.string(),
@@ -24,6 +32,7 @@ const announce = announceSchema.extend({
   isActive: z.boolean(),
   images: z.array(z.object({ imageUrl: z.string(), })),
   seller: updateUserSchema.extend({ id: z.number(), isSeller: z.boolean(), }),
+  comments: z.array(commentsSchema),
 });
 
 export const updateAnnounceSchema = announceSchema.partial().extend({

@@ -3,7 +3,6 @@ import Button from "./Button";
 import { announceResponse } from "@/schemas/announce.schema";
 
 const INITIAL_PAGE = 1;
-const PER_PAGE = 12;
 
 type ListInfoProps = {
   nextPage: () => void;
@@ -22,7 +21,7 @@ export default function ListInfo({
   nextPage,
   prevPage,
   currentPage = 1,
-  totalPages,
+  totalPages = 1,
 }: ListInfoProps) {
   if (!announces || announces.length === 0) {
     return null;

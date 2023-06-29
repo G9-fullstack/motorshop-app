@@ -11,9 +11,9 @@ interface iEditAddressFormProps {
   closeModal: () => void;
 }
 
-export default function EditAddressForm({ closeModal }: iEditAddressFormProps) {
-  const { handleEditAddress, handleRetrieveUserAddress } = useUser();
-  const { register, handleSubmit, setValue } = useForm<addressData>({
+export default function EditAddressForm({ closeModal, }: iEditAddressFormProps) {
+  const { handleEditAddress, handleRetrieveUserAddress, } = useUser();
+  const { register, handleSubmit, setValue, } = useForm<addressData>({
     mode: "onSubmit",
     resolver: zodResolver(addressSchema),
   });
@@ -29,7 +29,7 @@ export default function EditAddressForm({ closeModal }: iEditAddressFormProps) {
 
   useEffect(() => {
     async function handleRetrieve() {
-      const { zipCode, state, city, street, number, complement } =
+      const { zipCode, state, city, street, number, complement, } =
         await handleRetrieveUserAddress();
 
       setValue("zipCode", zipCode.slice(0, 5) + "-" + zipCode.slice(5));
@@ -40,7 +40,7 @@ export default function EditAddressForm({ closeModal }: iEditAddressFormProps) {
       setValue("complement", complement);
     }
     handleRetrieve();
-  }, []);
+  });
 
   return (
     <form onSubmit={handleSubmit(submitEditForm)}>

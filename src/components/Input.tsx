@@ -10,6 +10,7 @@ type InputProps = {
   value?: string;
   placeholder?: string;
   register?: UseFormRegisterReturn;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control?: any;
   children?: React.ReactNode;
   errors?: FieldError;

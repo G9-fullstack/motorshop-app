@@ -30,7 +30,7 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, },
     watch,
     setValue,
   } = useForm<announceData>({
@@ -53,7 +53,7 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
     }
 
     handleCarsList();
-  }, [brandWatch]);
+  }, [brandWatch, listCarsByBrand]);
 
   useEffect(() => {
     async function handleGetCarFIPE() {
@@ -63,7 +63,7 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
     if (modelWatch) {
       handleGetCarFIPE();
     }
-  }, [kenzieCarSelected]);
+  }, [kenzieCarSelected, modelWatch, getCarFIPE]);
 
   useEffect(() => {
     if (modelWatch) {
@@ -74,20 +74,20 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
           setValue("year", car.year);
 
           switch (car.fuel) {
-            case 1:
-              setValue("fuel", "Flex");
-              break;
-            case 2:
-              setValue("fuel", "Híbrido");
-              break;
-            case 3:
-              setValue("fuel", "Elétrico");
-              break;
+          case 1:
+            setValue("fuel", "Flex");
+            break;
+          case 2:
+            setValue("fuel", "Híbrido");
+            break;
+          case 3:
+            setValue("fuel", "Elétrico");
+            break;
           }
         }
       });
     }
-  }, [modelWatch]);
+  }, [modelWatch, setKenzieCarSelected, setValue, kenzieCars]);
 
   async function prepareFormData(data: announceData) {
     const defaultImage =
@@ -104,7 +104,7 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
 
   async function submitForm(data: announceData) {
     const preparedData = await prepareFormData(data);
-    const responseAnnounce = await handleCreateAnnounce(preparedData);
+    await handleCreateAnnounce(preparedData);
     toast.success("Anuncio criado com sucesso");
     props.onClose();
     props.openNotifyModal();

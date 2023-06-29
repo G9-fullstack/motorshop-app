@@ -8,6 +8,7 @@ const commentsSchema = z.object({
   createdAt: z.string(),
   user: z.object({
     name: z.string(),
+    id: z.number(),
   }),
 });
 
@@ -39,6 +40,12 @@ export const updateAnnounceSchema = announceSchema.partial().extend({
   isActive: z.boolean().default(true),
 });
 
+export const announceCommentSchema = z.object({
+  comment: z.string(),
+});
+
+
+export type announceComment = z.infer<typeof announceCommentSchema>
 export type announceResponse = z.infer<typeof announce>
 export type announceData = z.infer<typeof announceSchema>
 export type updateAnnounceData = z.infer<typeof updateAnnounceSchema>

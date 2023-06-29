@@ -1,23 +1,56 @@
+import { announceComment } from "@/schemas/announce.schema";
 import ProfileImage from "./ProfileImage";
+import { useForm } from "react-hook-form";
+import api from "@/services/api";
+import { useUser } from "@/contexts/UserContext";
+import { useSeller } from "@/contexts/SellerContext";
 
-export default function CommentForm() {
+type CommentFormProps = {
+  announceId: number;
+};
+
+export default function CommentForm({ announceId, }: CommentFormProps) {
+  const { user, } = useUser();
+  const { getAnnounce, } = useSeller();
+  const { register, handleSubmit, reset, } = useForm<announceComment>({});
+
+  function submitForm(formData: announceComment) {
+    api
+      .post(`/announces/${announceId}/comments`, formData)
+      .then(() => {
+        getAnnounce(String(announceId));
+      })
+      .catch((err) => {
+        throw err;
+      });
+    reset();
+  }
+
   return (
     <div className="w-full bg-grey-10 py-9 px-11 rounded">
       <div className="flex items-center gap-2 mb-4">
-        <ProfileImage name="Samuel Leão" size="small" userId={10} />
-        <span className="text-sm font-medium font-inter text-grey-0">Samuel Leão</span>
+        <ProfileImage
+          name={user?.name || "User"}
+          size="small"
+          userId={+user?.id || 1}
+        />
+        <span className="text-sm font-medium font-inter text-grey-0">
+          {user?.name}
+        </span>
       </div>
-      <form>
+      <form onSubmit={handleSubmit(submitForm)}>
         <div className="relative">
           <textarea
             placeholder="Carro muito confortável, foi uma ótima experiência de compra..."
             className="w-full h-32 py-5 text-base font-normal border-2 rounded outline-none resize-none border-grey-7 px-7 font-inter text-grey-3 decoration-transparent"
-          >
-          </textarea>
+            {...register("comment")}
+          ></textarea>
           <button
             type="submit"
             className="absolute z-10 px-5 py-3 text-sm font-semibold rounded right-3 bottom-4 bg-brand-1 text-grey-whiteFixed"
-          >Comentar</button>
+          >
+            Comentar
+          </button>
         </div>
       </form>
       <div className="flex flex-wrap gap-2 mt-3">

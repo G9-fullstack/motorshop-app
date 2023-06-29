@@ -7,12 +7,12 @@ import { useForm } from "react-hook-form";
 import { Toaster, toast } from "sonner";
 
 export default function FormAlterPassword() {
-  const { register, handleSubmit } = useForm<alterPassword>({});
+  const { register, handleSubmit, } = useForm<alterPassword>({});
 
   function submitForm(formData: alterPassword) {
     api
       .post("/users/alter-password", formData)
-      .then(({ data }) => {
+      .then(({ data, }) => {
         toast.success("email enviado");
         return data;
       })

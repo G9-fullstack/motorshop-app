@@ -32,7 +32,7 @@ export default function CommentForm({ announceId, }: CommentFormProps) {
         <ProfileImage
           name={user?.name || "User"}
           size="small"
-          userId={+user?.id || 1}
+          userId={Number(user?.id)}
         />
         <span className="text-sm font-medium font-inter text-grey-0">
           {user?.name}

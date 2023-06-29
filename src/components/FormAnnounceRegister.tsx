@@ -53,7 +53,7 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
     }
 
     handleCarsList();
-  }, [brandWatch, listCarsByBrand]);
+  }, [brandWatch]);
 
   useEffect(() => {
     async function handleGetCarFIPE() {
@@ -63,7 +63,7 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
     if (modelWatch) {
       handleGetCarFIPE();
     }
-  }, [kenzieCarSelected, modelWatch, getCarFIPE]);
+  }, [kenzieCarSelected]);
 
   useEffect(() => {
     if (modelWatch) {
@@ -87,7 +87,7 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
         }
       });
     }
-  }, [modelWatch, setKenzieCarSelected, setValue, kenzieCars]);
+  }, [modelWatch]);
 
   async function prepareFormData(data: announceData) {
     const defaultImage =

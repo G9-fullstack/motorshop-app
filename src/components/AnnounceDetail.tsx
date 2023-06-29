@@ -4,16 +4,11 @@ import Image from "next/image";
 import CardUserProfile from "./CardUserProfile";
 import CommentForm from "./CommentForm";
 import Comments from "./Comments";
-import { useEffect, useState } from "react";
 
 export default function AnnounceDetail() {
-  const { announce } = useSeller();
-  if (!announce) return null;
-  const [comments, setComments] = useState(announce.comments || []);
+  const { announce, } = useSeller();
 
-  useEffect(() => {
-    setComments(announce.comments);
-  }, [announce]);
+  if (!announce) return null;
 
   return (
     <>
@@ -88,11 +83,9 @@ export default function AnnounceDetail() {
 
       <div className="lg:flex lg:gap-14 lg:justify-center w-full mt-4 space-y-9 lg:mr-[380px] xl:mr-[470px] 2xl:mr-[557px]">
         <div className="max-w-[750px] w-full">
-          <Comments announcementComents={comments} />
+          <Comments announcementComents={announce.comments} />
           <CommentForm
             announceId={announce.id}
-            comments={comments}
-            setComments={setComments}
           />
         </div>
         <div className="max-w-[440px] w-full" />

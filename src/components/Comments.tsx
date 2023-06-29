@@ -8,9 +8,7 @@ type iAnnounceDetail = {
   announcementComents: announceResponse["comments"];
 };
 
-export default function Comments({ announcementComents }: iAnnounceDetail) {
-  console.log(announcementComents);
-
+export default function Comments({ announcementComents, }: iAnnounceDetail) {
   const formatDate = (dateString: string) => {
     const currentDate = new Date();
     const date = parseISO(dateString);
@@ -18,15 +16,13 @@ export default function Comments({ announcementComents }: iAnnounceDetail) {
     if (isToday(date) && currentDate.getDate() === date.getDate()) {
       return "Hoje";
     } else if (isThisMonth(date)) {
-      const distanceToNow = formatDistanceToNow(date, { locale: ptBR });
+      const distanceToNow = formatDistanceToNow(date, { locale: ptBR, });
       return `Há ${distanceToNow}`;
     } else if (currentDate.getFullYear() === date.getFullYear()) {
-      const distanceToNow = formatDistanceToNow(date, { locale: ptBR });
-      console.log(distanceToNow);
+      const distanceToNow = formatDistanceToNow(date, { locale: ptBR, });
       return `Há ${distanceToNow}`;
     } else {
-      const distanceToNow = formatDistanceToNow(date, { locale: ptBR });
-      console.log(distanceToNow);
+      const distanceToNow = formatDistanceToNow(date, { locale: ptBR, });
       return `Há ${distanceToNow}`;
     }
   };

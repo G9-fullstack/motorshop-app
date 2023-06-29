@@ -40,7 +40,7 @@ export default function EditAddressForm({ closeModal, }: iEditAddressFormProps) 
       setValue("complement", complement);
     }
     handleRetrieve();
-  });
+  }, []);
 
   return (
     <form onSubmit={handleSubmit(submitEditForm)}>

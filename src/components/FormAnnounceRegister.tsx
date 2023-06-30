@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { announceData, announceSchema } from "../schemas/announce.schema";
 import { useSeller } from "@/contexts/SellerContext";
 import { formatPrice } from "@/utils/formattedPrice";
-import { Brand } from "@/contexts/interfaces";
+import { Brand, EnumBrand } from "@/contexts/interfaces";
 import { Toaster, toast } from "sonner";
 
 interface FormAnnounceRegisterProps {
@@ -17,12 +17,7 @@ interface FormAnnounceRegisterProps {
 
 export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
   const {
-    listCarsByBrand,
-    kenzieCars,
-    getCarFIPE,
-    carFIPE,
-    kenzieCarSelected,
-    setKenzieCarSelected,
+    listCars,
     handleCreateAnnounce,
   } = useSeller();
   const [imageFields, setImageFields] = useState(["image1"]);
@@ -48,46 +43,29 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
   }
 
   useEffect(() => {
-    async function handleCarsList() {
-      if (brandWatch) await listCarsByBrand(brandWatch);
+    if (!modelWatch) return;
+    const car = listCars[brandWatch as EnumBrand].find(car => car.name === modelWatch);
+    if (car) {
+      setValue("price", formatPrice(car.value));
+      setValue("year", car.year);
+      switch (car.fuel) {
+      case 1:
+        setValue("fuel", "Flex");
+        break;
+      case 2:
+        setValue("fuel", "Híbrido");
+        break;
+      case 3:
+        setValue("fuel", "Elétrico");
+        break;
+      }
+    } else {
+      setValue("price", "");
+      setValue("year", "");
+      setValue("fuel", "");
     }
 
-    handleCarsList();
-  }, [brandWatch, listCarsByBrand]);
-
-  useEffect(() => {
-    async function handleGetCarFIPE() {
-      await getCarFIPE(kenzieCarSelected);
-    }
-
-    if (modelWatch) {
-      handleGetCarFIPE();
-    }
-  }, [kenzieCarSelected, modelWatch, getCarFIPE]);
-
-  useEffect(() => {
-    if (modelWatch) {
-      kenzieCars.forEach((car) => {
-        if (car.name === modelWatch) {
-          setKenzieCarSelected(car);
-
-          setValue("year", car.year);
-
-          switch (car.fuel) {
-          case 1:
-            setValue("fuel", "Flex");
-            break;
-          case 2:
-            setValue("fuel", "Híbrido");
-            break;
-          case 3:
-            setValue("fuel", "Elétrico");
-            break;
-          }
-        }
-      });
-    }
-  }, [modelWatch, setKenzieCarSelected, setValue, kenzieCars]);
+  }, [modelWatch]);
 
   async function prepareFormData(data: announceData) {
     const defaultImage =
@@ -99,6 +77,7 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
       data.images[0] = defaultImage;
       data.images[1] = defaultImage;
     }
+    data.price = (data.price.replace(/\D/g, ""));
     return data;
   }
 
@@ -124,6 +103,7 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
           placeholder="Digitar Marca"
           register={register("brand")}
         >
+          <option value="">Selecione um marca</option>
           {Object.values(Brand).map((brand) => (
             <option key={brand} className="capitalize" value={brand}>
               {brand}
@@ -137,7 +117,8 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
           placeholder="Digitar Modelo"
           register={register("model")}
         >
-          {kenzieCars.map((car) => (
+          <option value="">Selecione um modelo</option>
+          {brandWatch && listCars[brandWatch as EnumBrand] && listCars[brandWatch as EnumBrand].map((car) => (
             <option key={car.id} className="capitalize" value={car.name}>
               {car.name}
             </option>
@@ -203,7 +184,7 @@ export default function FormAnnounceRegister(props: FormAnnounceRegisterProps) {
             <label htmlFor="priceFIPE">Preço tabela FIPE</label>
             <input
               type="text"
-              value={formatPrice(carFIPE)}
+              value={formatPrice(100)}
               name="priceFIPE"
               id="priceFIPE"
               placeholder="Digitar Preço FIPE"

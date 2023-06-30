@@ -54,7 +54,7 @@ export default function AnnounceItem({ announce, }: AnnounceItemProps) {
               <span className="body-2-500 text-brand-1 px-2 py-1 bg-brand-4">{announce.mileage} KM</span>
               <span className="body-2-500 text-brand-1 px-2 py-1 bg-brand-4">{announce.year}</span>
             </div>
-            <span className="heading-7-500">{formatPrice(announce.price)}</span>
+            <span className="heading-7-500">{formatPrice(Number(announce.price))}</span>
           </div>
           {!isVisitor && isProfile && !!user?.isSeller &&
             <div className="flex items-center gap-4">
@@ -72,7 +72,7 @@ export default function AnnounceItem({ announce, }: AnnounceItemProps) {
         </div>
       </li>
       <Modal isOpen={isOpen} onClose={closeModal} modalTitle="Editar anúncio">
-        <EditAnnounceForm closeModal={closeModal} announceId={announce.id} />
+        <EditAnnounceForm closeModal={closeModal} announceId={announce.id} announce={announce}/>
       </Modal>
     </>
   );

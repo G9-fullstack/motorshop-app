@@ -28,7 +28,7 @@ export default function Input(props: InputProps) {
     inputElement = <textarea disabled={props.disabled} name={props.name} id={props.name} className={defaultStyle} placeholder={props.placeholder ?? props.label} {...props.register} />;
     break;
   case "select":
-    inputElement = <select disabled={props.disabled} name={props.name} id={props.name} className={`${defaultStyle} capitalize`} placeholder={props.placeholder ?? props.label} {...props.register}>{props.children}</select>;
+    inputElement = <select value={props.value} disabled={props.disabled} name={props.name} id={props.name} className={`${defaultStyle} capitalize`} placeholder={props.placeholder ?? props.label} {...props.register}>{props.children}</select>;
     break;
   case "tel":
     inputElement =

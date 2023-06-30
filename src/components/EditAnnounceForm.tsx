@@ -4,19 +4,20 @@ import Input from "@/components/Input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { announceResponse, updateAnnounceData, updateAnnounceSchema } from "../schemas/announce.schema";
+import { announceData, announceResponse, updateAnnounceData, updateAnnounceSchema } from "../schemas/announce.schema";
 import { useSeller } from "@/contexts/SellerContext";
 import { formatPrice } from "@/utils/formattedPrice";
-import { Brand } from "@/contexts/interfaces";
+import { Brand, EnumBrand } from "@/contexts/interfaces";
 import { Toaster, toast } from "sonner";
 
 interface EditAnnounceFormProps {
   closeModal: () => void;
-  announceId: number
+  announceId: number,
+  announce: announceResponse,
 }
 
-export default function EditAnnounceForm({ closeModal, announceId, }: EditAnnounceFormProps) {
-  const { announcesSeller, listCarsByBrand, kenzieCars, getCarFIPE, carFIPE, kenzieCarSelected, setKenzieCarSelected, handleEditAnnounce, handleDeleteAnnounce, } = useSeller();
+export default function EditAnnounceForm({ closeModal, announceId, announce, }: EditAnnounceFormProps) {
+  const { listCars, handleEditAnnounce, handleDeleteAnnounce, } = useSeller();
   const [imageFields, setImageFields] = useState(["image1"]);
   const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
 
@@ -24,8 +25,6 @@ export default function EditAnnounceForm({ closeModal, announceId, }: EditAnnoun
     resolver: zodResolver(updateAnnounceSchema),
   });
 
-  const brandWatch = watch("brand");
-  const modelWatch = watch("model");
   const isActiveWatch = watch("isActive");
 
   function addImageField() {
@@ -36,49 +35,6 @@ export default function EditAnnounceForm({ closeModal, announceId, }: EditAnnoun
   }
 
   useEffect(() => {
-    async function handleCarsList() {
-      if (brandWatch) await listCarsByBrand(brandWatch);
-    }
-
-    handleCarsList();
-  }, [brandWatch]);
-
-  useEffect(() => {
-    async function handleGetCarFIPE() {
-      await getCarFIPE(kenzieCarSelected);
-    }
-
-    if (modelWatch) {
-      handleGetCarFIPE();
-    }
-  }, [kenzieCarSelected]);
-
-  useEffect(() => {
-    if (modelWatch) {
-      kenzieCars.forEach((car) => {
-        if (car.name === modelWatch) {
-          setKenzieCarSelected(car);
-
-          setValue("year", car.year);
-
-          switch (car.fuel) {
-          case 1:
-            setValue("fuel", "Flex");
-            break;
-          case 2:
-            setValue("fuel", "Híbrido");
-            break;
-          case 3:
-            setValue("fuel", "Elétrico");
-            break;
-          }
-        }
-      });
-    }
-  }, [modelWatch]);
-
-  useEffect(() => {
-    const announce: announceResponse | undefined = announcesSeller.data.find(elem => elem.id == announceId);
     if (announce) {
       setValue("brand", announce.brand);
       setValue("model", announce.model);
@@ -90,11 +46,14 @@ export default function EditAnnounceForm({ closeModal, announceId, }: EditAnnoun
       setValue("description", announce.description);
       setValue("isActive", announce.isActive);
       setValue("coverImage", announce.coverImage);
+      setValue("year", announce.year);
+      setValue("fuel", announce.fuel);
     }
   }, []);
 
   async function prepareFormData(data: updateAnnounceData) {
-    const defaultImage = "https://files.slack.com/files-pri/TQZR39SET-F05DEA2BPJN/image.png";
+    const defaultImage =
+      "https://files.slack.com/files-pri/TQZR39SET-F05DEA2BPJN/image.png";
     if (!data.coverImage) {
       data.coverImage = defaultImage;
     }
@@ -102,6 +61,9 @@ export default function EditAnnounceForm({ closeModal, announceId, }: EditAnnoun
       data.images[0] = defaultImage;
       data.images[1] = defaultImage;
     }
+    data.price = data.price && data.price.replace(/\D/g, "");
+    data.brand = data.brand && data.brand.toLowerCase();
+    data.model = data.model && data.model.toLowerCase();
     return data;
   }
 
@@ -128,17 +90,39 @@ export default function EditAnnounceForm({ closeModal, announceId, }: EditAnnoun
   return (
     <form onSubmit={handleSubmit(submitForm)}>
       <legend className="mb-6 text-sm font-medium text-black font-inter">Infomações do veículo</legend>
-
       <fieldset className="space-y-6">
-        <Input type="select" name="brand" label="Marca" placeholder="Digitar Marca" register={register("brand")}>
-          {
-            Object.values(Brand).map((brand) => (<option key={brand} className="capitalize" value={brand}>{brand}</option>))
-          }
+        <Input
+          type="select"
+          name="brand"
+          label="Marca"
+          value={announce.brand}
+          placeholder="Digitar Marca"
+          register={register("brand")}
+        >
+          <option className="capitalize" value={announce.brand.toLowerCase()}>{announce.brand}</option>
+          {Object.values(Brand).filter(brand => brand !== announce.brand.toLowerCase()).map((brand) => (
+            <option key={brand} className="capitalize" value={brand}>
+              {brand}
+            </option>
+          ))}
         </Input>
-        <Input type="select" name="model" label="Modelo" placeholder="Digitar Modelo" register={register("model")}>
-          {
-            kenzieCars.map((car) => (<option key={car.id} className="capitalize" value={car.name}>{car.name}</option>))
-          }
+        <Input
+          type="select"
+          name="model"
+          label="Modelo"
+          value={announce.model}
+          placeholder="Digitar Modelo"
+          register={register("model")}
+        >
+          <option className="capitalize" value={announce.model.toLowerCase()}>{announce.model}</option>
+          {listCars[announce.brand.toLowerCase() as EnumBrand]
+            && listCars[announce.brand.toLowerCase() as EnumBrand]
+              .filter((car) => car.name !== announce.model.toLowerCase())
+              .map((car) => (
+                <option key={car.id} className="capitalize" value={car.name}>
+                  {car.name}
+                </option>
+              ))}
         </Input>
       </fieldset>
 
@@ -188,7 +172,7 @@ export default function EditAnnounceForm({ closeModal, announceId, }: EditAnnoun
             <label htmlFor="priceFIPE">Preço tabela FIPE</label>
             <input
               type="text"
-              value={formatPrice(carFIPE)}
+              value={formatPrice(100)}
               name="priceFIPE"
               id="priceFIPE"
               placeholder="Digitar Preço FIPE"
@@ -252,7 +236,7 @@ export default function EditAnnounceForm({ closeModal, announceId, }: EditAnnoun
 
       <fieldset className="flex mt-7 justify-end space-x-2">
         <Button onClick={deleteAnnounce} type="button" style="grey-2" details="" size="medium">
-          {confirmDelete ? "Confirmar?": "Excluir Anúncio"}
+          {confirmDelete ? "Confirmar?" : "Excluir Anúncio"}
         </Button>
         <Button type="submit" style="brand-3" details="text-grey-whiteFixed" size="medium">Salvar alterações</Button>
       </fieldset>

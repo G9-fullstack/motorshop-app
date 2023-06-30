@@ -27,7 +27,7 @@ This repository contains the code for the frontend of the application. The backe
 
 <h2>Deploy on Vercel</h2>
 
-Visit this application [MotorShop - Website](https://undefined.undefined.app/) to see it in action.
+Visit this application [MotorShop - Website](https://motorshop-app.vercel.app/) to see it in action.
 
 <br>
 
@@ -36,8 +36,8 @@ Visit this application [MotorShop - Website](https://undefined.undefined.app/) t
 Installing and running the project is easy and fast. Just follow these steps:
 
 1. Clone this repository to your local machine.
-2. Install dependencies: `yarn install`.
-3. Start the development server by running `yarn dev`.
+2. Install dependencies: `yarn install` or `npm install`.
+3. Start the development server by running `yarn dev` or `npm run dev`.
 
 The application should now be running on http://localhost:3000.
 

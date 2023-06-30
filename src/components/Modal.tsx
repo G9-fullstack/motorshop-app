@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+"use client";
+
 import { createPortal } from "react-dom";
 
 interface ModalProps {
@@ -9,15 +10,6 @@ interface ModalProps {
 }
 
 export function Modal({ children, isOpen, modalTitle, onClose, }: ModalProps): JSX.Element | null {
-  const modalRoot = document.getElementById("modal-root");
-  const modalElement = document.createElement("div");
-  useEffect(() => {
-    modalRoot && modalRoot.appendChild(modalElement);
-    return () => {
-      modalRoot && modalRoot.removeChild(modalElement);
-    };
-  }, [modalElement, modalRoot]);
-
   if (!isOpen) return null;
 
   return createPortal(
@@ -35,6 +27,6 @@ export function Modal({ children, isOpen, modalTitle, onClose, }: ModalProps): J
         {children}
       </section>
     </div>,
-    modalElement
+    document.body
   );
 }

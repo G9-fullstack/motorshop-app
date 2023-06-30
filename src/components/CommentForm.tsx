@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import api from "@/services/api";
 import { useUser } from "@/contexts/UserContext";
 import { useSeller } from "@/contexts/SellerContext";
+import { parseCookies } from "nookies";
 
 type CommentFormProps = {
   announceId: number;
@@ -13,6 +14,13 @@ export default function CommentForm({ announceId, }: CommentFormProps) {
   const { user, } = useUser();
   const { getAnnounce, } = useSeller();
   const { register, handleSubmit, reset, } = useForm<announceComment>({});
+
+  const cookies = parseCookies();
+  const motorshoptoken = cookies.motorshoptoken;
+
+  if (!motorshoptoken) {
+    return null;
+  }
 
   function submitForm(formData: announceComment) {
     api
@@ -27,7 +35,7 @@ export default function CommentForm({ announceId, }: CommentFormProps) {
   }
 
   return (
-    <div className="w-full bg-grey-10 py-9 px-11 rounded">
+    <div className="w-full bg-grey-10 py-9 px-11 rounded mt-4">
       <div className="flex items-center gap-2 mb-4">
         <ProfileImage
           name={user?.name || "User"}

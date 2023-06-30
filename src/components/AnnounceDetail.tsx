@@ -39,7 +39,7 @@ export default function AnnounceDetail() {
                 </span>
               </div>
               <small className="text-grey-01 text-base font-medium block mt-8 md:mt-0">
-                {formatPrice(announce.price)}
+                {formatPrice(Number(announce.price))}
               </small>
             </div>
             <button className="bg-brand-1 text-grey-whiteFixed rounded text-sm w-24 h-9 mt-7">

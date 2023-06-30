@@ -4,7 +4,7 @@ import Input from "@/components/Input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { announceData, announceResponse, updateAnnounceData, updateAnnounceSchema } from "../schemas/announce.schema";
+import { announceResponse, updateAnnounceData, updateAnnounceSchema } from "../schemas/announce.schema";
 import { useSeller } from "@/contexts/SellerContext";
 import { formatPrice } from "@/utils/formattedPrice";
 import { Brand, EnumBrand } from "@/contexts/interfaces";
@@ -203,12 +203,12 @@ export default function EditAnnounceForm({ closeModal, announceId, announce, }: 
             <span
               onClick={() => setValue("isActive", true)}
             >
-              <Button type="button" style={isActiveWatch ? "outline-1" : "brand-1"} details={isActiveWatch ? "" : "text-grey-whiteFixed"} size="big" width={152}>Sim</Button>
+              <Button type="button" style={isActiveWatch ? "brand-1" : "outline-1"} details={isActiveWatch ? "text-grey-whiteFixed" : ""} size="big" width={152}>Sim</Button>
             </span>
             <span
               onClick={() => setValue("isActive", false)}
             >
-              <Button type="button" style={isActiveWatch ? "brand-1" : "outline-1"} details={isActiveWatch ? "text-grey-whiteFixed" : ""} size="big" width={152}>Não</Button>
+              <Button type="button" style={isActiveWatch ? "outline-1" : "brand-1"} details={isActiveWatch ? "" : "text-grey-whiteFixed"} size="big" width={152}>Não</Button>
             </span>
           </fieldset>
         </fieldset>

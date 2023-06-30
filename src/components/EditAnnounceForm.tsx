@@ -21,11 +21,12 @@ export default function EditAnnounceForm({ closeModal, announceId, announce, }: 
   const [imageFields, setImageFields] = useState(["image1"]);
   const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
 
-  const { register, handleSubmit, formState: { errors, }, watch, setValue, } = useForm<updateAnnounceData>({
+  const { register, handleSubmit, formState: { errors, }, watch, setValue, reset, } = useForm<updateAnnounceData>({
     resolver: zodResolver(updateAnnounceSchema),
   });
 
   const isActiveWatch = watch("isActive");
+  const brandWatch = watch("brand");
 
   function addImageField() {
     if (imageFields.length < 5) {
@@ -46,8 +47,6 @@ export default function EditAnnounceForm({ closeModal, announceId, announce, }: 
       setValue("description", announce.description);
       setValue("isActive", announce.isActive);
       setValue("coverImage", announce.coverImage);
-      setValue("year", announce.year);
-      setValue("fuel", announce.fuel);
     }
   }, []);
 
@@ -95,7 +94,6 @@ export default function EditAnnounceForm({ closeModal, announceId, announce, }: 
           type="select"
           name="brand"
           label="Marca"
-          value={announce.brand}
           placeholder="Digitar Marca"
           register={register("brand")}
         >
@@ -110,13 +108,12 @@ export default function EditAnnounceForm({ closeModal, announceId, announce, }: 
           type="select"
           name="model"
           label="Modelo"
-          value={announce.model}
           placeholder="Digitar Modelo"
           register={register("model")}
         >
-          <option className="capitalize" value={announce.model.toLowerCase()}>{announce.model}</option>
-          {listCars[announce.brand.toLowerCase() as EnumBrand]
-            && listCars[announce.brand.toLowerCase() as EnumBrand]
+          {brandWatch == announce.brand && <option className="capitalize" value={announce.model.toLowerCase()}>{announce.model}</option>}
+          {listCars[brandWatch as EnumBrand]
+            && listCars[brandWatch as EnumBrand]
               .filter((car) => car.name !== announce.model.toLowerCase())
               .map((car) => (
                 <option key={car.id} className="capitalize" value={car.name}>

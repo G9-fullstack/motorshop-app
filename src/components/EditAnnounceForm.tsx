@@ -4,7 +4,7 @@ import Input from "@/components/Input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { announceData, announceResponse, updateAnnounceData, updateAnnounceSchema } from "../schemas/announce.schema";
+import { announceResponse, updateAnnounceData, updateAnnounceSchema } from "../schemas/announce.schema";
 import { useSeller } from "@/contexts/SellerContext";
 import { formatPrice } from "@/utils/formattedPrice";
 import { Brand, EnumBrand } from "@/contexts/interfaces";

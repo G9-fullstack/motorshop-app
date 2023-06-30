@@ -4,7 +4,7 @@ import api from "@/services/api";
 import axios from "axios";
 import nookies from "nookies";
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
-import { CarByBrand, EnumBrand, GetAnnouncesData, KenzieCar } from "./interfaces";
+import { CarByBrand, EnumBrand, GetAnnouncesData } from "./interfaces";
 import { announceData } from "@/schemas/announce.schema";
 
 interface Props {

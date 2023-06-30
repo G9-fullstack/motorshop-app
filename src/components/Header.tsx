@@ -4,7 +4,7 @@ import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import brandingLogo from "../../public/branding-logo.svg";
 import ProfileImage from "./ProfileImage";
 import { Modal } from "./Modal";
@@ -19,6 +19,10 @@ export default function Header() {
   const [ isEditAddressModalOpen, openEditAddressModal, closeEditAddressModal ] = useModal();
   const isLogged = !!user;
   const pathname = usePathname();
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
 
   return (
     <>
@@ -82,16 +86,22 @@ export default function Header() {
                       </li>
                     )}
                     <li>
-                      <button onClick={openEditUserModal} className="text-base font-normal font-inter text-grey-2 hover:bg-brand-4">
+                      <button onClick={() => {
+                        openEditUserModal();
+                        setIsOpen(false);
+                      }} className="text-base font-normal font-inter text-grey-2 hover:bg-brand-4">
 						Editar Perfil
                       </button>
                     </li>
                     <li>
-                      <button onClick={openEditAddressModal} className="text-base font-normal font-inter text-grey-2  hover:bg-brand-4">
+                      <button onClick={() => {
+                        openEditAddressModal();
+                        setIsOpen(false);
+                      }} className="text-base font-normal font-inter text-grey-2  hover:bg-brand-4">
 						Editar endereço
                       </button>
                     </li>
-                    {user.isSeller && (
+                    {user.isSeller && pathname != "/profile" && (
                       <li>
                         <Link href="/profile" className="text-base font-normal font-inter text-grey-2  hover:bg-brand-4">Meus anúncios</Link>
                       </li>

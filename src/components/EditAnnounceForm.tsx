@@ -203,12 +203,12 @@ export default function EditAnnounceForm({ closeModal, announceId, announce, }: 
             <span
               onClick={() => setValue("isActive", true)}
             >
-              <Button type="button" style={isActiveWatch ? "outline-1" : "brand-1"} details={isActiveWatch ? "" : "text-grey-whiteFixed"} size="big" width={152}>Sim</Button>
+              <Button type="button" style={isActiveWatch ? "brand-1" : "outline-1"} details={isActiveWatch ? "text-grey-whiteFixed" : ""} size="big" width={152}>Sim</Button>
             </span>
             <span
               onClick={() => setValue("isActive", false)}
             >
-              <Button type="button" style={isActiveWatch ? "brand-1" : "outline-1"} details={isActiveWatch ? "text-grey-whiteFixed" : ""} size="big" width={152}>Não</Button>
+              <Button type="button" style={isActiveWatch ? "outline-1" : "brand-1"} details={isActiveWatch ? "" : "text-grey-whiteFixed"} size="big" width={152}>Não</Button>
             </span>
           </fieldset>
         </fieldset>

@@ -67,6 +67,8 @@ export default function Comments({ announcementComents, }: iAnnounceDetail) {
               <p className="text-sm font-normal text-grey-2 font-inter">
                 {comment.comment}
               </p>
+              <Modal isOpen={isOpen} onClose={closeModal} modalTitle="Editar comentário">
+              </Modal>
             </li>
           ))
         ) : (

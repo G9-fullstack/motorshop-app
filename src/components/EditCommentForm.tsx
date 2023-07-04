@@ -41,6 +41,18 @@ export default function EditCommentForm({ closeModal, userId, commentId, comment
     setTimeout(() => {
       setConfirmDelete(false);
     }, 2000);
+
+    if (confirmDelete) {
+      api.delete(`/announces/${params.id}/comments/${commentId}`)
+        .then(() => {
+          getAnnounce(params.id);
+          toast.success("Comentário excluido com sucesso");
+          closeModal();
+        })
+        .catch(err => {
+          throw err;
+        });
+    }
   }
 
   return (

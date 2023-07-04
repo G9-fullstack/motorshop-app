@@ -83,8 +83,8 @@ export default function Comments({ announcementComents, }: iAnnounceDetail) {
           </li>
         )}
       </ul>
-      {user && selectedComment && <Modal isOpen={isOpen} onClose={closeModal} modalTitle="Editar comentário">
-        <EditCommentForm userId={+user.id} commentId={selectedComment.user.id} comment={selectedComment.comment} />
+      {selectedComment && <Modal isOpen={isOpen} onClose={closeModal} modalTitle="Editar comentário">
+        <EditCommentForm closeModal={closeModal} commentId={selectedComment.id} comment={selectedComment.comment} />
       </Modal>}
     </section>
   );

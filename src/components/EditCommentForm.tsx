@@ -12,12 +12,11 @@ import { useParams } from "next/navigation";
 
 interface EditCommentFormProps {
   closeModal: () => void;
-  userId: number | null,
   commentId: number,
   comment: string;
 }
 
-export default function EditCommentForm({ closeModal, userId, commentId, comment, }: EditCommentFormProps) {
+export default function EditCommentForm({ closeModal, commentId, comment, }: EditCommentFormProps) {
   const { register, handleSubmit, setValue, } = useForm<announceComment>({
     resolver: zodResolver(announceCommentSchema),
   });
@@ -27,12 +26,18 @@ export default function EditCommentForm({ closeModal, userId, commentId, comment
 
   useEffect(() => {
     setValue("comment", comment);
-    console.log(`/announces/${params.id}/comments/${commentId}`);
-    console.log(commentId);
   }, []);
 
   function submitEditComment(formData: announceComment) {
-    console.log(formData);
+    api.patch(`/announces/${params.id}/comments/${commentId}`, formData)
+      .then(() => {
+        getAnnounce(params.id);
+        toast.success("Comentário atualizado com sucesso");
+        closeModal();
+      })
+      .catch(err => {
+        throw err;
+      });
   }
 
   function deleteAnnounce() {
@@ -67,7 +72,7 @@ export default function EditCommentForm({ closeModal, userId, commentId, comment
           register={register("comment")}
         />
         <fieldset className="flex mt-7 justify-end space-x-2">
-          <Button onClick={deleteAnnounce} type="button" style="grey-2" details="" size="big">
+          <Button onClick={deleteAnnounce} type="button" style="grey-2" size="big">
             {confirmDelete ? "Confirmar?" : "Excluir Comentário"}
           </Button>
           <Button type="submit" style="brand-3" size="big" >Salvar alterações</Button>

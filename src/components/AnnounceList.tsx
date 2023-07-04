@@ -2,6 +2,8 @@ import { usePathname } from "next/navigation";
 import AnnounceItem from "./AnnounceItem";
 import PlaceholderItem from "./PlaceholderItem";
 import { announceResponse } from "@/schemas/announce.schema";
+import axios from "axios";
+import { GetAnnouncesData } from "@/contexts/interfaces";
 
 type AnnounceListProps = {
   announces: announceResponse[] | undefined
@@ -17,11 +19,11 @@ export default function AnnounceList(props: AnnounceListProps) {
       {props.announces ? (
         props.announces.map(announce => (
           <AnnounceItem key={announce.id} announce={announce} />
-        ))
-      ) : (
-        [...Array(12)].map(() => (
+        )))
+        :
+        ([...Array(12)].map(() => (
           <PlaceholderItem key={Math.random()} />
-        ))
-      )}
+        )))
+      }
     </ul>);
 }

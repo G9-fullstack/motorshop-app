@@ -17,7 +17,7 @@ export type SelectedFiltersProps = {
 };
 
 export default function Home() {
-  const { getAnnouncesSeller, announcesSeller, } = useSeller();
+  const { getAnnouncesSeller, announcesSeller, loading } = useSeller();
   const [selectedFilters, setSelectedFilters] = useState<SelectedFiltersProps>({});
 
   const [isOpen, setIsOpen] = useState(false);
@@ -58,6 +58,7 @@ export default function Home() {
     return [...Array(12)].map(() => <PlaceholderItem key={Math.random()} />);
   };
 
+  console.log(announcesSeller.data.length > 0)
   return (
     <main>
       <div className="mt-20 h-[550px] w-full bg-home bg-cover bg-center px-2">
@@ -81,13 +82,49 @@ export default function Home() {
             handleFilterReset={handleFilterReset}
           />
           <div className="flex flex-1 ml-3 px-3 max-w-6xl md:ml-0 md:pr-16">
-            {announcesSeller.data.length ? (
-              <AnnounceList announces={filteredAnnounces} />
+            {loading
+              ? (<div className="flex w-full py-3 flex-row overflow-x-scroll gap-x-3 scrollbar-thin scrollbar-thumb-brand-3/70 scrollbar-track-grey-whiteFixed md:gap-x-12 md:gap-y-24 md:overflow-x-hidden md:flex-row md:flex-wrap md:justify-end md:items-start 2xl:justify-start">
+                {renderPlaceholderItems()}
+              </div>)
+              : announcesSeller.data.length ? (
+                <AnnounceList announces={filteredAnnounces} />
+              ) : (
+                <div className="flex flex-col items-center justify-center w-full h-full">
+                  <h1 className="font-lexend font-bold text-center text-brand-3 text-3xl">
+                    Nenhum anúncio encontrado
+                  </h1>
+                  <p className="text-center text-brand-3 text-xl">
+                    Tente novamente com outros filtros
+                  </p>
+                </div>
+              )
+            }
+            {/* {announcesSeller.data.length ? (
+              announcesSeller.data.length > 0 ? (
+                <AnnounceList announces={filteredAnnounces} />
+              ) : (
+                <div className="flex flex-col items-center justify-center w-full h-full">
+                  <h1 className="font-lexend font-bold text-center text-brand-3 text-3xl">
+                    Nenhum anúncio encontrado
+                  </h1>
+                  <p className="text-center text-brand-3 text-xl">
+                    Tente novamente com outros filtros
+                  </p>
+                </div>
+              )
             ) : (
+              <div className="flex flex-col items-center justify-center w-full h-full">
+                <h1 className="font-lexend font-bold text-center text-brand-3 text-3xl">
+                  Nenhum anúncio encontrado
+                </h1>
+                <p className="text-center text-brand-3 text-xl">
+                  Tente novamente com outros filtros
+                </p>
+              </div>
               <div className="flex w-full py-3 flex-row overflow-x-scroll gap-x-3 scrollbar-thin scrollbar-thumb-brand-3/70 scrollbar-track-grey-whiteFixed md:gap-x-12 md:gap-y-24 md:overflow-x-hidden md:flex-row md:flex-wrap md:justify-end md:items-start 2xl:justify-start">
                 {renderPlaceholderItems()}
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>

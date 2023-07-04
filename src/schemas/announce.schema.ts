@@ -4,6 +4,7 @@ import { updateUserSchema } from "./user.schema";
 const imageSchema = z.string().optional();
 
 const commentsSchema = z.object({
+  id: z.number(),
   comment: z.string(),
   createdAt: z.string(),
   user: z.object({

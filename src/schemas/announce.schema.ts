@@ -45,7 +45,7 @@ export const announceCommentSchema = z.object({
   comment: z.string(),
 });
 
-
+export type commentData = z.infer<typeof commentsSchema>
 export type announceComment = z.infer<typeof announceCommentSchema>
 export type announceResponse = z.infer<typeof announce>
 export type announceData = z.infer<typeof announceSchema>

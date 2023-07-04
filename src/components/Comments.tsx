@@ -1,11 +1,13 @@
 import { Dot, Edit } from "lucide-react";
 import ProfileImage from "./ProfileImage";
-import { announceResponse } from "../schemas/announce.schema";
+import { announceResponse, commentData } from "../schemas/announce.schema";
 import { formatDistanceToNow, isThisMonth, isToday, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { useUser } from "@/contexts/UserContext";
 import { useModal } from "@/hooks/useModal";
 import { Modal } from "./Modal";
+import EditCommentForm from "./EditCommentForm";
+import { useState } from "react";
 
 type iAnnounceDetail = {
   announcementComents: announceResponse["comments"];
@@ -14,6 +16,7 @@ type iAnnounceDetail = {
 export default function Comments({ announcementComents, }: iAnnounceDetail) {
   const {user,} = useUser();
   const [ isOpen, openModal, closeModal ] = useModal();
+  const [selectedComment, setSelectedComment] = useState<commentData | null>(null);
 
   const formatDate = (dateString: string) => {
     const currentDate = new Date();
@@ -58,17 +61,18 @@ export default function Comments({ announcementComents, }: iAnnounceDetail) {
                   </span>
                 </div>
                 {user && +user.id === comment.user.id &&
-                <span
-                  onClick={openModal}
-                  className="cursor-pointer mb-3 text-grey-3 p-2 rounded-full hover:bg-grey-8 transition duration-300">
-                  <Edit size={18} />
-                </span>}
+                  <span
+                    onClick={() => {
+                      setSelectedComment(comment);
+                      openModal();
+                    }}
+                    className="cursor-pointer mb-3 text-grey-3 p-2 rounded-full hover:bg-grey-8 transition duration-300">
+                    <Edit size={18} />
+                  </span>}
               </div>
               <p className="text-sm font-normal text-grey-2 font-inter">
                 {comment.comment}
               </p>
-              <Modal isOpen={isOpen} onClose={closeModal} modalTitle="Editar comentário">
-              </Modal>
             </li>
           ))
         ) : (
@@ -79,6 +83,9 @@ export default function Comments({ announcementComents, }: iAnnounceDetail) {
           </li>
         )}
       </ul>
+      {user && selectedComment && <Modal isOpen={isOpen} onClose={closeModal} modalTitle="Editar comentário">
+        <EditCommentForm userId={+user.id} commentId={selectedComment.user.id} comment={selectedComment.comment} />
+      </Modal>}
     </section>
   );
 }

@@ -4,11 +4,17 @@ import Image from "next/image";
 import CardUserProfile from "./CardUserProfile";
 import CommentForm from "./CommentForm";
 import Comments from "./Comments";
+import Link from "next/link";
 
 export default function AnnounceDetail() {
   const { announce, } = useSeller();
-
   if (!announce) return null;
+
+  const handleWhatsApp = (sellerName: string | undefined, carModel: string | undefined, sellerPhoneNumber: string | undefined) => {
+    const urlMessage = `Olá, ${sellerName}, vi o seu anúncio referente ao ${carModel} no site Motors Shop. Gostaria de conversar com você sobre ele.`;
+    const urlWhatsApp = `http://wa.me/55${sellerPhoneNumber}/?text=${urlMessage}`;
+    window.open(urlWhatsApp, "_blank");
+  };
 
   return (
     <>
@@ -42,9 +48,11 @@ export default function AnnounceDetail() {
                 {formatPrice(Number(announce.price))}
               </small>
             </div>
-            <button className="bg-brand-1 text-grey-whiteFixed rounded text-sm w-24 h-9 mt-7">
-              Comprar
-            </button>
+            <Link href="#">
+              <a onClick={ () => handleWhatsApp(announce.seller.name, announce.model, announce.seller.phoneNumber) } className="bg-brand-1 text-grey-whiteFixed rounded text-sm w-24 h-9 mt-7">
+                Comprar
+              </a>
+            </Link>
           </section>
 
           <section className="bg-grey-10 rounded w-full py-9 px-7">

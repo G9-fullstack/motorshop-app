@@ -58,7 +58,6 @@ export default function Home() {
     return [...Array(12)].map(() => <PlaceholderItem key={Math.random()} />);
   };
 
-  console.log(announcesSeller.data.length > 0);
   return (
     <main>
       <div className="mt-20 h-[550px] w-full bg-home bg-cover bg-center px-2">

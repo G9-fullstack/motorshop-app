@@ -12,6 +12,7 @@ interface Props {
 }
 
 interface SellerContextData {
+  loading: boolean
   announce: announceResponse | null;
   announcesSeller: GetAnnouncesData;
   getAnnounce: (id: string) => Promise<void>;
@@ -33,6 +34,7 @@ export function SellerProvider({ children, }: Props) {
     prevPage: undefined,
     totalPages: 1,
   });
+  const [loading, setLoading] = useState(false);
   const [listCars, setListCars] = useState<CarByBrand>({} as CarByBrand);
 
   useEffect(() => {
@@ -47,6 +49,7 @@ export function SellerProvider({ children, }: Props) {
   const getAnnouncesSeller = (id?: number, url?: string): void => {
     const query = !url ? { page: 1, perPage: 12, } : {};
     const setUrl = !id ? "/announces" : `users/${id}/announces`;
+    setLoading(true);
     api
       .get<GetAnnouncesData>(url ?? setUrl, {
         params: {
@@ -58,6 +61,8 @@ export function SellerProvider({ children, }: Props) {
       })
       .catch((error) => {
         console.log(error);
+      }).finally(() => {
+        setLoading(false);
       });
   };
 
@@ -126,6 +131,7 @@ export function SellerProvider({ children, }: Props) {
 
   return (
     <SellerContext.Provider value={{
+      loading,
       listCars,
       announce,
       announcesSeller,

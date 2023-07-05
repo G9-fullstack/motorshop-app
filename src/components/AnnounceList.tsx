@@ -17,11 +17,11 @@ export default function AnnounceList(props: AnnounceListProps) {
       {props.announces ? (
         props.announces.map(announce => (
           <AnnounceItem key={announce.id} announce={announce} />
-        ))
-      ) : (
-        [...Array(12)].map(() => (
+        )))
+        :
+        ([...Array(12)].map(() => (
           <PlaceholderItem key={Math.random()} />
-        ))
-      )}
+        )))
+      }
     </ul>);
 }

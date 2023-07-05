@@ -4,6 +4,7 @@ import { updateUserSchema } from "./user.schema";
 const imageSchema = z.string().optional();
 
 const commentsSchema = z.object({
+  id: z.number(),
   comment: z.string(),
   createdAt: z.string(),
   user: z.object({
@@ -45,7 +46,7 @@ export const announceCommentSchema = z.object({
   comment: z.string(),
 });
 
-
+export type commentData = z.infer<typeof commentsSchema>
 export type announceComment = z.infer<typeof announceCommentSchema>
 export type announceResponse = z.infer<typeof announce>
 export type announceData = z.infer<typeof announceSchema>

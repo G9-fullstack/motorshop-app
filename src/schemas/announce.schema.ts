@@ -34,7 +34,7 @@ const announce = announceSchema.extend({
   sellerId: z.number(),
   isActive: z.boolean(),
   images: z.array(z.object({ imageUrl: z.string(), })),
-  seller: updateUserSchema.extend({ id: z.number(), isSeller: z.boolean(), }),
+  seller: updateUserSchema.extend({ id: z.number(), isSeller: z.boolean(),}),
   comments: z.array(commentsSchema),
 });
 

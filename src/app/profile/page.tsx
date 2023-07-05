@@ -4,6 +4,7 @@ import Button from "@/components/Button";
 import FormAnnounceRegister from "@/components/FormAnnounceRegister";
 import ListInfo from "@/components/ListInfo";
 import { Modal } from "@/components/Modal";
+import PlaceholderItem from "@/components/PlaceholderItem";
 import ProfileImage from "@/components/ProfileImage";
 import { useSeller } from "@/contexts/SellerContext";
 import { useUser } from "@/contexts/UserContext";
@@ -12,7 +13,7 @@ import { useEffect } from "react";
 
 export default function Profile() {
   const { user, } = useUser();
-  const { getAnnouncesSeller, announcesSeller, } = useSeller();
+  const { getAnnouncesSeller, announcesSeller, loading, } = useSeller();
   const [isOpen, openModal, closeModal] = useModal();
   const [isOpenNotify, openNotifyModal, closeNotifyModal] = useModal();
 
@@ -37,7 +38,15 @@ export default function Profile() {
         {user.isSeller && <Button onClick={openModal} type="button" style="outline-brand-1" size="big" details="w-max">Criar anuncio</Button >}
       </div>
       <div className="ml-3 px-3 md:mx-auto max-w-screen-2xl my-16">
-        <AnnounceList announces={announcesSeller.data} />
+        {loading
+          ? [...Array(12)].map(() => <PlaceholderItem key={Math.random()} />)
+          : announcesSeller.data.length ? <AnnounceList announces={announcesSeller.data} />
+            : (<div className="flex flex-col items-center justify-center w-full h-full">
+              <h1 className="font-lexend font-bold text-center text-brand-3 text-3xl">
+                Nenhum anúncio cadastrado
+              </h1>
+            </div>)
+        }
       </div>
       <ListInfo
         announces={announcesSeller.data}

@@ -41,11 +41,6 @@ export function SellerProvider({ children, }: Props) {
     (async () => await getListCars())();
   }, []);
 
-  useEffect(() => {
-    const { motorshoptoken, } = nookies.get(null, "motorshoptoken");
-    api.defaults.headers.Authorization = `Bearer ${motorshoptoken}`;
-  }, []);
-
   const getAnnouncesSeller = (id?: number, url?: string): void => {
     const query = !url ? { page: 1, perPage: 12, } : {};
     const setUrl = !id ? "/announces" : `users/${id}/announces`;

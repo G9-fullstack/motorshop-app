@@ -2,9 +2,8 @@
 import { loginData, updateUserData, userData, userProfileData } from "@/schemas/user.schema";
 import api from "@/services/api";
 import { useRouter } from "next/navigation";
-import { destroyCookie, setCookie } from "nookies";
+import nookies, { destroyCookie, setCookie } from "nookies";
 import React, { ReactNode, createContext, useContext, useState } from "react";
-import nookies from "nookies";
 import { addressData } from "@/schemas/address.schema";
 
 interface Props {
@@ -57,6 +56,7 @@ export function UserProvider({ children, }: Props) {
         setCookie(null, "motorshoptoken", data.token, {
           maxAge: 60 * 60 * 24, // 1 day
         });
+        api.defaults.headers.Authorization = `Bearer ${data.token}`;
         return data.token;
       })
       .then((token) => {

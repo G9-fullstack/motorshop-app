@@ -29,8 +29,8 @@ export default function Filter(props: FilterProps) {
     ));
   };
 
-  const minPrice = props.announces?.map(announce => announce.price).sort((a, b) => a - b)[0];
-  const maxPrice = props.announces?.map(announce => announce.price).sort((a, b) => b - a)[0];
+  const minPrice = props.announces?.map(announce => announce.price).sort((a, b) => Number(a) - Number(b))[0] || 0;
+  const maxPrice = props.announces?.map(announce => announce.price).sort((a, b) => Number(b) - Number(a))[0];
   const minMileage = props.announces?.map(announce => announce.mileage).sort((a, b) => Number(a) - Number(b))[0];
   const maxMileage = props.announces?.map(announce => announce.mileage).sort((a, b) => Number(b) - Number(a))[0];
 
@@ -91,7 +91,7 @@ export default function Filter(props: FilterProps) {
           <input
             className="accent-brand-1 input-label"
             type="range"
-            step={maxPrice && minPrice ? (maxPrice - minPrice) / 5 : 1}
+            step={maxPrice && minPrice ? (Number(maxPrice) - Number(minPrice)) / 5 : 1}
             min={minPrice}
             max={maxPrice}
             value={props.selectedFilters.price || maxPrice || ""}
